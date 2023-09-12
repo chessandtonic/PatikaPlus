@@ -27,6 +27,5 @@ public class ManavKasa {
 
         ToplamTutar = ((ArmutFiyat*ArmutKg)+(ElmaFiyat*ElmaKg) + (DomatesFiyat*DomatesKg) + (MuzFiyat*MuzKg) + (PatlicanFiyat*PatlicanKg));
         System.out.println("Toplam tutarınız: "+ToplamTutar);
-
     }
 }
