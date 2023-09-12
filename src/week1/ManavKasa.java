@@ -3,7 +3,7 @@ package week1;
 import java.util.Scanner;
 
 public class ManavKasa {
-    public static void main(String[] args) {
+    public static void checkout() {
         float ArmutFiyat = 2.14f;
         float ElmaFiyat = 3.67f;
         float DomatesFiyat = 1.11f;
