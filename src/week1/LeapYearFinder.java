@@ -1,6 +1,5 @@
 package week1;
 
-import java.util.Random;
 import java.util.Scanner;
 // Arkadaşlar selam, kodu test etmek için PatikaPlus altında bulabileceğiniz Main.java programını kullanabilirsiniz.
 // Temelde Main.java'da olduğu gibi bu programı başka bir main method'u ile çağırarak çalıştırabilirsiniz.
