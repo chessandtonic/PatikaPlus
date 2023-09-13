@@ -4,8 +4,6 @@ import java.util.Scanner;
 // Arkadaşlar selam, kodu test etmek için PatikaPlus altında bulabileceğiniz Main.java programını kullanabilirsiniz.
 // Temelde Main.java'da olduğu gibi bu programı başka bir main method'u ile çağırarak çalıştırabilirsiniz.
 
-import java.util.Scanner;
-
 public class AirfareCalculator {
     public static void FareCalc() {
         Scanner scanner = new Scanner(System.in);
