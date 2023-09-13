@@ -5,7 +5,7 @@ import java.util.Scanner;
 // Temelde Main.java'da olduğu gibi bu programı başka bir main method'u ile çağırarak çalıştırabilirsiniz.
 
 public class Fibonacci {
-    public static void main(String[] args) {
+    public static void fibonacci() {
         Scanner scanner = new Scanner(System.in);
 
         // Ask the user for the number of elements in the Fibonacci series
