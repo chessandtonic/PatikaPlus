@@ -7,25 +7,25 @@ public class GPACalculator {
     public static void calculategpa() {
     int mat, fizik, kimya, turkce, tarih, muzik;
 
-    Scanner inp = new Scanner(System.in);
+    Scanner grade = new Scanner(System.in);
 
     System.out.print("Matematik notunuzu giriniz: ");
-    mat = inp.nextInt();
+    mat = grade.nextInt();
 
     System.out.print("Fizik notunuzu giriniz: ");
-    fizik = inp.nextInt();
+    fizik = grade.nextInt();
 
     System.out.print("Kimya notunuzu giriniz: ");
-    kimya = inp.nextInt();
+    kimya = grade.nextInt();
 
     System.out.print("Türkçe notunuzu giriniz: ");
-    turkce = inp.nextInt();
+    turkce = grade.nextInt();
 
     System.out.print("Tarih notunuzu giriniz: ");
-    tarih = inp.nextInt();
+    tarih = grade.nextInt();
 
     System.out.print("Müzik notunuzu giriniz: ");
-    muzik = inp.nextInt();
+    muzik = grade.nextInt();
 
     int toplam = (mat + fizik + kimya + turkce + tarih + muzik);
     double sonuc = toplam / 6.0;
