@@ -12,8 +12,10 @@ public class ChineseZodiac {
             System.out.print("Doğum Yılınızı Giriniz : ");
             int birthYear = input.nextInt();
 
+            // Calculation of the Chinese Zodiac Signs
             int remainder = birthYear % 12;
 
+            // Cases for different Zodiac Signs
             switch (remainder) {
                 case 0 -> System.out.println("Çin Zodyağı Burcunuz: Maymun");
                 case 1 -> System.out.println("Çin Zodyağı Burcunuz: Horoz");
