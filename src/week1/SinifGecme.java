@@ -11,7 +11,7 @@ public class SinifGecme {
     static Scanner scanner = new Scanner(System.in);
     static String[] courses = {"Fizik", "Mat", "Türkçe", "Kimya", "Müzik"};
 
-    public static void main(String[] args) {
+    public static void sinifgec() {
         float avg = 0.0f;
         int numCourses = courses.length;
 

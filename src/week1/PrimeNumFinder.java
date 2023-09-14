@@ -4,7 +4,7 @@ package week1;
 // Temelde Main.java'da olduğu gibi bu programı başka bir main method'u ile çağırarak çalıştırabilirsiniz.
 
 public class PrimeNumFinder {
-    public static void main(String[] args) {
+    public static void prime() {
         System.out.println("Prime numbers between 1 and 100 are:");
 
         for (int i = 2; i <= 100; i++) {
