@@ -1,9 +1,11 @@
 package week1;
-import java.util.Scanner;
 
 import java.util.Scanner;
+// Arkadaşlar selam, kodu test etmek için PatikaPlus altında bulabileceğiniz Main.java programını kullanabilirsiniz.
+// Temelde Main.java'da olduğu gibi bu programı başka bir main method'u ile çağırarak çalıştırabilirsiniz.
 public class ZodiacFinder {
-    public static void main(String[] args) {
+    public static void zodiac() {
+
         Scanner input = new Scanner(System.in);
 
         System.out.print("Please enter your birth month in numbers: ");
