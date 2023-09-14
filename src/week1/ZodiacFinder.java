@@ -7,12 +7,13 @@ public class ZodiacFinder {
     public static void zodiac() {
 
         Scanner input = new Scanner(System.in);
-
+        // Get date information from the user
         System.out.print("Please enter your birth month in numbers: ");
         int month = input.nextInt();
         System.out.print("Please enter your birthday in numbers: ");
         int day = input.nextInt();
         String sign;
+        // Identify the sign
         switch (month) {
             case 12 -> {
                 sign = (day <= 21) ? "You're a Sagittarius!" : "You're a Capricorn!";
@@ -29,7 +30,6 @@ public class ZodiacFinder {
             case 9 -> {
                 sign = (day <= 22) ? "You're a Virgo!" : "You're a Libra!";
                 System.out.print(sign);
-                ;
             }
             case 8 -> {
                 sign = (day <= 22) ? "You're a Leo!" : "You're a Virgo!";
