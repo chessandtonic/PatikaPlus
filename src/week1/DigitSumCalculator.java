@@ -14,7 +14,7 @@ public class DigitSumCalculator {
         return number % 10 + sumOfDigits(number / 10);
     }
 
-    public static void digitsSum(String[] args) {
+    public static void digitSum(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter a number: ");
