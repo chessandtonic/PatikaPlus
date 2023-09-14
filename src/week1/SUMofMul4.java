@@ -12,7 +12,7 @@ public class SUMofMul4 {
         do {
             System.out.print("Please enter a number: ");
             n = scan.nextInt();
-            if (n % 4 ==0) {
+            if (n % 4 == 0) {
                 sum += n;
             }
         } while (n % 2 == 0);
