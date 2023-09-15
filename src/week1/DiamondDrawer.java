@@ -1,12 +1,15 @@
 package week1;
 
 import java.util.Scanner;
+// Arkadaşlar selam, kodu test etmek için PatikaPlus altında bulabileceğiniz Main.java programını kullanabilirsiniz.
+// Temelde Main.java'da olduğu gibi bu programı başka bir main method'u ile çağırarak çalıştırabilirsiniz.
 
 public class DiamondDrawer {
     public static void diamond() {
-        int n = 0; // Adjust the value of n for the desired diamond size
-
         Scanner input = new Scanner (System.in);
+        // The value of n designates the diamond size
+        System.out.println("Please enter a number:");
+        int n = input.nextInt();
 
         // Print the top half of the diamond
         for (int i = 0; i <= n; i++) {
