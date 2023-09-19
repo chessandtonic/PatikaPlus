@@ -1,6 +1,7 @@
 package week2;
 import java.util.Scanner;
-
+// Arkadaşlar selam, kodu test etmek için PatikaPlus altında bulabileceğiniz Main.java programını kullanabilirsiniz.
+// Temelde Main.java'da olduğu gibi bu programı başka bir main method'u ile çağırarak çalıştırabilirsiniz.
 public class PalindromeFinder {
     public static boolean isPalindrome(int number) {
         int temp = number, reverseNumber = 0, lastDigit;
@@ -12,7 +13,7 @@ public class PalindromeFinder {
         return number == reverseNumber;
     }
 
-    public static void main(String[] args) {
+    public static void PalFinder() {
         Scanner input = new Scanner(System.in);
         System.out.print("Please enter a number: ");
         int number = input.nextInt();
