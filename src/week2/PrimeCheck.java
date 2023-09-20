@@ -6,13 +6,13 @@ public class PrimeCheck {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Bir sayı giriniz: ");
+        System.out.print("Please enter a number: ");
         int number = scanner.nextInt();
 
         if (isPrime(number)) {
-            System.out.println(number + " bir asal sayıdır.");
+            System.out.println(number + " is a prime.");
         } else {
-            System.out.println(number + " bir asal sayı değildir.");
+            System.out.println(number + " is not a prime.");
         }
     }
 
