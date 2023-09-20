@@ -4,7 +4,7 @@ import java.util.Scanner;
 // Temelde Main.java'da olduğu gibi bu programı başka bir main method'u ile çağırarak çalıştırabilirsiniz.
 
 public class PowerCalculator {
-    public static void power(String[] args) {
+    public static void power() {
         int base, exponent;
         Scanner input = new Scanner(System.in);
 
