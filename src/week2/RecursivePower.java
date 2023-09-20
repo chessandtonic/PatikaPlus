@@ -8,16 +8,17 @@ public class RecursivePower {
 
         Scanner scan = new Scanner(System.in);
 
-        System.out.println("Tabanı giriniz: ");
+        System.out.println("Please provide a base: ");
         base = scan.nextInt();
 
-        System.out.println("Üssü giriniz: ");
+        System.out.println("Please provide a power: ");
         power = scan.nextInt();
 
         int result = calculatePower(base, power);
-        System.out.println("Sonuç: " + result);
+        System.out.println("Result is: " + result);
 
     }
+    // Recursive function to calculate the result
     public static int calculatePower(int base, int exponent) {
         if (exponent == 0) {
             return 1;
