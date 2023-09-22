@@ -1,8 +1,6 @@
 package week2;
 
-import java.util.Scanner;
-
-public class HarmonicArray {
+public class HarmonicMean {
     public static void main(String[] args) {
         // Declare an array and assign values to it
         double[] array = {48, 75, 8, 23, 7, 29, 11};
