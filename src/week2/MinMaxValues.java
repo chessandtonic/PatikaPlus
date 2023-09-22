@@ -4,9 +4,8 @@ import java.util.Scanner;
 
 public class MinMaxValues {
     public static void main(String[] args) {
-        int target;
-
         // Getting input from the user
+        int target;
         Scanner input = new Scanner(System.in);
         System.out.print("Enter a target number: ");
         target = input.nextInt();
@@ -15,8 +14,8 @@ public class MinMaxValues {
 
         int minDiff = Integer.MAX_VALUE; // Initialize minDiff with a large value
         int maxDiff = Integer.MIN_VALUE; // Initialize maxDiff with a small value
-        int minIndex = -1; // Initialize minIndex to an invalid value
-        int maxIndex = -1; // Initialize maxIndex to an invalid value
+        int minIndex = 0; // Initialize minIndex
+        int maxIndex = 0; // Initialize maxIndex
 
         for (int i = 0; i < list.length; i++) {
             int difference = Math.abs(list[i] - target);
