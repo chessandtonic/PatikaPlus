@@ -9,20 +9,24 @@ public class NumSort {
 
         System.out.print("Please enter the desired size for your array: ");
         int n = scanner.nextInt();
-        int[] dizi = new int[n];
+        // Input validation to ensure that we receive sufficient elements
+        if (n < 2) {
+            System.out.println("You need more than 1 element for it to be an array.");
+            return;
+        }
+        int[] array = new int[n];
 
         System.out.println("Enter each element: ");
         for (int i = 0; i < n; i++) {
             System.out.print((i + 1) + ". Element: ");
-            dizi[i] = scanner.nextInt();
+            array[i] = scanner.nextInt();
         }
+        // Sorting the array in ascending order
+        Arrays.sort(array);
 
-        // Diziyi küçükten büyüğe sırala
-        Arrays.sort(dizi);
-
-        System.out.print("Your array in an ascending order: ");
-        for (int eleman : dizi) {
-            System.out.print(eleman + " ");
+        System.out.print("Your array in ascending order is: ");
+        for (int element : array) {
+            System.out.print(element + " ");
         }
 
         scanner.close();
