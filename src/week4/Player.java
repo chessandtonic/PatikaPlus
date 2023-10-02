@@ -51,9 +51,6 @@ public class Player {
                 "Health: " + this.getHealth() + " | " +
                 "Money: " + this.getMoney());
     }
-    public void selectLoc() {
-
-    }
 
     public void initPlayer(Characters characters) {
         this.setDamage(characters.getDamage());

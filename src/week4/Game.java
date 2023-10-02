@@ -15,11 +15,13 @@ public class Game {
         System.out.println();
         player.selectChar();
 
+        Location location = null;
         while (true) {
-            Location location = null;
+            System.out.println();
             System.out.println("Zones:");
             System.out.println("1. Safe House");
             System.out.println("2. Store");
+            System.out.println();
             System.out.println("Please select where you want to go:");
             int selectLoc = input.nextInt();
             switch (selectLoc) {
