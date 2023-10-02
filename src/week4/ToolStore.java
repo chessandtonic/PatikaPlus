@@ -38,9 +38,9 @@ public class ToolStore extends NormalLoc {
         System.out.println("Weapons:");
         System.out.println();
         for (Weapon weapon : Weapon.weapons()) {
-            System.out.println(weapon.getName() +
-                    "Price: " + weapon.getPrice() +
-                    "Damage: " + weapon.getDamage());
+            System.out.println(weapon.getName() + "\t|" +
+                    "\t<Price: " + weapon.getPrice() + "|" +
+                    "Damage: " + weapon.getDamage() + ">");
         }
     }
 
