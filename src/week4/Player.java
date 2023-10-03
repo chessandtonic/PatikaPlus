@@ -62,14 +62,15 @@ public class Player {
     }
 
     public void printStatus() {
-        System.out.println("Weapon: " + this.getInventory().getWeapon().getName() + " \t| " +
+        System.out.println("Status:\t" +
+                "\tWeapon: " + this.getInventory().getWeapon().getName() + " | " +
                 "Damage: " + this.getDamage() + " | " +
                 "Health: " + this.getHealth() + " | " +
                 "Money: " + this.getMoney());
     }
 
     public int getDamage() {
-        return damage;
+        return damage + this.getInventory().getWeapon().getDamage();
     }
 
     public void setDamage(int damage) {
