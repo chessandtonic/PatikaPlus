@@ -29,10 +29,71 @@ public abstract class BattleLoc extends Location {
         String selectCase = input.nextLine();
         selectCase = selectCase.toUpperCase();
         if (selectCase.equals("F")) {
-            System.out.println("Things are about to get ugly up in here!");
-            // Fighting mechanism here
+            if (combat(monsterNumber)) {
+                System.out.println(this.getName() + ", you have defeated all enemies!");
+                return true;
+            }
         }
+        if (this.getPlayer().getHealth() < 0) {
+            System.out.println("You died'");
+            return false;
+        }
+
         return true;
+    }
+
+    public boolean combat(int monsterNumber) {
+        for (int i = 1; i <= monsterNumber; i++) {
+            this.getMonster().setHealth(this.getMonster().getInitHealth());
+            playerStats();
+            monsterStats();
+            while (this.getPlayer().getHealth() > 0 && this.getMonster().getHealth() > 0) {
+                System.out.println("<H>it or <R>un?");
+                String selectMove = input.nextLine().toUpperCase();
+                if (selectMove.equals("H")) {
+                    System.out.println("You hit the monster!");
+                    this.getMonster().setHealth(this.getMonster().getHealth() - this.getPlayer().getTotalDamage());
+                    afterHit();
+                    if (this.getMonster().getHealth() > 0) {
+                        System.out.println();
+                        System.out.println(this.getMonster().getName() + " hit you!");
+                        int monsterDamage = this.getMonster().getDamage() - this.getPlayer().getInventory().getArmor().getShield();
+                        if (monsterDamage < 0) {
+                            monsterDamage = 0;
+                        }
+                        this.getPlayer().setHealth(this.getPlayer().getHealth() - monsterDamage);
+                        afterHit();
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public void afterHit() {
+        System.out.println("Your health: " + this.getPlayer().getHealth());
+        System.out.println(this.getMonster().getName() + "'s health: " + this.getMonster().getHealth());
+    }
+
+    public void playerStats() {
+        System.out.println("Player Stats:");
+        System.out.println("-------------------------");
+        System.out.println("Health: " + this.getPlayer().getHealth());
+        System.out.println("Weapon: " + this.getPlayer().getInventory().getWeapon().getName());
+        System.out.println("Damage: " + this.getPlayer().getTotalDamage());
+        System.out.println("Armor:  " + this.getPlayer().getInventory().getArmor().getName());
+        System.out.println("Shield: " + this.getPlayer().getInventory().getArmor().getShield());
+        System.out.println("Money:  " + this.getPlayer().getMoney());
+        System.out.println();
+    }
+
+    public void monsterStats() {
+        System.out.println(this.getMonster().getName() + " Stats:");
+        System.out.println("-------------------------");
+        System.out.println("Health: " + this.getMonster().getHealth());
+        System.out.println("Damage: " + this.getMonster().getHealth());
+        System.out.println("Reward: " + this.getMonster().getReward());
+        System.out.println();
     }
 
     public int randomMonsterNumber() {

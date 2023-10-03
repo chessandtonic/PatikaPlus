@@ -62,13 +62,16 @@ public class Player {
                 "\tWeapon: " + this.getInventory().getWeapon().getName() + " | " +
                 "Armor: " + this.getInventory().getArmor().getName() + " | " +
                 "Shield: " + this.getInventory().getArmor().getShield() + " | " +
-                "Damage: " + this.getDamage() + " | " +
+                "Damage: " + this.getTotalDamage() + " | " +
                 "Health: " + this.getHealth() + " | " +
                 "Money: " + this.getMoney());
     }
+    public int getTotalDamage(){
+        return damage + this.getInventory().getWeapon().getDamage();
+    }
 
     public int getDamage() {
-        return damage + this.getInventory().getWeapon().getDamage();
+        return damage;
     }
 
     public void setDamage(int damage) {
