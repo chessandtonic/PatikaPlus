@@ -7,18 +7,18 @@ public class Weapon {
     private int damage;
     private int price;
 
-    public Weapon(String name, int ID, int damage, int price) {
-        this.name = name;
+    public Weapon(int ID, String name, int damage, int price) {
         this.ID = ID;
+        this.name = name;
         this.damage = damage;
         this.price = price;
     }
 
     public static Weapon[] weapons() {
         Weapon[] weaponList = new Weapon[3];
-        weaponList[0] = new Weapon("Pistol", 1,2, 15);
-        weaponList[1] = new Weapon("Sword ", 2,3, 35);
-        weaponList[2] = new Weapon("Rifle ", 3,7, 45);
+        weaponList[0] = new Weapon(1, " Pistol",2, 15);
+        weaponList[1] = new Weapon(2, " Sword ",3, 35);
+        weaponList[2] = new Weapon(3, " Rifle ",7, 45);
 
         return weaponList;
     }
