@@ -17,6 +17,7 @@ public class Game {
 
         Location location = null;
         while (true) {
+            player.printStatus();
             System.out.println();
             System.out.println("Zones:");
             System.out.println("1. Safe House");

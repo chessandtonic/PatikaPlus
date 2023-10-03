@@ -23,6 +23,7 @@ public class ToolStore extends NormalLoc {
         switch (selectCase) {
             case 1:
                 printWeapon();
+                buyWeapon();
                 break;
             case 2:
                 printArmor();
@@ -42,6 +43,8 @@ public class ToolStore extends NormalLoc {
                     "\t<Price: " + weapon.getPrice() + "\t|" +
                     "Damage: " + weapon.getDamage() + ">");
         }
+    }
+    public void buyWeapon () {
         System.out.println("Please select a weapon:");
 
         int selectWeaponID = input.nextInt();
@@ -50,16 +53,19 @@ public class ToolStore extends NormalLoc {
             selectWeaponID = input.nextInt();
         }
 
-        Weapon selectedWeapon = Weapon.getWeaponbyID(selectWeaponID);
+        Weapon selectedWeapon = Weapon.getWeaponByID(selectWeaponID);
 
         if (selectedWeapon != null) {
             if (selectedWeapon.getPrice() > this.getPlayer().getMoney()) {
-                System.out.println("You don't have enough money for this weapon!");
+                System.out.println("You have insufficient funds to make this purchase!");
             } else {
                 System.out.println("You just bought a " + selectedWeapon.getName() + "!");
                 int balance = this.getPlayer().getMoney() - selectedWeapon.getPrice();
                 this.getPlayer().setMoney(balance);
                 System.out.println("New balance: " + this.getPlayer().getMoney());
+                //System.out.println("Previous weapon: " + this.getPlayer().getInventory().getWeapon().getName());
+                this.getPlayer().getInventory().setWeapon(selectedWeapon);
+                //System.out.println("New weapon: " + this.getPlayer().getInventory().getWeapon().getName());
             }
         }
     }

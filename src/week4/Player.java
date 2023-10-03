@@ -9,10 +9,12 @@ public class Player {
     private String charName;
     private String name;
     private final Scanner input = new Scanner(System.in);
+    private Inventory inventory;
 
 
     public Player(String name) {
         this.name = name;
+        this.inventory = new Inventory();
     }
 
     public void selectChar() {
@@ -46,10 +48,10 @@ public class Player {
             default:
                 initPlayer(new Samurai());
         }
-        System.out.println("You're a/an " + this.getCharName() + "!"+
+        /*System.out.println("You're a/an " + this.getCharName() + "!" +
                 "\tDamage: " + this.getDamage() + " | " +
                 "Health: " + this.getHealth() + " | " +
-                "Money: " + this.getMoney());
+                "Money: " + this.getMoney());*/
     }
 
     public void initPlayer(Characters characters) {
@@ -57,6 +59,13 @@ public class Player {
         this.setHealth(characters.getHealth());
         this.setMoney(characters.getMoney());
         this.setCharName(characters.getName());
+    }
+
+    public void printStatus() {
+        System.out.println("Weapon: " + this.getInventory().getWeapon().getName() + " \t| " +
+                "Damage: " + this.getDamage() + " | " +
+                "Health: " + this.getHealth() + " | " +
+                "Money: " + this.getMoney());
     }
 
     public int getDamage() {
@@ -97,5 +106,13 @@ public class Player {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
     }
 }

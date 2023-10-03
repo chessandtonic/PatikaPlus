@@ -16,14 +16,14 @@ public class Weapon {
 
     public static Weapon[] weapons() {
         Weapon[] weaponList = new Weapon[3];
-        weaponList[0] = new Weapon("Pistol", 1,2, 15);
+        weaponList[0] = new Weapon("Pistol", 1,2, 25);
         weaponList[1] = new Weapon("Sword ", 2,3, 35);
         weaponList[2] = new Weapon("Rifle ", 3,7, 45);
 
         return weaponList;
     }
 
-    public static Weapon getWeaponbyID(int ID){
+    public static Weapon getWeaponByID(int ID){
         for (Weapon weapon : Weapon.weapons()) {
             if (weapon.getID() == ID) {
                 return weapon;
