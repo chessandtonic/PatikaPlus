@@ -24,6 +24,7 @@ public class ToolStore extends NormalLoc {
             case 1:
                 printWeapon();
                 buyWeapon();
+                buyArmor();
                 break;
             case 2:
                 printArmor();
@@ -71,6 +72,37 @@ public class ToolStore extends NormalLoc {
     }
 
     public void printArmor() {
-        System.out.println("Armor:");
+        System.out.println("Armors:");
+        System.out.println();
+        for (Armor armor : Armor.armors()) {
+            System.out.println(armor.getID() + "." + armor.getName() + "\t|" +
+                    "\t<Price: " + armor.getPrice() + " | " +
+                    "Shield: " + armor.getShield() + ">");
+        }
+    }
+    public void buyArmor() {
+        System.out.println("Please select an armor:");
+
+        int selectArmorID = input.nextInt();
+        while (selectArmorID < 1 || selectArmorID > Armor.armors().length) {
+            System.out.print("Invalid choice, please try again: ");
+            selectArmorID = input.nextInt();
+        }
+
+        Armor selectedArmor = Armor.getArmorByID(selectArmorID);
+
+        if (selectedArmor != null) {
+            if (selectedArmor.getPrice() > this.getPlayer().getMoney()) {
+                System.out.println("You have insufficient funds to make this purchase!");
+            }else {
+                System.out.println("You just bought a " + selectedArmor.getName() + "!");
+                int balance = this.getPlayer().getMoney() - selectedArmor.getPrice();
+                this.getPlayer().setMoney(balance);
+                System.out.println("New balance: " + this.getPlayer().getMoney());
+                // System.out.println("Previous armor: " + this.getPlayer().getInventory().getArmor().getName());
+                this.getPlayer().getInventory().setArmor(selectedArmor);
+                // System.out.println("New armor: " + this.getPlayer().getInventory().getArmor().getName());
+            }
+        }
     }
 }

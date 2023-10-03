@@ -48,10 +48,6 @@ public class Player {
             default:
                 initPlayer(new Samurai());
         }
-        /*System.out.println("You're a/an " + this.getCharName() + "!" +
-                "\tDamage: " + this.getDamage() + " | " +
-                "Health: " + this.getHealth() + " | " +
-                "Money: " + this.getMoney());*/
     }
 
     public void initPlayer(Characters characters) {
@@ -64,6 +60,8 @@ public class Player {
     public void printStatus() {
         System.out.println("Status:\t" +
                 "\tWeapon: " + this.getInventory().getWeapon().getName() + " | " +
+                "Armor: " + this.getInventory().getArmor().getName() + " | " +
+                "Shield: " + this.getInventory().getArmor().getShield() + " | " +
                 "Damage: " + this.getDamage() + " | " +
                 "Health: " + this.getHealth() + " | " +
                 "Money: " + this.getMoney());
