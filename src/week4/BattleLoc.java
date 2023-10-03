@@ -90,8 +90,8 @@ public abstract class BattleLoc extends Location {
     public void monsterStats() {
         System.out.println(this.getMonster().getName() + " Stats:");
         System.out.println("-------------------------");
-        System.out.println("Health: " + this.getMonster().getHealth());
-        System.out.println("Damage: " + this.getMonster().getHealth());
+        System.out.println("Health: " + this.getMonster().getInitHealth());
+        System.out.println("Damage: " + this.getMonster().getDamage());
         System.out.println("Reward: " + this.getMonster().getReward());
         System.out.println();
     }
