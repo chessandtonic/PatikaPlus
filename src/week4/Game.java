@@ -22,6 +22,7 @@ public class Game {
             System.out.println("Zones:");
             System.out.println("1. Safe House");
             System.out.println("2. Store");
+            System.out.println("3. Cave (Beware of the living dead!)");
             System.out.println("0. Exit and Quit");
             System.out.println();
             System.out.println("Please select where you want to go:");
@@ -35,6 +36,9 @@ public class Game {
                     break;
                 case 2:
                     location = new ToolStore(player);
+                    break;
+                case 3:
+                    location = new Cave(player);
                     break;
                 default:
                     location = new SafeHouse(player);
