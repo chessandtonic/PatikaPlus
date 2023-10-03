@@ -22,7 +22,9 @@ public class Game {
             System.out.println("Zones:");
             System.out.println("1. Safe House");
             System.out.println("2. Store");
-            System.out.println("3. Cave (Beware of the living dead!)");
+            System.out.println("3. Cave (Come and have a feast, but beware of the living dead!)");
+            System.out.println("4. Forest (You might warm up, but only until the forest bleeds you dry!");
+            System.out.println("5. River (Enjoy a nice sip, but watch out for the claw!");
             System.out.println("0. Exit and Quit");
             System.out.println();
             System.out.println("Please select where you want to go:");
@@ -40,8 +42,15 @@ public class Game {
                 case 3:
                     location = new Cave(player);
                     break;
+                case 4:
+                    location = new Forest(player);
+                    break;
+                case 5:
+                    location = new River(player);
+                    break;
                 default:
-                    location = new SafeHouse(player);
+                    System.out.println("Please enter a valid zone!");
+                    continue;
             }
             if (location == null) {
                 System.out.println("You gave up on this island too quick!");
