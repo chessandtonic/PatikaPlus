@@ -13,17 +13,8 @@ public class Monster {
         this.name = name;
         this.damage = damage;
         this.health = health;
-        this.initHealth = initHealth;
+        this.initHealth = health;
         this.reward = reward;
-
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public int getID() {
@@ -32,6 +23,14 @@ public class Monster {
 
     public void setID(int ID) {
         this.ID = ID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getDamage() {
@@ -47,6 +46,9 @@ public class Monster {
     }
 
     public void setHealth(int health) {
+        if (health < 0) {
+            health = 0;
+        }
         this.health = health;
     }
 

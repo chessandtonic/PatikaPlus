@@ -66,7 +66,8 @@ public class Player {
                 "Health: " + this.getHealth() + " | " +
                 "Money: " + this.getMoney());
     }
-    public int getTotalDamage(){
+
+    public int getTotalDamage() {
         return damage + this.getInventory().getWeapon().getDamage();
     }
 
@@ -83,6 +84,9 @@ public class Player {
     }
 
     public void setHealth(int health) {
+        if (health < 0) {
+            health = 0;
+        }
         this.health = health;
     }
 

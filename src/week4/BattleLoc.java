@@ -28,14 +28,15 @@ public abstract class BattleLoc extends Location {
         System.out.println("<F>ight or <Fl>ight?");
         String selectCase = input.nextLine();
         selectCase = selectCase.toUpperCase();
+
         if (selectCase.equals("F")) {
             if (combat(monsterNumber)) {
                 System.out.println(this.getName() + ", you have defeated all enemies!");
                 return true;
             }
         }
-        if (this.getPlayer().getHealth() < 0) {
-            System.out.println("You died'");
+        if (this.getPlayer().getHealth() == 0) {
+            System.out.println("You died.");
             return false;
         }
 
@@ -46,7 +47,7 @@ public abstract class BattleLoc extends Location {
         for (int i = 1; i <= monsterNumber; i++) {
             this.getMonster().setHealth(this.getMonster().getInitHealth());
             playerStats();
-            monsterStats();
+            monsterStats(i);
             while (this.getPlayer().getHealth() > 0 && this.getMonster().getHealth() > 0) {
                 System.out.println("<H>it or <R>un?");
                 String selectMove = input.nextLine().toUpperCase();
@@ -55,7 +56,6 @@ public abstract class BattleLoc extends Location {
                     this.getMonster().setHealth(this.getMonster().getHealth() - this.getPlayer().getTotalDamage());
                     afterHit();
                     if (this.getMonster().getHealth() > 0) {
-                        System.out.println();
                         System.out.println(this.getMonster().getName() + " hit you!");
                         int monsterDamage = this.getMonster().getDamage() - this.getPlayer().getInventory().getArmor().getShield();
                         if (monsterDamage < 0) {
@@ -64,7 +64,16 @@ public abstract class BattleLoc extends Location {
                         this.getPlayer().setHealth(this.getPlayer().getHealth() - monsterDamage);
                         afterHit();
                     }
+                } else {
+                    return false;
                 }
+            }
+            if (this.getMonster().getHealth() < this.getPlayer().getHealth()) {
+                System.out.println("You defeated the enemy!");
+                System.out.println("You earned " + this.getMonster().getReward());
+                this.getPlayer().setMoney(this.getPlayer().getMoney() + getMonster().getReward());
+                System.out.println("New balance: " + getPlayer().getMoney());
+                System.out.println();
             }
         }
         return false;
@@ -73,6 +82,7 @@ public abstract class BattleLoc extends Location {
     public void afterHit() {
         System.out.println("Your health: " + this.getPlayer().getHealth());
         System.out.println(this.getMonster().getName() + "'s health: " + this.getMonster().getHealth());
+        System.out.println();
     }
 
     public void playerStats() {
@@ -87,10 +97,10 @@ public abstract class BattleLoc extends Location {
         System.out.println();
     }
 
-    public void monsterStats() {
-        System.out.println(this.getMonster().getName() + " Stats:");
+    public void monsterStats(int i) {
+        System.out.println(i + "." + this.getMonster().getName() + " Stats:");
         System.out.println("-------------------------");
-        System.out.println("Health: " + this.getMonster().getInitHealth());
+        System.out.println("Health: " + this.getMonster().getHealth());
         System.out.println("Damage: " + this.getMonster().getDamage());
         System.out.println("Reward: " + this.getMonster().getReward());
         System.out.println();
