@@ -49,6 +49,7 @@ public class ToolStore extends NormalLoc {
                     "Damage: " + weapon.getDamage() + ">");
         }
         System.out.println("Your balance: " + this.getPlayer().getMoney());
+        System.out.println();
         System.out.println("0. Exit");
     }
 
@@ -88,6 +89,7 @@ public class ToolStore extends NormalLoc {
                     "Shield: " + armor.getShield() + ">");
         }
         System.out.println("Your balance: " + this.getPlayer().getMoney());
+        System.out.println();
         System.out.println("0. Exit");
     }
 

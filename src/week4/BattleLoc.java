@@ -29,12 +29,17 @@ public abstract class BattleLoc extends Location {
         String selectCase = input.nextLine();
         selectCase = selectCase.toUpperCase();
 
-        if (selectCase.equals("F")) {
+        if (selectCase.equals("F") && combat(monsterNumber)) {
+            System.out.println(this.getName() + ", you have defeated all enemies!");
+            return true;
+        }
+
+        /*if (selectCase.equals("F")) {
             if (combat(monsterNumber)) {
                 System.out.println(this.getName() + ", you have defeated all enemies!");
                 return true;
             }
-        }
+        }*/
         if (this.getPlayer().getHealth() == 0) {
             System.out.println("You died.");
             return false;
@@ -52,7 +57,7 @@ public abstract class BattleLoc extends Location {
                 System.out.println("<H>it or <R>un?");
                 String selectMove = input.nextLine().toUpperCase();
                 if (selectMove.equals("H")) {
-                    System.out.println("You hit the monster!");
+                    System.out.println("You hit the " + getMonster().getName() + "!");
                     this.getMonster().setHealth(this.getMonster().getHealth() - this.getPlayer().getTotalDamage());
                     afterHit();
                     if (this.getMonster().getHealth() > 0) {
