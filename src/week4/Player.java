@@ -5,12 +5,13 @@ import java.util.Scanner;
 public class Player {
     private int damage;
     private int health;
+    private int initHealth;
     private int money;
     private String charName;
     private String name;
     private final Scanner input = new Scanner(System.in);
     private Inventory inventory;
-
+    private int award;
 
     public Player(String name) {
         this.name = name;
@@ -23,6 +24,7 @@ public class Player {
         Knight Knight = new Knight();
 
         System.out.println("Characters:");
+        System.out.println("--------------------------------------------------------------");
         Characters[] charList = {new Samurai(), new Archer(), new Knight()};
 
         for (Characters Characters : charList) {
@@ -32,7 +34,7 @@ public class Player {
                     "\tHealth: " + Characters.getHealth() +
                     "\tMoney: " + Characters.getMoney());
         }
-        System.out.println();
+        System.out.println("--------------------------------------------------------------");
         System.out.print("Please select your character using its ID: \n");
         int selectChar = input.nextInt();
         switch (selectChar) {
@@ -53,6 +55,7 @@ public class Player {
     public void initPlayer(Characters characters) {
         this.setDamage(characters.getDamage());
         this.setHealth(characters.getHealth());
+        this.setInitHealth(characters.getHealth());
         this.setMoney(characters.getMoney());
         this.setCharName(characters.getName());
     }
@@ -65,6 +68,14 @@ public class Player {
                 "Damage: " + this.getTotalDamage() + " | " +
                 "Health: " + this.getHealth() + " | " +
                 "Money: " + this.getMoney());
+    }
+    public boolean checkAwards(int n) {
+        for (int award : getInventory().getAwards()) {
+            if (award == n) {
+                return true;
+            };
+        }
+        return false;
     }
 
     public int getTotalDamage() {
@@ -120,5 +131,13 @@ public class Player {
 
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
+    }
+
+    public int getInitHealth() {
+        return initHealth;
+    }
+
+    public void setInitHealth(int initHealth) {
+        this.initHealth = initHealth;
     }
 }

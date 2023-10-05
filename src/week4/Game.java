@@ -20,6 +20,7 @@ public class Game {
             player.printStatus();
             System.out.println();
             System.out.println("Zones:");
+            System.out.println("--------------------------------------------------------------");
             System.out.println("1. Safe House");
             System.out.println("2. Store");
             System.out.println("3. Cave (Come and have a feast, but beware of the living dead!)");
@@ -41,12 +42,24 @@ public class Game {
                     break;
                 case 3:
                     location = new Cave(player);
+                    if (player.checkAwards(new Cave(player).getAwardID())) {
+                        System.out.println("You've already collected the prize of this location!");
+                        continue;
+                    }
                     break;
                 case 4:
                     location = new Forest(player);
+                    if (player.checkAwards(new Forest(player).getAwardID())) {
+                        System.out.println("You've already collected the prize of this location!");
+                        continue;
+                    }
                     break;
                 case 5:
                     location = new River(player);
+                    if (player.checkAwards(new River(player).getAwardID())) {
+                        System.out.println("You've already collected the prize of this location!");
+                        continue;
+                    }
                     break;
                 default:
                     System.out.println("Please enter a valid zone!");
@@ -57,6 +70,9 @@ public class Game {
                 break;
             }
             if (!location.onLocation()) {
+                if ((player.getInventory().getAwards()[0]+player.getInventory().getAwards()[1]+player.getInventory().getAwards()[2]) == 3) {
+                    break;
+                }
                 System.out.println("Game Over!");
                 break;
             }

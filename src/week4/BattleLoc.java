@@ -1,17 +1,21 @@
 package week4;
 
 import java.util.Random;
+import java.util.Scanner;
 
 public abstract class BattleLoc extends Location {
     private Monster monster;
     private String award;
+    private int awardID;
     private int maxMonster;
 
 
-    public BattleLoc(Player player, String name, Monster monster, String award, int maxMonster) {
+
+    public BattleLoc(Player player, String name, Monster monster, String award, int awardID, int maxMonster) {
         super(player, name);
         this.monster = monster;
         this.award = award;
+        this.awardID = awardID;
         this.maxMonster = maxMonster;
     }
 
@@ -26,20 +30,16 @@ public abstract class BattleLoc extends Location {
             System.out.println("Be careful! " + monsterNumber + " " + this.getMonster().getName() + "s live here!");
         }
         System.out.println("<F>ight or <Fl>ight?");
-        String selectCase = input.nextLine();
+        //input = new Scanner (System.in);
+        String selectCase = input.next() + input.nextLine();
         selectCase = selectCase.toUpperCase();
 
         if (selectCase.equals("F") && combat(monsterNumber)) {
-            System.out.println(this.getName() + ", you have defeated all enemies!");
+            System.out.println(this.getPlayer().getName() + ", you have defeated all enemies!");
+            this.getPlayer().getInventory().getAwards()[this.awardID] = this.awardID;
             return true;
         }
 
-        /*if (selectCase.equals("F")) {
-            if (combat(monsterNumber)) {
-                System.out.println(this.getName() + ", you have defeated all enemies!");
-                return true;
-            }
-        }*/
         if (this.getPlayer().getHealth() == 0) {
             System.out.println("You died.");
             return false;
@@ -81,7 +81,7 @@ public abstract class BattleLoc extends Location {
                 System.out.println();
             }
         }
-        return false;
+        return true;
     }
 
     public void afterHit() {
@@ -138,5 +138,13 @@ public abstract class BattleLoc extends Location {
 
     public void setMaxMonster(int maxMonster) {
         this.maxMonster = maxMonster;
+    }
+
+    public int getAwardID() {
+        return awardID;
+    }
+
+    public void setAwardID(int awardID) {
+        this.awardID = awardID;
     }
 }
