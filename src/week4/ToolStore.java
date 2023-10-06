@@ -111,9 +111,7 @@ public class ToolStore extends NormalLoc {
                     int balance = this.getPlayer().getMoney() - selectedArmor.getPrice();
                     this.getPlayer().setMoney(balance);
                     System.out.println("New balance: " + this.getPlayer().getMoney());
-                    // System.out.println("Previous armor: " + this.getPlayer().getInventory().getArmor().getName());
                     this.getPlayer().getInventory().setArmor(selectedArmor);
-                    // System.out.println("New armor: " + this.getPlayer().getInventory().getArmor().getName());
                 }
             }
         }

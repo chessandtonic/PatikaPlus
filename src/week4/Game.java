@@ -26,6 +26,7 @@ public class Game {
             System.out.println("3. Cave (Come and have a feast, but beware of the living dead!)");
             System.out.println("4. Forest (You might warm up, but only until the forest bleeds you dry!)");
             System.out.println("5. River (Enjoy a nice sip, but watch out for the claw!)");
+            System.out.println("6. Mine (Many bounties to enjoy; just don't become the prey yourself!");
             System.out.println("0. Exit and Quit");
             System.out.println();
             System.out.println("Please select where you want to go:");
@@ -60,6 +61,9 @@ public class Game {
                         System.out.println("You've already collected the prize of this location!");
                         continue;
                     }
+                    break;
+                case 6:
+                    location = new Mine(player);
                     break;
                 default:
                     System.out.println("Please enter a valid zone!");
