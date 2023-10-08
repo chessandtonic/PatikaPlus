@@ -36,6 +36,28 @@ public abstract class BattleLoc extends Location {
 
         if (selectCase.equals("F") && combat(monsterNumber)) {
             System.out.println(this.getPlayer().getName() + ", you have defeated all enemies!");
+            /*if (monster.getID() == 4) {
+
+                switch (Snake.dropType()) {
+                    case 1:
+                        Weapon droppedWeapon = Snake.dropWeapon();
+                        System.out.println("\n" + droppedWeapon.getName() + " added to your Inventory!");
+                        this.getPlayer().getInventory().setWeapon(droppedWeapon);
+                        break;
+                    case 2:
+                        Armor droppedArmor = Snake.dropArmor();
+                        System.out.println("\n" + droppedArmor.getName() + " Armor added to your Inventory!");
+                        this.getPlayer().getInventory().setArmor(droppedArmor);
+                        break;
+                    case 3:
+                        int droppedMoney = Snake.dropMoney() * monsterNumber;
+                        System.out.println("!!! " + droppedMoney + "$ added to your inventory !!!");
+                        this.getPlayer().setMoney(this.getPlayer().getMoney() + droppedMoney);
+                        break;
+                    case 4:
+                        System.out.println("\nUnfortunately, no items or money dropped from the enemy.");
+                        break;
+                }*/
             this.getPlayer().getInventory().getAwards()[this.awardID] = this.awardID;
             return true;
         }
@@ -54,23 +76,44 @@ public abstract class BattleLoc extends Location {
             playerStats();
             monsterStats(i);
             while (this.getPlayer().getHealth() > 0 && this.getMonster().getHealth() > 0) {
-                System.out.println("<H>it or <R>un?");
-                String selectMove = input.nextLine().toUpperCase();
-                if (selectMove.equals("H")) {
-                    System.out.println("You hit the " + getMonster().getName() + "!");
-                    this.getMonster().setHealth(this.getMonster().getHealth() - this.getPlayer().getTotalDamage());
-                    afterHit();
-                    if (this.getMonster().getHealth() > 0) {
-                        System.out.println(this.getMonster().getName() + " hit you!");
-                        int monsterDamage = this.getMonster().getDamage() - this.getPlayer().getInventory().getArmor().getShield();
-                        if (monsterDamage < 0) {
-                            monsterDamage = 0;
-                        }
-                        this.getPlayer().setHealth(this.getPlayer().getHealth() - monsterDamage);
+                boolean playersTurn = Math.random() < 0.5f; // Randomly decide who gets to hit first
+
+                if (playersTurn) {
+                    // Player's turn
+                    System.out.println("<H>it or <R>un?");
+                    String selectMove = input.nextLine().toUpperCase();
+                    if (selectMove.equals("H")) {
+                        System.out.println("You hit the " + getMonster().getName() + "!");
+                        this.getMonster().setHealth(this.getMonster().getHealth() - this.getPlayer().getTotalDamage());
                         afterHit();
+                        if (this.getMonster().getHealth() > 0) {
+                            System.out.println(this.getMonster().getName() + " hit you!");
+                            int monsterDamage = this.getMonster().getDamage() - this.getPlayer().getInventory().getArmor().getShield();
+                            if (monsterDamage < 0) {
+                                monsterDamage = 0;
+                            }
+                            this.getPlayer().setHealth(this.getPlayer().getHealth() - monsterDamage);
+                            afterHit();
+                        }
+                    } else {
+                        return false;
                     }
                 } else {
-                    return false;
+                    // Monster's turn
+                    System.out.println(this.getMonster().getName() + " hit you!");
+                    int monsterDamage = this.getMonster().getDamage() - this.getPlayer().getInventory().getArmor().getShield();
+                    if (monsterDamage < 0) {
+                        monsterDamage = 0;
+                    }
+                    this.getPlayer().setHealth(this.getPlayer().getHealth() - monsterDamage);
+                    afterHit();
+                    if (this.getPlayer().getHealth() > 0) {
+                        System.out.println("You hit the " + getMonster().getName() + "!");
+                        this.getMonster().setHealth(this.getMonster().getHealth() - this.getPlayer().getTotalDamage());
+                        afterHit();
+                    } else {
+                        return true;
+                    }
                 }
             }
             if (this.getMonster().getHealth() < this.getPlayer().getHealth()) {

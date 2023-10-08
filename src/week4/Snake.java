@@ -12,7 +12,7 @@ public class Snake extends Monster{
     }
 
     static Random random = new Random();
-    public int dropType() {
+    public static int dropType() {
         int dropTypeChance = random.nextInt(1, 101);
 
         if (dropTypeChance <= 15) {
@@ -26,7 +26,7 @@ public class Snake extends Monster{
         }
     }
 
-    public Weapon dropWeapon() {
+    public static Weapon dropWeapon() {
         int dropWeaponChance = random.nextInt(1, 101);
 
         if (dropWeaponChance <= 50) {
@@ -38,7 +38,7 @@ public class Snake extends Monster{
         }
     }
 
-    public Armor dropArmor() {
+    public static Armor dropArmor() {
         int dropArmorChance = random.nextInt(1, 101);
 
         if (dropArmorChance <= 50) {
@@ -50,7 +50,7 @@ public class Snake extends Monster{
         }
     }
 
-    public int dropMoney() {
+    public static int dropMoney() {
         int dropMoneyChance = random.nextInt(1, 101);
 
         if (dropMoneyChance <= 50) {
