@@ -11,16 +11,16 @@ public class TryCatch {
         int index = scanner.nextInt()-1;
 
         try {
-            String result = callIndex(letters, index);
+            String result = checkIndex(letters, index);
             System.out.println("Index value is " + "\"" + result +"\".");
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Error: " + e.getMessage());
         }
     }
 
-    public static String callIndex(String[] letters, int index) {
+    public static String checkIndex(String[] letters, int index) {
         if (index < 0 || index >= letters.length) {
-            throw new ArrayIndexOutOfBoundsException("Invalid index: " + index);
+            throw new ArrayIndexOutOfBoundsException("There are only 10 list items.");
         }
         return letters[index];
     }
