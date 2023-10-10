@@ -29,6 +29,7 @@ class Book implements Comparable<Book> {
         return publicationDate;
     }
 
+    // Sorting by name
     @Override
     public int compareTo(Book otherBook) {
         return this.title.compareTo(otherBook.title);
