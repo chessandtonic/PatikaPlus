@@ -35,18 +35,15 @@ public class ModeWord {
             }
         }
 
-        // Find words with the highest frequency
         System.out.print("Most frequent word(s): ");
-        boolean isFirstWord = true;
-        for (HashMap.Entry<String, Integer> entry : wordCount.entrySet()) {
-            if (entry.getValue() == maxFrequency) {
-                if (!isFirstWord) {
-                    System.out.print(", ");
-                }
-                System.out.print(entry.getKey());
-                isFirstWord = false;
+
+        // Print the key with the highest value
+        for (String key : wordCount.keySet()) {
+
+            if (wordCount.get(key) == maxFrequency) {
+                System.out.print(key+" ");
             }
         }
-        System.out.println(", Count: " + maxFrequency);
+        System.out.print(", Count: " + maxFrequency);
     }
 }
