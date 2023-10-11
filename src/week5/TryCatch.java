@@ -9,7 +9,7 @@ public class TryCatch {
 
         System.out.print("Please provide an index between 1 and 10: ");
         int index = scanner.nextInt() - 1; // Read user input and subtract 1 to match array indexing (0 to 9)
-
+        System.out.println(index);
         // Try block to handle potential exceptions
         try {
             // Call the CheckIndex method to validate the index and retrieve the corresponding letter

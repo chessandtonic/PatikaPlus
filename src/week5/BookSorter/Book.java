@@ -4,9 +4,9 @@ class Book implements Comparable<Book> {
     private String title;
     private int pageCount;
     private String author;
-    private String publicationDate;
+    private int publicationDate;
 
-    public Book(String title, int pageCount, String author, String publicationDate) {
+    public Book(String title, int pageCount, String author, int publicationDate) {
         this.title = title;
         this.pageCount = pageCount;
         this.author = author;
@@ -25,8 +25,8 @@ class Book implements Comparable<Book> {
         return author;
     }
 
-    public String getPublicationDate() {
-        return publicationDate;
+    public int getPublicationDate() {
+        return this.publicationDate;
     }
 
     // Sorting by name
