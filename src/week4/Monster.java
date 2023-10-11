@@ -67,4 +67,8 @@ public class Monster {
     public void setInitHealth(int initHealth) {
         this.initHealth = initHealth;
     }
+    /*public void reward (Player player) {
+        player.setMoney(player.getMoney() + award);
+        System.out.println("Earned " + award!");
+    }*/
 }

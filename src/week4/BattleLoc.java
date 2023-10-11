@@ -30,35 +30,14 @@ public abstract class BattleLoc extends Location {
             System.out.println("Be careful! " + monsterNumber + " " + this.getMonster().getName() + "s live here!");
         }
         System.out.println("<F>ight or <Fl>ight?");
-        //input = new Scanner (System.in);
         String selectCase = input.next() + input.nextLine();
         selectCase = selectCase.toUpperCase();
 
         if (selectCase.equals("F") && combat(monsterNumber)) {
             System.out.println(this.getPlayer().getName() + ", you have defeated all enemies!");
-            /*if (monster.getID() == 4) {
-
-                switch (Snake.dropType()) {
-                    case 1:
-                        Weapon droppedWeapon = Snake.dropWeapon();
-                        System.out.println("\n" + droppedWeapon.getName() + " added to your Inventory!");
-                        this.getPlayer().getInventory().setWeapon(droppedWeapon);
-                        break;
-                    case 2:
-                        Armor droppedArmor = Snake.dropArmor();
-                        System.out.println("\n" + droppedArmor.getName() + " Armor added to your Inventory!");
-                        this.getPlayer().getInventory().setArmor(droppedArmor);
-                        break;
-                    case 3:
-                        int droppedMoney = Snake.dropMoney() * monsterNumber;
-                        System.out.println("!!! " + droppedMoney + "$ added to your inventory !!!");
-                        this.getPlayer().setMoney(this.getPlayer().getMoney() + droppedMoney);
-                        break;
-                    case 4:
-                        System.out.println("\nUnfortunately, no items or money dropped from the enemy.");
-                        break;
-                }*/
-            this.getPlayer().getInventory().getAwards()[this.awardID] = this.awardID;
+            if (awardID < 3) {
+                this.getPlayer().getInventory().getAwards()[this.awardID] = this.awardID;
+            }
             return true;
         }
 
