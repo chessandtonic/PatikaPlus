@@ -30,7 +30,6 @@ public class Brand {
         brands.add(new Brand("Monster"));
     }
 
-
     public int getID() {
         return ID;
     }
