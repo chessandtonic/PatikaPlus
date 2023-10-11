@@ -1,15 +1,12 @@
 package week5.PatikaStore;
 
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class PatikaStore {
     public void start() {
-
+        System.out.println("Hoşgeldiniz");
         Scanner input = new Scanner(System.in);
-
-        System.out.println("Patika Store Hoşgeldiniz.");
-
+        System.out.println("Patika Store'a Hoşgeldiniz.");
         boolean showMenu = true;
         while (showMenu) {
             System.out.println("1-Notebook İşlemleri");
@@ -25,15 +22,16 @@ public class PatikaStore {
 
             switch (selected) {
                 case 1:
-                    System.out.println("1-Notebook İşlemleri");
+                    Notebook.notebookMenu();
                     break;
                 case 2:
-                    System.out.println("2-Cep Telefonu İşlemleri");
+                    Phone.phoneMenu();
                     break;
                 case 3:
                     Brand.printBrands();
                     System.out.println();
                     break;
+
                 case 0:
                     System.out.println("0-Çıkış  Yap");
                     showMenu = false;
@@ -42,6 +40,8 @@ public class PatikaStore {
                     System.out.println("Yanlış tuşlama yaptınız !!!");
 
             }
+
         }
+
     }
 }
