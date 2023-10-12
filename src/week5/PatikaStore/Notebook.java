@@ -72,7 +72,7 @@ public class Notebook extends Product {
 
     public static void addNotebook() {
         System.out.print("Ürünün adını giriniz : ");
-        String name = input.next();
+        String name = input.next() + input.nextLine();
         System.out.print("Ürünün fiyatını giriniz : ");
         double price = input.nextDouble();
         System.out.print("Ürünün indirim oranını giriniz : ");
@@ -90,7 +90,6 @@ public class Notebook extends Product {
         System.out.print("Ürünün ekran boyununu inç olarak giriniz : ");
         double screenSize = input.nextDouble();
 
-
         int maxId = 0;
         for (Notebook n : notebooks) {
             if (n.getId() > maxId) {
@@ -100,7 +99,6 @@ public class Notebook extends Product {
 
         // Assign the new phone an ID one integer higher than the maximum ID
         int newNotebookId = maxId + 1;
-
         notebooks.add(new Notebook(newNotebookId, name, price, discountRate, unitInStock, Brand.selectBrand(selectedBrand), memory, ram, screenSize));
     }
 

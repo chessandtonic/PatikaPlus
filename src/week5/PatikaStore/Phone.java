@@ -29,10 +29,10 @@ public class Phone extends Product {
         boolean showMenu = true;
         while (showMenu) {
             System.out.println("----Cep Telefonu İşlemleri-----");
-            System.out.println("1-Telefonları Listele");
-            System.out.println("2-Yeni Bir Telefon Ekle");
-            System.out.println("3-Mevcut Bir Telefonu Sil");
-            System.out.println("0-Çıkış Yap");
+            System.out.println("1.Telefonları Listele");
+            System.out.println("2.Yeni Bir Telefon Ekle");
+            System.out.println("3.Mevcut Bir Telefonu Sil");
+            System.out.println("0.Çıkış Yap");
             System.out.println("--------------------------------");
             System.out.print("Bir seçim yapınız : ");
             int select = input.nextInt();
@@ -58,8 +58,8 @@ public class Phone extends Product {
     }
 
     public static void printPhones() {
-        System.out.println("1: ID'ye göre listele");
-        System.out.println("2: Markaya göre filtrele");
+        System.out.println("1.ID'ye göre listele");
+        System.out.println("2.Markaya göre filtrele");
         int choice = input.nextInt();
         switch (choice) {
             case 1:
@@ -77,10 +77,9 @@ public class Phone extends Product {
         }
     }
 
-
     public static void addPhone() {
         System.out.print("Ürünün adını giriniz : ");
-        String name = input.next();
+        String name = input.next() + input.nextLine();
         System.out.print("Ürünün fiyatını giriniz : ");
         double price = input.nextDouble();
         System.out.print("Ürünün indirim oranını giriniz : ");
