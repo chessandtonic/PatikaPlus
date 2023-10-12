@@ -4,13 +4,13 @@ import java.util.*;
 
 public class Brand {
     private int id;
-    private String brandName;
+    private final String brandName;
     private static ArrayList<Brand> brands = new ArrayList<>();
 
     public Brand(int id, String brandName, ArrayList<Brand> brandList) {
         this.id = id;
         this.brandName = brandName;
-        this.brands = brandList;
+        brands = brandList;
     }
 
     public Brand(String brandName) {
@@ -43,7 +43,7 @@ public class Brand {
         int id = 0;
         for (Brand b : brands) {
             id++;
-            System.out.println(id + ". " + b.brandName + b.getID());
+            System.out.println(id + ". " + b.brandName);
         }
     }
 

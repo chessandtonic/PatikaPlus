@@ -29,7 +29,6 @@ public class PatikaStore {
                     Brand.printBrands();
                     System.out.println();
                     break;
-
                 case 0:
                     System.out.println("0.Çıkış Yap");
                     showMenu = false;

@@ -65,29 +65,33 @@ public class Notebook extends Product {
                             n.getId(), n.getName(), n.getPrice(), n.getBrand().getBrandName(),
                             n.getMemory(), n.getScreenSize(), n.getRam());
                 }
-
                 System.out.println("-----------------------------------------------------------------------------------------------------------");
         }
     }
 
     public static void addNotebook() {
-        System.out.print("Ürünün adını giriniz : ");
+        System.out.print("Ürünün adını giriniz: ");
         String name = input.next() + input.nextLine();
-        System.out.print("Ürünün fiyatını giriniz : ");
+        System.out.print("Ürünün fiyatını giriniz: ");
         double price = input.nextDouble();
-        System.out.print("Ürünün indirim oranını giriniz : ");
+        System.out.print("Ürünün indirim oranını giriniz: ");
         double discountRate = input.nextDouble();
-        System.out.print("Ürünün stok adedini giriniz : ");
+        System.out.print("Ürünün stok adedini giriniz: ");
         int unitInStock = input.nextInt();
         System.out.println("----Markalar----");
         Brand.printBrands();
-        System.out.print("Lütfen marka seçiniz : ");
+        System.out.print("Lütfen marka seçiniz: ");
         int selectedBrand = input.nextInt() - 1;
-        System.out.print("Ürünün hafızasını(GB) giriniz : ");
+        while (!(selectedBrand >= 0 && selectedBrand < 9)) {
+            System.out.println("Geçersiz giriş yaptınız!");
+            System.out.print("Lütfen marka seçiniz : ");
+            selectedBrand = input.nextInt() - 1;
+        }
+        System.out.print("Ürünün hafızasını(GB) giriniz: ");
         int memory = input.nextInt();
-        System.out.print("Ürünün RAM'ini giriniz : ");
+        System.out.print("Ürünün RAM'ini giriniz: ");
         int ram = input.nextInt();
-        System.out.print("Ürünün ekran boyununu inç olarak giriniz : ");
+        System.out.print("Ürünün ekran boyununu inç olarak giriniz: ");
         double screenSize = input.nextDouble();
 
         int maxId = 0;
@@ -97,17 +101,15 @@ public class Notebook extends Product {
             }
         }
 
-        // Assign the new phone an ID one integer higher than the maximum ID
         int newNotebookId = maxId + 1;
         notebooks.add(new Notebook(newNotebookId, name, price, discountRate, unitInStock, Brand.selectBrand(selectedBrand), memory, ram, screenSize));
     }
 
     public static void deleteNotebook() {
         printNotebook();
-        System.out.println("Hangi laptopu silmek istiyorsunuz : ");
+        System.out.println("Silmek istediğiniz notebook'un ID'sini giriniz: ");
         int selectId = input.nextInt() - 1;
         notebooks.remove(selectId);
-
     }
 
     @Override

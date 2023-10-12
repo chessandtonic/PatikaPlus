@@ -58,7 +58,7 @@ public class Phone extends Product {
     }
 
     public static void printPhones() {
-        System.out.println("1.ID'ye göre listele");
+        System.out.println("1.ID'ye göre filtrele");
         System.out.println("2.Markaya göre filtrele");
         int choice = input.nextInt();
         switch (choice) {
@@ -118,10 +118,9 @@ public class Phone extends Product {
 
     public static void deletePhone() {
         printPhones();
-        System.out.println("Hangi telefonu silmek istiyorsunuz : ");
+        System.out.println("Silmek istediğiniz telefonun ID'sini giriniz: ");
         int selectId = input.nextInt() - 1;
         phones.remove(selectId);
-
     }
 
     @Override
