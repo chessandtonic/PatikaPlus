@@ -1,7 +1,5 @@
 package week5.PatikaStore;
 
-import java.util.ArrayList;
-
 public abstract class Product {
     private int id;
     private String name;
@@ -12,10 +10,9 @@ public abstract class Product {
     private int storage;
     private int ram;
     private double screenSize;
-    private static ArrayList<Product> products = new ArrayList<>();
 
     public Product(String name, double price, double discountRate, int unitInStock, Brand brand, int storage, int ram, double screenSize) {
-        this.id=products.size()+1;
+        //this.id=products.size()+1;
         this.name = name;
         this.price = price;
         this.discountRate = discountRate;
@@ -46,63 +43,19 @@ public abstract class Product {
         return price;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public double getDiscountRate() {
-        return discountRate;
-    }
-
-    public void setDiscountRate(double discountRate) {
-        this.discountRate = discountRate;
-    }
-
-    public int getUnitInStock() {
-        return unitInStock;
-    }
-
-    public void setUnitInStock(int unitInStock) {
-        this.unitInStock = unitInStock;
-    }
-
     public Brand getBrand() {
         return brand;
-    }
-
-    public void setBrand(Brand brand) {
-        this.brand = brand;
     }
 
     public int getStorage() {
         return storage;
     }
 
-    public void setStorage(int storage) {
-        this.storage = storage;
-    }
-
     public int getRam() {
         return ram;
     }
 
-    public void setRam(int ram) {
-        this.ram = ram;
-    }
-
     public double getScreenSize() {
         return screenSize;
-    }
-
-    public void setScreenSize(double screenSize) {
-        this.screenSize = screenSize;
-    }
-
-    public static ArrayList<Product> getProducts() {
-        return products;
-    }
-
-    public static void setProducts(ArrayList<Product> products) {
-        Product.products = products;
     }
 }
