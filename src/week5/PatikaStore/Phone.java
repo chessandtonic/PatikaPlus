@@ -19,22 +19,24 @@ public class Phone extends Product {
         this.color = color;
     }
 
+
     static {
         phones.add(new Phone(1, "SAMSUNG GALAXY A51", 3199.0, 0.5, 5, Brand.selectBrand(7), 128, 6, 6.5, 32, 4000, "Black"));
         phones.add(new Phone(2, "iPhone 11 64 GB", 7379.0, 0, 5, Brand.selectBrand(0), 64, 6, 6.1, 5, 3046, "Blue"));
         phones.add(new Phone(3, "Redmi Note 10Pro 8 GB", 4012, 0.5, 5, Brand.selectBrand(8), 128, 12, 6.5, 35, 4000, "White"));
     }
 
+
     public static void phoneMenu() {
         boolean showMenu = true;
         while (showMenu) {
-            System.out.println("----Phone Operations-----");
+            System.out.println("-----Phone Operations-----");
             System.out.println("1-List all Phones");
             System.out.println("2-Add a New Phone");
             System.out.println("3-Delete a Phone");
             System.out.println("0-Exit");
             System.out.println("--------------------------------");
-            System.out.print("Make a choice : ");
+            System.out.print("Make a choice: ");
             int select = input.nextInt();
 
             switch (select) {
@@ -58,9 +60,9 @@ public class Phone extends Product {
     }
 
     public static void printPhones() {
-        System.out.println("1-List All Phones");
-        System.out.println("2-List Phones By ID");
-        System.out.println("3-List Phones By Brand");
+        System.out.println("1-List/Filter Phones");
+        System.out.println("2-Filter Phones By ID");
+        System.out.println("3-Filter Phones By Brand");
         System.out.print("Make a choice: ");
         int number = input.nextInt();
         switch (number) {
@@ -68,7 +70,7 @@ public class Phone extends Product {
                 printAllPhones();
                 break;
             case 2:
-                System.out.print("Enter an ID : ");
+                System.out.print("Enter an ID: ");
                 int id = input.nextInt();
                 filterPhoneById(id);
                 break;
@@ -110,6 +112,7 @@ public class Phone extends Product {
             System.out.println("Product ID not found");
         }
         System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------");
+
     }
 
     public static void filterPhoneByBrand() {
@@ -129,7 +132,6 @@ public class Phone extends Product {
                 a = true;
             }
         }
-
         if (!a) {
             System.out.println("Brand not found !");
         }
@@ -182,9 +184,14 @@ public class Phone extends Product {
 
     public static void deletePhone() {
         printAllPhones();
-        System.out.print("Select phone by ID to delete : ");
-        int selectId = input.nextInt() - 1;
-        phones.remove(selectId);
+        System.out.print("Select phone by ID to delete: ");
+        int selectId = input.nextInt();
+        for (Phone p : phones) {
+            if (p.getId()==selectId) {
+                phones.remove(p);
+                break;
+            }
+        }
     }
 
     @Override
@@ -196,11 +203,9 @@ public class Phone extends Product {
     public void setId(int id) {
         this.id = id;
     }
-
     public int getCamera() {
         return camera;
     }
-
     public int getBatteryPower() {
         return batteryPower;
     }

@@ -23,7 +23,7 @@ public class Notebook extends Product {
     public static void notebookMenu() {
         boolean showMenu = true;
         while (showMenu) {
-            System.out.println("----Notebook Operations-----");
+            System.out.println("-----Notebook Operations-----");
             System.out.println("1-List all Notebooks");
             System.out.println("2-Add a New Notebook");
             System.out.println("3-Delete a Notebook");
@@ -37,12 +37,12 @@ public class Notebook extends Product {
                     break;
                 case 2:
                     addNotebook();
-                    System.out.println("Product added successfully");
+                    System.out.println("Product added successfully!");
                     break;
                 case 3:
                     deleteNotebook();
                     notebooks.size();
-                    System.out.println("Product deleted successfully");
+                    System.out.println("Product deleted successfully!");
                     break;
                 case 0:
                     showMenu = false;
@@ -80,14 +80,14 @@ public class Notebook extends Product {
             }
         }
         if (!a) {
-            System.out.println("Product ID not found");
+            System.out.println("Product ID not found!");
         }
         System.out.println("-----------------------------------------------------------------------------------------------------------");
     }
 
     public static void filterNotebookByBrand() {
         Brand.printBrands();
-        System.out.print("Please choose a brand by its number : ");
+        System.out.print("Please choose a brand by its number: ");
         int selectBrandNumber = input.nextInt() - 1;
         System.out.println("-----------------------------------------------------------------------------------------------------------");
         System.out.format("| %-2s | %-30s | %-10s    | %-10s | %-10s | %-10s | %-10s |\n",
@@ -104,7 +104,7 @@ public class Notebook extends Product {
         }
 
         if (!a) {
-            System.out.println("Brand not found !");
+            System.out.println("Brand not found!");
         }
         System.out.println("-----------------------------------------------------------------------------------------------------------");
     }
@@ -113,14 +113,14 @@ public class Notebook extends Product {
         System.out.println("1-List All Notebooks");
         System.out.println("2-Filter Notebooks By ID");
         System.out.println("3-Filter Notebooks By Brand");
-        System.out.print("Make a choice : ");
+        System.out.print("Make a choice: ");
         int select = input.nextInt();
         switch (select) {
             case 1:
                 printAllNotebooks();
                 break;
             case 2:
-                System.out.println("Enter an ID");
+                System.out.println("Enter an ID:");
                 int id = input.nextInt();
                 filterNotebookById(id);
                 break;
@@ -131,28 +131,28 @@ public class Notebook extends Product {
     }
 
     public static void addNotebook() {
-        System.out.print("Enter product name : ");
+        System.out.print("Enter product name: ");
         String name = input.next() + input.nextLine();
-        System.out.print("Enter product price : ");
+        System.out.print("Enter product price: ");
         double price = input.nextDouble();
-        System.out.print("Enter product discount rate : ");
+        System.out.print("Enter product discount rate: ");
         double discountRate = input.nextDouble();
-        System.out.print("Enter product in stock : ");
+        System.out.print("Enter product in stock: ");
         int unitInStock = input.nextInt();
         System.out.println("--------Brands--------");
         Brand.printBrands();
-        System.out.print("Please choose a brand of notebook : ");
+        System.out.print("Please choose a brand of notebook: ");
         int selectedBrand = input.nextInt() - 1;
         while (!(selectedBrand >= 0 && selectedBrand < 9)) {
             System.out.println("Invalid entry!");
-            System.out.print("Please choice a brand of notebook : ");
+            System.out.print("Please choice a brand of notebook: ");
             selectedBrand = input.nextInt() - 1;
         }
-        System.out.print("Enter product storage : ");
+        System.out.print("Enter product storage: ");
         int storage = input.nextInt();
-        System.out.print("Enter product RAM : ");
+        System.out.print("Enter product RAM: ");
         int ram = input.nextInt();
-        System.out.print("Enter product screen size (inch) : ");
+        System.out.print("Enter product screen size (inch): ");
         double screenSize = input.nextDouble();
 
 
@@ -170,9 +170,14 @@ public class Notebook extends Product {
 
     public static void deleteNotebook() {
         printAllNotebooks();
-        System.out.print("Select notebook by ID to delete : ");
-        int selectId = input.nextInt() - 1;
-        notebooks.remove(selectId);
+        System.out.print("Select notebook by ID to delete: ");
+        int selectId = input.nextInt();
+        for (Notebook n : notebooks) {
+            if (n.getId()==selectId) {
+                notebooks.remove(n);
+                break;
+            }
+        }
     }
 
     @Override
