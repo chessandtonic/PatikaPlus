@@ -11,8 +11,8 @@ public class Phone extends Product {
     private static ArrayList<Phone> phones = new ArrayList<>();
     static Scanner input = new Scanner(System.in);
 
-    public Phone(int id, String name, double price, double discountRate, int unitInStock, Brand brand, int memory, int ram, double screenSize, int camera, int batteryPower, String color) {
-        super(name, price, discountRate, unitInStock, brand, memory, ram, screenSize);
+    public Phone(int id, String name, double price, double discountRate, int unitInStock, Brand brand, int storage, int ram, double screenSize, int camera, int batteryPower, String color) {
+        super(name, price, discountRate, unitInStock, brand, storage, ram, screenSize);
         this.id = id;
         this.camera = camera;
         this.batteryPower = batteryPower;
@@ -28,13 +28,14 @@ public class Phone extends Product {
     public static void phoneMenu() {
         boolean showMenu = true;
         while (showMenu) {
-            System.out.println("----Cep Telefonu İşlemleri-----");
-            System.out.println("1.Telefonları Listele");
-            System.out.println("2.Yeni Bir Telefon Ekle");
-            System.out.println("3.Mevcut Bir Telefonu Sil");
-            System.out.println("0.Çıkış Yap");
+            System.out.println("-----Phone Menu-----");
+            System.out.println("1 -> List Phones");
+            System.out.println("2 -> Add a Phone");
+            System.out.println("3 -> Delete a Phone");
+            System.out.println("0 -> Exit");
             System.out.println("--------------------------------");
-            System.out.print("Bir seçim yapınız : ");
+            System.out.print("Please make a choice: ");
+            int select = input.nextInt();
             int select = input.nextInt();
 
             switch (select) {
@@ -43,12 +44,12 @@ public class Phone extends Product {
                     break;
                 case 2:
                     addPhone();
-                    System.out.println("Ürün ekleme başarılı!");
+                    System.out.println("Product added successfully!");
                     break;
                 case 3:
                     deletePhone();
                     phones.size();
-                    System.out.println("Ürün silme başarılı!");
+                    System.out.println("Product deleted successfully!");
                     break;
                 case 0:
                     showMenu = false;
@@ -58,49 +59,54 @@ public class Phone extends Product {
     }
 
     public static void printPhones() {
-        System.out.println("1.ID'ye göre filtrele");
-        System.out.println("2.Markaya göre filtrele");
+        System.out.println("1 -> List by ID");
+        System.out.println("2 -> List by Brand");
         int choice = input.nextInt();
         switch (choice) {
             case 1:
                 System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------");
                 System.out.format("| %-3s | %-30s | %-10s    | %-10s | %-10s | %-10s | %-10s | %-10s | %-10s | %-10s |\n",
-                        "ID", "ÜRÜN ADI", "FİYAT", "MARKA", "DEPOLAMA", "EKRAN", "KAMERA", "PİL", "RAM", "RENK");
+                        "ID", "Product Name", "Price", "Brand", "Storage", "Screen", "Camera", "Battery", "RAM", "Color");
                 System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------");
 
                 for (Phone p : phones) {
                     System.out.format("| %-3d | %-30s | %-10.2f TL | %-10s | %-10d | %-10.1f | %-10d | %-10d | %-10d | %-10s |\n",
                             p.getId(), p.getName(), p.getPrice(), p.getBrand().getBrandName(),
-                            p.getMemory(), p.getScreenSize(), p.getCamera(), p.getBatteryPower(), p.getRam(), p.getColor());
+                            p.getStorage(), p.getScreenSize(), p.getCamera(), p.getBatteryPower(), p.getRam(), p.getColor());
                 }
                 System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------");
         }
     }
 
     public static void addPhone() {
-        System.out.print("Ürünün adını giriniz : ");
+        System.out.print("Enter Product Name: ");
         String name = input.next() + input.nextLine();
-        System.out.print("Ürünün fiyatını giriniz : ");
+        System.out.print("Enter Price: ");
         double price = input.nextDouble();
-        System.out.print("Ürünün indirim oranını giriniz : ");
+        System.out.print("Enter Discount: ");
         double discountRate = input.nextDouble();
-        System.out.print("Ürünün stok adedini giriniz : ");
+        System.out.print("Enter Amount: ");
         int unitInStock = input.nextInt();
-        System.out.println("----Markalar----");
+        System.out.println("-----Brands-----");
         Brand.printBrands();
-        System.out.print("Lütfen marka seçiniz : ");
+        System.out.print("Choose a Brand from the list by number:");
         int selectedBrand = input.nextInt() - 1;
-        System.out.print("Ürünün hafızasını(GB) giriniz : ");
+        while (!(selectedBrand >= 0 && selectedBrand < 9)) {
+            System.out.println("Invalid entry!");
+            System.out.print("Choose a Brand from the list by number:");
+            selectedBrand = input.nextInt() - 1;
+        }
+        System.out.print("Enter Storage in GBs: ");
         int memory = input.nextInt();
-        System.out.print("Ürünün RAM'ini giriniz : ");
+        System.out.print("Enter RAM in GBs: ");
         int ram = input.nextInt();
-        System.out.print("Ürünün ekran boyununu inç olarak giriniz : ");
+        System.out.print("Enter Screen Size in inches: ");
         double screenSize = input.nextDouble();
-        System.out.print("Ürünün kamera megapixselini giriniz : ");
+        System.out.print("Enter Camera in pixels: ");
         int camera = input.nextInt();
-        System.out.print("Ürünün batarya gücünü giriniz : ");
+        System.out.print("Enter Battery Power: ");
         int batteryPower = input.nextInt();
-        System.out.print("Ürünün rengini giriniz : ");
+        System.out.print("Enter color: ");
         String color = input.next();
 
         int maxId = 0;
@@ -118,7 +124,7 @@ public class Phone extends Product {
 
     public static void deletePhone() {
         printPhones();
-        System.out.println("Silmek istediğiniz telefonun ID'sini giriniz: ");
+        System.out.println("Select phone by ID to delete: ");
         int selectId = input.nextInt() - 1;
         phones.remove(selectId);
     }

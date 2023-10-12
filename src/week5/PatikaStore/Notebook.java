@@ -9,8 +9,8 @@ public class Notebook extends Product {
     private int id;
     private static ArrayList<Notebook> notebooks = new ArrayList<>();
 
-    public Notebook(int id, String name, double price, double discountRate, int unitInStock, Brand brand, int memory, int ram, double screenSize) {
-        super(name, price, discountRate, unitInStock, brand, memory, ram, screenSize);
+    public Notebook(int id, String name, double price, double discountRate, int unitInStock, Brand brand, int storage, int ram, double screenSize) {
+        super(name, price, discountRate, unitInStock, brand, storage, ram, screenSize);
         this.id = id;
     }
 
@@ -21,13 +21,13 @@ public class Notebook extends Product {
     public static void notebookMenu() {
         boolean showMenu = true;
         while (showMenu) {
-            System.out.println("----Laptop İşlemleri-----");
-            System.out.println("1-Laptop Listele");
-            System.out.println("2-Yeni Bir Laptop Ekle");
-            System.out.println("3-Mevcut Bir Laptop Sil");
-            System.out.println("0-Çıkış Yap");
+            System.out.println("-----Notebook Menu-----");
+            System.out.println("1 -> List Notebooks");
+            System.out.println("2 -> Add a Notebook");
+            System.out.println("3 -> Delete a Notebook");
+            System.out.println("0 -> Exit");
             System.out.println("--------------------------------");
-            System.out.print("Bir seçim yapınız : ");
+            System.out.print("Please make a choice: ");
             int select = input.nextInt();
             switch (select) {
                 case 1:
@@ -35,12 +35,12 @@ public class Notebook extends Product {
                     break;
                 case 2:
                     addNotebook();
-                    System.out.println("Ürün ekleme başarılı!");
+                    System.out.println("Product added successfully!");
                     break;
                 case 3:
                     deleteNotebook();
                     notebooks.size();
-                    System.out.println("Ürün silme başarılı!");
+                    System.out.println("Product deleted successfully!");
                     break;
                 case 0:
                     showMenu = false;
@@ -50,48 +50,48 @@ public class Notebook extends Product {
     }
 
     public static void printNotebook() {
-        System.out.println("1: ID'ye göre listele");
-        System.out.println("2: Markaya göre filtrele");
+        System.out.println("1 -> List by ID");
+        System.out.println("2 -> List by Brand");
         int choice = input.nextInt();
         switch (choice) {
             case 1:
                 System.out.println("-----------------------------------------------------------------------------------------------------------");
                 System.out.format("| %-2s | %-30s | %-10s    | %-10s | %-10s | %-10s | %-10s |\n",
-                        "ID", "Ürün Adı", "Fiyat", "Marka", "Depolama", "Ekran", "RAM");
+                        "ID", "Product Name", "Price", "Brand", "Storage", "Screen Size", "RAM");
                 System.out.println("-----------------------------------------------------------------------------------------------------------");
 
                 for (Notebook n : notebooks) {
                     System.out.format("| %-2d | %-30s | %-10.2f TL | %-10s | %-10d | %-10.1f | %-10d |\n",
                             n.getId(), n.getName(), n.getPrice(), n.getBrand().getBrandName(),
-                            n.getMemory(), n.getScreenSize(), n.getRam());
+                            n.getStorage(), n.getScreenSize(), n.getRam());
                 }
                 System.out.println("-----------------------------------------------------------------------------------------------------------");
         }
     }
 
     public static void addNotebook() {
-        System.out.print("Ürünün adını giriniz: ");
+        System.out.print("Enter Product Name: ");
         String name = input.next() + input.nextLine();
-        System.out.print("Ürünün fiyatını giriniz: ");
+        System.out.print("Enter Price: ");
         double price = input.nextDouble();
-        System.out.print("Ürünün indirim oranını giriniz: ");
+        System.out.print("Enter Discount: ");
         double discountRate = input.nextDouble();
-        System.out.print("Ürünün stok adedini giriniz: ");
+        System.out.print("Enter Amount: ");
         int unitInStock = input.nextInt();
-        System.out.println("----Markalar----");
+        System.out.println("-----Brands-----");
         Brand.printBrands();
-        System.out.print("Lütfen marka seçiniz: ");
+        System.out.print("Choose a Brand from the list by number:");
         int selectedBrand = input.nextInt() - 1;
         while (!(selectedBrand >= 0 && selectedBrand < 9)) {
-            System.out.println("Geçersiz giriş yaptınız!");
-            System.out.print("Lütfen marka seçiniz : ");
+            System.out.println("Invalid entry!");
+            System.out.print("Choose a Brand from the list by number:");
             selectedBrand = input.nextInt() - 1;
         }
-        System.out.print("Ürünün hafızasını(GB) giriniz: ");
+        System.out.print("Enter Storage in GBs: ");
         int memory = input.nextInt();
-        System.out.print("Ürünün RAM'ini giriniz: ");
+        System.out.print("Enter RAM in GBs: ");
         int ram = input.nextInt();
-        System.out.print("Ürünün ekran boyununu inç olarak giriniz: ");
+        System.out.print("Enter screen size in inches: ");
         double screenSize = input.nextDouble();
 
         int maxId = 0;
@@ -107,7 +107,7 @@ public class Notebook extends Product {
 
     public static void deleteNotebook() {
         printNotebook();
-        System.out.println("Silmek istediğiniz notebook'un ID'sini giriniz: ");
+        System.out.println("Select notebook by ID to delete: ");
         int selectId = input.nextInt() - 1;
         notebooks.remove(selectId);
     }
