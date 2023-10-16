@@ -29,7 +29,6 @@ public class Notepad {
             System.out.print("Please write your note:");
             String note = scanner.nextLine();
 
-            // Open the file in append mode to add new notes without overwriting existing content
             FileWriter fileWriter = new FileWriter(fileName, false);
             PrintWriter printWriter = new PrintWriter(fileWriter);
 
