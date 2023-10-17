@@ -17,8 +17,8 @@ public class JDBC {
             st = connect.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
-                System.out.println("Id: " + rs.getInt("employee_id") + "Name: " + rs.getString("employee_name") +
-                        "Position: " + rs.getString("employee_position") + "Salary: " + rs.getInt("employee_salary"));
+                System.out.println("Id: " + rs.getInt("employee_id") + " Name: " + rs.getString("employee_name") +
+                        " Position: " + rs.getString("employee_position") + " Salary: " + rs.getInt("employee_salary"));
             }
 
             connect.close();
