@@ -2,6 +2,7 @@ package week7.com.patikadev.Model;
 
 import week7.com.patikadev.Helper.DBConnector;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -84,5 +85,21 @@ public class User {
             throw new RuntimeException(e);
         }
         return userList;
+    }
+
+    public static boolean add(String name, String uname, String pass, String type) {
+        String query = "INSERT INTO user (name, uname, pass, type) VALUES (?,?,?,?)";
+
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setString(1, name);
+            pr.setString(2, uname);
+            pr.setString(3, pass);
+            pr.setString(4, type);
+            return pr.executeUpdate() != -1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 }
