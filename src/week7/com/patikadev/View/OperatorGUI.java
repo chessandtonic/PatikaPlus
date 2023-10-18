@@ -47,7 +47,7 @@ public class OperatorGUI extends JFrame {
         label_welcome.setText("Welcome, " + operator.getName() + "!");
 
         // ModelUserList
-        model_userList = new DefaultTableModel(){
+        model_userList = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
                 if (column == 0) {
@@ -89,8 +89,6 @@ public class OperatorGUI extends JFrame {
                     field_name.setText(null);
                     field_uName.setText(null);
                     field_pass.setText(null);
-                } else {
-                    Helper.showMsg("error");
                 }
             }
         });
@@ -103,11 +101,9 @@ public class OperatorGUI extends JFrame {
                     if (User.delete(Integer.parseInt(field_userID.getText()))) {
                         Helper.showMsg("done");
                         loadUserModel();
-                        field_userID.setText(null);
                     } else {
                         Helper.showMsg("error");
                     }
-
                 }
             }
         });
