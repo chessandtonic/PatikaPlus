@@ -9,11 +9,12 @@ public class Example extends JFrame {
     private JPanel wrapper;
     private JPanel wTop;
     private JPanel wMiddle;
+    private JPanel wBottom;
     private JTextField input_user;
     private JTextField input_pass;
     private JLabel Password;
     private JButton button_login;
-    private JPanel wBottom;
+
 
     public Example() {
         /*for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
