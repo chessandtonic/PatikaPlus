@@ -26,6 +26,7 @@ public class Helper {
                 break;
             case "y":
                 point = (Toolkit.getDefaultToolkit().getScreenSize().height - size.height) / 2;
+                break;
             default:
                 point = 0;
         }
@@ -44,17 +45,19 @@ public class Helper {
         switch (str) {
             case "fill":
                 msg = "Please fill in all the fields!";
-                title = "Error!";
+                title = "Warning!";
                 break;
             case "done":
                 msg = "Process completed successfully!";
                 title = "Success!";
                 break;
+            case "error":
+                msg = "An error occurred during the operation!";
+                title = "Error!";
             default:
                 msg = str;
                 title = "Message";
         }
-
         JOptionPane.showMessageDialog(null, msg, title, JOptionPane.INFORMATION_MESSAGE);
     }
 

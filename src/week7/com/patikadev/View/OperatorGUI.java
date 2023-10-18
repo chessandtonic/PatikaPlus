@@ -41,39 +41,56 @@ public class OperatorGUI extends JFrame {
         label_welcome.setText("Welcome, " + operator.getName() + "!");
 
         // ModelUserList
-
         model_userList = new DefaultTableModel();
         Object[] col_userList = {"ID", "Name", "Username", "Password", "Type"};
         model_userList.setColumnIdentifiers(col_userList);
 
-        //Object[] firstRow = {operator.getId(), operator.getName(), operator.getUname(), operator.getPass(), operator.getType()};
-        //model_userList.addRow(firstRow);
-
-        for (User obj : User.getList()) {
-            Object[] row = new Object[col_userList.length];
-            row[0] = obj.getId();
-            row[1] = obj.getName();
-            row[2] = obj.getUname();
-            row[3] = obj.getPass();
-            row[4] = obj.getType();
-            model_userList.addRow(row);
-        }
+        row_userList = new Object[col_userList.length];
+        loadUserModel();
 
         table_userList.setModel(model_userList);
         table_userList.getTableHeader().setReorderingAllowed(false);
+
         button_userAdd.addActionListener(e -> {
-            if (Helper.isFieldEmpty(field_name) || Helper.isFieldEmpty(field_uName) || Helper.isFieldEmpty(field_pass)){
+            if (Helper.isFieldEmpty(field_name) || Helper.isFieldEmpty(field_uName) || Helper.isFieldEmpty(field_pass)) {
                 Helper.showMsg("fill");
             } else {
-                Helper.showMsg("done");
+                String name = field_name.getText();
+                String uname = field_uName.getText();
+                String pass = field_pass.getText();
+                String type = combo_userType.getSelectedItem().toString();
+                if (User.add(name, uname, pass, type)) {
+                    Helper.showMsg("done");
+                    loadUserModel();
+                    field_name.setText(null);
+                    field_uName.setText(null);
+                    field_pass.setText(null);
+                } else {
+                    Helper.showMsg("error");
+                }
             }
         });
     }
-    public static void main(String[]args){
+
+    public void loadUserModel() {
+        DefaultTableModel clearModel = (DefaultTableModel) table_userList.getModel();
+        clearModel.setRowCount(0);
+
+        for (User obj : User.getList()) {
+            int i = 0;
+            row_userList[i++] = obj.getId();
+            row_userList[i++] = obj.getName();
+            row_userList[i++] = obj.getuName();
+            row_userList[i++] = obj.getPass();
+            row_userList[i++] = obj.getType();
+            model_userList.addRow(row_userList);
+        }
+    }
+
+    public static void main(String[] args) {
         Helper.setLayout();
-        Operator op = new Operator(1,"Can İşcan","caniscan","1234","operator");
+        Operator op = new Operator(1, "Can İşcan", "caniscan", "1234", "operator");
         DBConnector.getInstance();
         OperatorGUI operatorGUI = new OperatorGUI(op);
     }
-
 }
