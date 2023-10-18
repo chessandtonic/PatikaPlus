@@ -17,6 +17,12 @@ public class OperatorGUI extends JFrame {
     private JPanel panel_userList;
     private JScrollPane scroll_userList;
     private JTable table_userList;
+    private JPanel panel_userForm;
+    private JTextField field_userName;
+    private JTextField field_uName;
+    private JTextField field_pass;
+    private JComboBox combo_userType;
+    private JButton button_userAdd;
     private DefaultTableModel model_userList;
     private Object[] row_userList;
     private final Operator operator;
