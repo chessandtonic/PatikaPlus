@@ -23,7 +23,7 @@ public class OperatorGUI extends JFrame {
 
     public OperatorGUI(Operator operator) {
         this.operator = operator;
-        Helper.setLayout();
+       // Helper.setLayout();
         add(wrapper);
         setSize(1000, 500);
         setLocation(Helper.screenCenterPoint("x", getSize()), Helper.screenCenterPoint("y", getSize()));
