@@ -7,7 +7,11 @@ import week7.com.patikadev.Model.Operator;
 import week7.com.patikadev.Model.User;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class OperatorGUI extends JFrame {
     private JPanel wrapper;
@@ -24,6 +28,8 @@ public class OperatorGUI extends JFrame {
     private JTextField field_pass;
     private JComboBox combo_userType;
     private JButton button_userAdd;
+    private JTextField field_userID;
+    private JButton button_userDel;
     private DefaultTableModel model_userList;
     private Object[] row_userList;
     private final Operator operator;
@@ -41,7 +47,16 @@ public class OperatorGUI extends JFrame {
         label_welcome.setText("Welcome, " + operator.getName() + "!");
 
         // ModelUserList
-        model_userList = new DefaultTableModel();
+        model_userList = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                if (column == 0) {
+                    return false;
+                }
+                return super.isCellEditable(row, column);
+            }
+        };
+
         Object[] col_userList = {"ID", "Name", "Username", "Password", "Type"};
         model_userList.setColumnIdentifiers(col_userList);
 
@@ -50,6 +65,15 @@ public class OperatorGUI extends JFrame {
 
         table_userList.setModel(model_userList);
         table_userList.getTableHeader().setReorderingAllowed(false);
+
+        table_userList.getSelectionModel().addListSelectionListener(e -> {
+            try {
+                String selectUserID = table_userList.getValueAt(table_userList.getSelectedRow(), 0).toString();
+                field_userID.setText(selectUserID);
+            } catch (Exception exception) {
+
+            }
+        });
 
         button_userAdd.addActionListener(e -> {
             if (Helper.isFieldEmpty(field_name) || Helper.isFieldEmpty(field_uName) || Helper.isFieldEmpty(field_pass)) {
@@ -67,6 +91,23 @@ public class OperatorGUI extends JFrame {
                     field_pass.setText(null);
                 } else {
                     Helper.showMsg("error");
+                }
+            }
+        });
+        button_userDel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (Helper.isFieldEmpty(field_userID)) {
+                    Helper.showMsg("fill");
+                } else {
+                    if (User.delete(Integer.parseInt(field_userID.getText()))) {
+                        Helper.showMsg("done");
+                        loadUserModel();
+                        field_userID.setText(null);
+                    } else {
+                        Helper.showMsg("error");
+                    }
+
                 }
             }
         });
