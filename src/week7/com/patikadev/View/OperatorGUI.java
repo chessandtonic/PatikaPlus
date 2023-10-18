@@ -62,10 +62,10 @@ public class OperatorGUI extends JFrame {
         table_userList.setModel(model_userList);
         table_userList.getTableHeader().setReorderingAllowed(false);
         button_userAdd.addActionListener(e -> {
-            if (field_name.getText().isEmpty() || field_uName.getText().isEmpty() || field_pass.getText().isEmpty() || combo_userType.getSelectedIndex() == -1) {
-                JOptionPane.showMessageDialog(null, "Please fill in all the fields!", "Error", JOptionPane.ERROR_MESSAGE);
+            if (Helper.isFieldEmpty(field_name) || Helper.isFieldEmpty(field_uName) || Helper.isFieldEmpty(field_pass)){
+                Helper.showMsg("fill");
             } else {
-                System.out.println("ekleme");
+                Helper.showMsg("done");
             }
         });
     }

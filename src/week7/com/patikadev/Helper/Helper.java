@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class Helper {
 
-    public static void setLayout (){
+    public static void setLayout() {
         for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
             if ("Nimbus".equals(info.getName())) {
                 try {
@@ -30,5 +30,35 @@ public class Helper {
                 point = 0;
         }
         return point;
+    }
+
+    public static boolean isFieldEmpty(JTextField textField) {
+        return textField.getText().trim().isEmpty();
+    }
+
+    public static void showMsg(String str) {
+        optionPaneTR();
+        String msg;
+        String title;
+
+        switch (str) {
+            case "fill":
+                msg = "Please fill in all the fields!";
+                title = "Error!";
+                break;
+            case "done":
+                msg = "Process completed successfully!";
+                title = "Success!";
+                break;
+            default:
+                msg = str;
+                title = "Message";
+        }
+
+        JOptionPane.showMessageDialog(null, msg, title, JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public static void optionPaneTR() {
+        UIManager.put("OptionPane.okButtonText", "Tamam");
     }
 }
