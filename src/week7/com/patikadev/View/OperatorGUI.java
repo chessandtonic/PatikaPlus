@@ -1,6 +1,7 @@
 package week7.com.patikadev.View;
 
 import week7.com.patikadev.Helper.Config;
+import week7.com.patikadev.Helper.DBConnector;
 import week7.com.patikadev.Helper.Helper;
 import week7.com.patikadev.Model.Operator;
 import week7.com.patikadev.Model.User;
@@ -18,7 +19,7 @@ public class OperatorGUI extends JFrame {
     private JScrollPane scroll_userList;
     private JTable table_userList;
     private JPanel panel_userForm;
-    private JTextField field_userName;
+    private JTextField field_name;
     private JTextField field_uName;
     private JTextField field_pass;
     private JComboBox combo_userType;
@@ -29,7 +30,7 @@ public class OperatorGUI extends JFrame {
 
     public OperatorGUI(Operator operator) {
         this.operator = operator;
-       // Helper.setLayout();
+        Helper.setLayout();
         add(wrapper);
         setSize(1000, 500);
         setLocation(Helper.screenCenterPoint("x", getSize()), Helper.screenCenterPoint("y", getSize()));
@@ -56,13 +57,23 @@ public class OperatorGUI extends JFrame {
             row[3] = obj.getPass();
             row[4] = obj.getType();
             model_userList.addRow(row);
-        };
+        }
+
         table_userList.setModel(model_userList);
         table_userList.getTableHeader().setReorderingAllowed(false);
+        button_userAdd.addActionListener(e -> {
+            if (field_name.getText().isEmpty() || field_uName.getText().isEmpty() || field_pass.getText().isEmpty() || combo_userType.getSelectedIndex() == -1) {
+                JOptionPane.showMessageDialog(null, "Please fill in all the fields!", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                System.out.println("ekleme");
+            }
+        });
     }
-
-    public static void main(String[] args) {
-        Operator op = new Operator(1, "Can Iscan", "caniscan", "1234", "operator");
+    public static void main(String[]args){
+        Helper.setLayout();
+        Operator op = new Operator(1,"Can İşcan","caniscan","1234","operator");
+        DBConnector.getInstance();
         OperatorGUI operatorGUI = new OperatorGUI(op);
     }
+
 }
