@@ -39,6 +39,9 @@ public class OperatorGUI extends JFrame {
     private JPanel panel_patikaList;
     private JScrollPane scroll_patikaList;
     private JTable table_patikaList;
+    private JPanel panel_patikaAdd;
+    private JTextField field_pathName;
+    private JButton button_patikaAdd;
     private DefaultTableModel model_userList;
     private Object[] row_userList;
     private DefaultTableModel model_patikaList;
@@ -168,20 +171,36 @@ public class OperatorGUI extends JFrame {
                 dispose();
             }
         });
+        button_patikaAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (Helper.isFieldEmpty(field_pathName)) {
+                    Helper.showMsg("fill");
+                } else {
+                    if (Patika.add(field_pathName.getText())) {
+                        Helper.showMsg("done");
+                        loadPatikaModel();
+                        field_pathName.setText(null);
+                    } else {
+                        Helper.showMsg("error");
+                    }
+                }
+            }
+        });
     }
-
-    private void loadPatikaModel() {
+    private void loadPatikaModel () {
         DefaultTableModel clearModel = (DefaultTableModel) table_patikaList.getModel();
         clearModel.setRowCount(0);
         int i = 0;
         for (Patika obj : Patika.getList()) {
+            i = 0;
             row_patikaList[i++] = obj.getId();
             row_patikaList[i++] = obj.getName();
             model_patikaList.addRow(row_patikaList);
         }
     }
 
-    public void loadUserModel() {
+    public void loadUserModel () {
         DefaultTableModel clearModel = (DefaultTableModel) table_userList.getModel();
         clearModel.setRowCount(0);
         int i;
@@ -196,7 +215,7 @@ public class OperatorGUI extends JFrame {
         }
     }
 
-    public void loadUserModel(ArrayList<User> list) {
+    public void loadUserModel (ArrayList <User> list) {
         DefaultTableModel clearModel = (DefaultTableModel) table_userList.getModel();
         clearModel.setRowCount(0);
 
@@ -211,7 +230,7 @@ public class OperatorGUI extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main (String[]args){
         Helper.setLayout();
         Operator op = new Operator(1, "Can İşcan", "caniscan", "1234", "operator");
         DBConnector.getInstance();
