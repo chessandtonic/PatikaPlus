@@ -146,9 +146,10 @@ public class User {
             PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
             pr.setInt(1, id);
             return pr.executeUpdate() != -1;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
+        return true;
     }
 
     public static boolean update(int id, String name, String uname, String pass, String type) {
@@ -166,10 +167,40 @@ public class User {
             pr.setString(4, type);
             pr.setInt(5, id);
             return pr.executeUpdate() != -1;
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
         return true;
+    }
+
+    public static ArrayList<User> searchUserlist(String query) {
+        ArrayList<User> userList = new ArrayList<>();
+        User obj;
+        try {
+            Statement st = DBConnector.getInstance().createStatement();
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                obj = new User();
+                obj.setId(rs.getInt("id"));
+                obj.setName(rs.getString("name"));
+                obj.setuName(rs.getString("uname"));
+                obj.setPass(rs.getString("pass"));
+                obj.setType(rs.getString("type"));
+                userList.add(obj);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return userList;
+    }
+
+    public static String searchQuery(String name, String uname, String type) {
+        String query = "SELECT * FROM user WHERE uname LIKE '%{{uname}}%' AND name LIKE '%{{name}}%' AND type LIKE '{{type}}'";
+        query = query.replace("{{uname}}", uname);
+        query = query.replace("{{name}}", name);
+        query = query.replace("{{type}}", type);
+        return query;
     }
 }
 
