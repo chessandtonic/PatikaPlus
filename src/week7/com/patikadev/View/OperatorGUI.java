@@ -7,12 +7,9 @@ import week7.com.patikadev.Model.Operator;
 import week7.com.patikadev.Model.User;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -33,6 +30,11 @@ public class OperatorGUI extends JFrame {
     private JButton button_userAdd;
     private JTextField field_userID;
     private JButton button_userDel;
+    private JTextField field_searchName;
+    private JTextField textField1;
+    private JLabel field_searchuName;
+    private JComboBox combo_searchType;
+    private JButton button_searchUser;
     private DefaultTableModel model_userList;
     private Object[] row_userList;
     private final Operator operator;
@@ -128,6 +130,12 @@ public class OperatorGUI extends JFrame {
                         Helper.showMsg("error");
                     }
                 }
+            }
+        });
+        button_searchUser.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
     }
