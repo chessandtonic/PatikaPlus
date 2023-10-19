@@ -4,6 +4,7 @@ import week7.com.patikadev.Helper.Config;
 import week7.com.patikadev.Helper.DBConnector;
 import week7.com.patikadev.Helper.Helper;
 import week7.com.patikadev.Model.Operator;
+import week7.com.patikadev.Model.Patika;
 import week7.com.patikadev.Model.User;
 
 import javax.swing.*;
@@ -164,14 +165,22 @@ public class OperatorGUI extends JFrame {
     }
 
     private void loadPatikaModel() {
+        DefaultTableModel clearModel = (DefaultTableModel) table_patikaList.getModel();
+        clearModel.setRowCount(0);
+        int i = 0;
+        for (Patika obj : Patika.getList()) {
+            row_patikaList[i++] = obj.getId();
+            row_patikaList[i++] = obj.getName();
+            model_patikaList.addRow(row_patikaList);
+        }
     }
 
     public void loadUserModel() {
         DefaultTableModel clearModel = (DefaultTableModel) table_userList.getModel();
         clearModel.setRowCount(0);
-
+        int i;
         for (User obj : User.getList()) {
-            int i = 0;
+            i = 0;
             row_userList[i++] = obj.getId();
             row_userList[i++] = obj.getName();
             row_userList[i++] = obj.getuName();
