@@ -154,7 +154,7 @@ public class User {
     public static boolean update(int id, String name, String uname, String pass, String type) {
         String query = "UPDATE user SET name = ?, uname = ?, pass = ?, type = ? WHERE id = ?";
         User findUser = User.getFetch(uname);
-        if (findUser != null) {
+        if (findUser != null && findUser.getId() != id) {
             Helper.showMsg("This username is already in use!");
             return false;
         }

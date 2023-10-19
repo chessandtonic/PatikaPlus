@@ -90,10 +90,10 @@ public class OperatorGUI extends JFrame {
 
                     if (User.update(user_id, user_name, user_uname, user_pass, user_type)) {
                         Helper.showMsg("done");
-                        loadUserModel();
                     } else {
                         Helper.showMsg("error");
                     }
+                    loadUserModel();
                 }
             }
         });
