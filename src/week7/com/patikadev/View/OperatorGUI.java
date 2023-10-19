@@ -64,8 +64,8 @@ public class OperatorGUI extends JFrame {
 
         Object[] col_userList = {"ID", "Name", "Username", "Password", "Type"};
         model_userList.setColumnIdentifiers(col_userList);
-
         row_userList = new Object[col_userList.length];
+
         loadUserModel();
 
         table_userList.setModel(model_userList);
