@@ -35,8 +35,14 @@ public class OperatorGUI extends JFrame {
     private JTextField field_searchuName;
     private JComboBox combo_searchType;
     private JButton button_searchUser;
+    private JPanel panel_patikaList;
+    private JScrollPane scroll_patikaList;
+    private JTable table_patikaList;
     private DefaultTableModel model_userList;
     private Object[] row_userList;
+    private DefaultTableModel model_patikaList;
+    private Object[] row_patikaList;
+
     private final Operator operator;
 
     public OperatorGUI(Operator operator) {
@@ -100,6 +106,12 @@ public class OperatorGUI extends JFrame {
             }
         });
 
+        model_patikaList = new DefaultTableModel();
+        Object[] col_patikaList = {"ID", "Path Name"};
+        model_patikaList.setColumnIdentifiers(col_patikaList);
+        row_patikaList = new Object[col_patikaList.length];
+        loadPatikaModel();
+
         button_userAdd.addActionListener(e -> {
             if (Helper.isFieldEmpty(field_name) || Helper.isFieldEmpty(field_uName) || Helper.isFieldEmpty(field_pass)) {
                 Helper.showMsg("fill");
@@ -149,6 +161,9 @@ public class OperatorGUI extends JFrame {
                 dispose();
             }
         });
+    }
+
+    private void loadPatikaModel() {
     }
 
     public void loadUserModel() {
