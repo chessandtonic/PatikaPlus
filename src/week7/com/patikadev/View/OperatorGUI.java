@@ -1,6 +1,5 @@
 package week7.com.patikadev.View;
 
-import com.mysql.cj.x.protobuf.MysqlxCrud;
 import week7.com.patikadev.Helper.Config;
 import week7.com.patikadev.Helper.DBConnector;
 import week7.com.patikadev.Helper.Helper;
@@ -43,6 +42,16 @@ public class OperatorGUI extends JFrame {
     private JPanel panel_patikaAdd;
     private JTextField field_pathName;
     private JButton button_patikaAdd;
+    private JPanel panel_courseList;
+    private JScrollPane scroll_courseList;
+    private JTable table_courseList;
+    private JPanel panel_courseAdd;
+    private JTextField textField1;
+    private JLabel field_courseName;
+    private JTextField field_courseLang;
+    private JComboBox combo_coursePath;
+    private JComboBox combo_courseUser;
+    private JButton button_courseAdd;
     private DefaultTableModel model_userList;
     private Object[] row_userList;
     private DefaultTableModel model_patikaList;
