@@ -32,9 +32,10 @@ public class Patika {
     public void setName(String name) {
         this.name = name;
     }
+
     public static ArrayList<Patika> getList() {
-    ArrayList<Patika> patikaList = new ArrayList<>();
-    Patika obj;
+        ArrayList<Patika> patikaList = new ArrayList<>();
+        Patika obj;
 
         try {
             Statement st = DBConnector.getInstance().createStatement();
@@ -48,6 +49,7 @@ public class Patika {
         }
         return patikaList;
     }
+
     public static boolean add(String name) {
         String query = "INSERT INTO patika (name) VALUES (?)";
         try {
@@ -59,6 +61,7 @@ public class Patika {
         }
         return true;
     }
+
     public static boolean update(int id, String name) {
         String query = "UPDATE patika SET name = ? WHERE id = ?";
         try {
@@ -70,5 +73,21 @@ public class Patika {
             e.printStackTrace();
         }
         return true;
+    }
+
+    public static Patika getFetch(int id) {
+        Patika obj = null;
+        String query = "SELECT * FROM patika WHERE id = ?";
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setInt(1, id);
+            ResultSet rs = pr.executeQuery();
+            if (rs.next()) {
+                obj = new Patika(rs.getInt("id"), rs.getString("name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return obj;
     }
 }

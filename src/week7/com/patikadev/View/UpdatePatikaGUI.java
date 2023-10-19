@@ -24,23 +24,15 @@ public class UpdatePatikaGUI extends JFrame {
         setVisible(true);
 
         field_pathName.setText(patika.getName());
-        update_Button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (Helper.isFieldEmpty(field_pathName)) {
-                    Helper.showMsg("fill");
-                } else {
-                    if (Patika.update(patika.getId(), field_pathName.getText())) {
-                        Helper.showMsg("done");
-                    }
-                    dispose();
+        update_Button.addActionListener(e -> {
+            if (Helper.isFieldEmpty(field_pathName)) {
+                Helper.showMsg("fill");
+            } else {
+                if (Patika.update(patika.getId(), field_pathName.getText())) {
+                    Helper.showMsg("done");
                 }
-            };
+                dispose();
+            }
         });
-    }
-    public static void main (String[]args){
-            Helper.setLayout();
-            Patika p = new Patika(1, "Frontend");
-            UpdatePatikaGUI updatePatikaGUI = new UpdatePatikaGUI(p);
     }
 }

@@ -1,5 +1,6 @@
 package week7.com.patikadev.View;
 
+import com.mysql.cj.x.protobuf.MysqlxCrud;
 import week7.com.patikadev.Helper.Config;
 import week7.com.patikadev.Helper.DBConnector;
 import week7.com.patikadev.Helper.Helper;
@@ -12,10 +13,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 public class OperatorGUI extends JFrame {
@@ -118,6 +116,30 @@ public class OperatorGUI extends JFrame {
         patikaMenu.add(updateMenu);
         patikaMenu.add(deleteMenu);
 
+        updateMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int select_id = Integer.parseInt(table_patikaList.getValueAt(table_patikaList.getSelectedRow(), 0).toString());
+                UpdatePatikaGUI updateGUI = new UpdatePatikaGUI(Patika.getFetch(select_id));
+                updateGUI.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosed(WindowEvent e) {
+                        loadPatikaModel();
+                    }
+                });
+            }
+        });
+
+        deleteMenu.addActionListener((ActionListener) e -> {
+            int select_id = Integer.parseInt(table_patikaList.getValueAt(table_patikaList.getSelectedRow(), 0).toString());
+            /*if (Patika.delete(select_id)) {
+                Helper.showMsg("done");
+                loadPatikaModel();
+            } else {
+                Helper.showMsg("error");
+            }*/
+        });
+
         model_patikaList = new DefaultTableModel();
         Object[] col_patikaList = {"ID", "Path Name"};
         model_patikaList.setColumnIdentifiers(col_patikaList);
@@ -155,102 +177,103 @@ public class OperatorGUI extends JFrame {
                 }
             }
         });
-        button_userDel.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (Helper.isFieldEmpty(field_userID)) {
-                    Helper.showMsg("fill");
-                } else {
-                    if (User.delete(Integer.parseInt(field_userID.getText()))) {
+        button_userDel.addActionListener(e -> {
+            if (Helper.isFieldEmpty(field_userID)) {
+                Helper.showMsg("fill");
+            } else {
+                if (Helper.confirm("sure")) {
+                    int user_id = Integer.parseInt(field_userID.getText());
+                    if (User.delete(user_id)) {
                         Helper.showMsg("done");
                         loadUserModel();
                     } else {
                         Helper.showMsg("error");
                     }
                 }
-            }
+            };
         });
-        button_searchUser.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String name = field_searchName.getText();
-                String uname = field_searchuName.getText();
-                String type = combo_searchType.getSelectedItem().toString();
-                String query = User.searchQuery(name, uname, type);
-                ArrayList<User> searchList = User.searchUserList(query);
-                loadUserModel(searchList);
-            }
-        });
-        exitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
-        button_patikaAdd.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (Helper.isFieldEmpty(field_pathName)) {
-                    Helper.showMsg("fill");
-                } else {
-                    if (Patika.add(field_pathName.getText())) {
-                        Helper.showMsg("done");
-                        loadPatikaModel();
-                        field_pathName.setText(null);
+
+            button_searchUser.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String name = field_searchName.getText();
+                    String uname = field_searchuName.getText();
+                    String type = combo_searchType.getSelectedItem().toString();
+                    String query = User.searchQuery(name, uname, type);
+                    ArrayList<User> searchList = User.searchUserList(query);
+                    loadUserModel(searchList);
+                }
+            });
+            exitButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dispose();
+                }
+            });
+            button_patikaAdd.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (Helper.isFieldEmpty(field_pathName)) {
+                        Helper.showMsg("fill");
                     } else {
-                        Helper.showMsg("error");
+                        if (Patika.add(field_pathName.getText())) {
+                            Helper.showMsg("done");
+                            loadPatikaModel();
+                            field_pathName.setText(null);
+                        } else {
+                            Helper.showMsg("error");
+                        }
                     }
                 }
-            }
-        });
-    }
-
-    private void loadPatikaModel() {
-        DefaultTableModel clearModel = (DefaultTableModel) table_patikaList.getModel();
-        clearModel.setRowCount(0);
-        int i = 0;
-        for (Patika obj : Patika.getList()) {
-            i = 0;
-            row_patikaList[i++] = obj.getId();
-            row_patikaList[i++] = obj.getName();
-            model_patikaList.addRow(row_patikaList);
+            });
         }
-    }
 
-    public void loadUserModel() {
-        DefaultTableModel clearModel = (DefaultTableModel) table_userList.getModel();
-        clearModel.setRowCount(0);
-        int i;
-        for (User obj : User.getList()) {
-            i = 0;
-            row_userList[i++] = obj.getId();
-            row_userList[i++] = obj.getName();
-            row_userList[i++] = obj.getuName();
-            row_userList[i++] = obj.getPass();
-            row_userList[i++] = obj.getType();
-            model_userList.addRow(row_userList);
-        }
-    }
-
-    public void loadUserModel(ArrayList<User> list) {
-        DefaultTableModel clearModel = (DefaultTableModel) table_userList.getModel();
-        clearModel.setRowCount(0);
-
-        for (User obj : list) {
+        private void loadPatikaModel () {
+            DefaultTableModel clearModel = (DefaultTableModel) table_patikaList.getModel();
+            clearModel.setRowCount(0);
             int i = 0;
-            row_userList[i++] = obj.getId();
-            row_userList[i++] = obj.getName();
-            row_userList[i++] = obj.getuName();
-            row_userList[i++] = obj.getPass();
-            row_userList[i++] = obj.getType();
-            model_userList.addRow(row_userList);
+            for (Patika obj : Patika.getList()) {
+                i = 0;
+                row_patikaList[i++] = obj.getId();
+                row_patikaList[i++] = obj.getName();
+                model_patikaList.addRow(row_patikaList);
+            }
+        }
+
+        public void loadUserModel () {
+            DefaultTableModel clearModel = (DefaultTableModel) table_userList.getModel();
+            clearModel.setRowCount(0);
+            int i;
+            for (User obj : User.getList()) {
+                i = 0;
+                row_userList[i++] = obj.getId();
+                row_userList[i++] = obj.getName();
+                row_userList[i++] = obj.getuName();
+                row_userList[i++] = obj.getPass();
+                row_userList[i++] = obj.getType();
+                model_userList.addRow(row_userList);
+            }
+        }
+
+        public void loadUserModel (ArrayList < User > list) {
+            DefaultTableModel clearModel = (DefaultTableModel) table_userList.getModel();
+            clearModel.setRowCount(0);
+
+            for (User obj : list) {
+                int i = 0;
+                row_userList[i++] = obj.getId();
+                row_userList[i++] = obj.getName();
+                row_userList[i++] = obj.getuName();
+                row_userList[i++] = obj.getPass();
+                row_userList[i++] = obj.getType();
+                model_userList.addRow(row_userList);
+            }
+        }
+
+        public static void main (String[]args){
+            Helper.setLayout();
+            Operator op = new Operator(1, "Can İşcan", "caniscan", "1234", "operator");
+            DBConnector.getInstance();
+            OperatorGUI operatorGUI = new OperatorGUI(op);
         }
     }
-
-    public static void main(String[] args) {
-        Helper.setLayout();
-        Operator op = new Operator(1, "Can İşcan", "caniscan", "1234", "operator");
-        DBConnector.getInstance();
-        OperatorGUI operatorGUI = new OperatorGUI(op);
-    }
-}
