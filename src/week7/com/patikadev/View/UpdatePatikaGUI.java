@@ -5,10 +5,11 @@ import week7.com.patikadev.Helper.Helper;
 import week7.com.patikadev.Model.Patika;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class UpdatePatikaGUI extends JFrame{
     private JPanel wrapper;
+    private JTextField field_pathName;
+    private JButton update_Button;
     private Patika patika;
     public UpdatePatikaGUI(Patika patika){
         this.patika = patika;
@@ -18,5 +19,13 @@ public class UpdatePatikaGUI extends JFrame{
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle(Config.PROJECT_TITLE);
         setVisible(true);
+
+        field_pathName.setText(patika.getName());
+    }
+
+    public static void main(String[] args) {
+        Helper.setLayout();
+        Patika p = new Patika(1, "Frontend");
+        UpdatePatikaGUI updatePatikaGUI = new UpdatePatikaGUI(p);
     }
 }
