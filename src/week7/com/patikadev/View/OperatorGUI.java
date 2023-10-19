@@ -12,6 +12,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class OperatorGUI extends JFrame {
     private JPanel wrapper;
@@ -31,8 +32,7 @@ public class OperatorGUI extends JFrame {
     private JTextField field_userID;
     private JButton button_userDel;
     private JTextField field_searchName;
-    private JTextField textField1;
-    private JLabel field_searchuName;
+    private JTextField field_searchuName;
     private JComboBox combo_searchType;
     private JButton button_searchUser;
     private DefaultTableModel model_userList;
@@ -135,7 +135,18 @@ public class OperatorGUI extends JFrame {
         button_searchUser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                String name = field_searchName.getText();
+                String uname = field_searchuName.getText();
+                String type = combo_searchType.getSelectedItem().toString();
+                String query = User.searchQuery(name, uname, type);
+                ArrayList<User> searchList = User.searchUserList(query);
+                loadUserModel(searchList);
+            }
+        });
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
             }
         });
     }
@@ -145,6 +156,21 @@ public class OperatorGUI extends JFrame {
         clearModel.setRowCount(0);
 
         for (User obj : User.getList()) {
+            int i = 0;
+            row_userList[i++] = obj.getId();
+            row_userList[i++] = obj.getName();
+            row_userList[i++] = obj.getuName();
+            row_userList[i++] = obj.getPass();
+            row_userList[i++] = obj.getType();
+            model_userList.addRow(row_userList);
+        }
+    }
+
+    public void loadUserModel(ArrayList<User> list) {
+        DefaultTableModel clearModel = (DefaultTableModel) table_userList.getModel();
+        clearModel.setRowCount(0);
+
+        for (User obj : list) {
             int i = 0;
             row_userList[i++] = obj.getId();
             row_userList[i++] = obj.getName();

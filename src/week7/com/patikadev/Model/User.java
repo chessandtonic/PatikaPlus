@@ -135,7 +135,7 @@ public class User {
                 obj.setType(rs.getString("type"));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return obj;
     }
@@ -146,8 +146,8 @@ public class User {
             PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
             pr.setInt(1, id);
             return pr.executeUpdate() != -1;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return true;
     }
@@ -173,7 +173,7 @@ public class User {
         return true;
     }
 
-    public static ArrayList<User> searchUserlist(String query) {
+    public static ArrayList<User> searchUserList(String query) {
         ArrayList<User> userList = new ArrayList<>();
         User obj;
         try {
@@ -189,17 +189,21 @@ public class User {
                 obj.setType(rs.getString("type"));
                 userList.add(obj);
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return userList;
     }
 
     public static String searchQuery(String name, String uname, String type) {
-        String query = "SELECT * FROM user WHERE uname LIKE '%{{uname}}%' AND name LIKE '%{{name}}%' AND type LIKE '{{type}}'";
+        String query = "SELECT * FROM user WHERE uname LIKE '%{{uname}}%' AND name LIKE '%{{name}}%'";
         query = query.replace("{{uname}}", uname);
         query = query.replace("{{name}}", name);
-        query = query.replace("{{type}}", type);
+
+        if (!type.isEmpty()) {
+            query += " AND type = '{{type}}'";
+            query = query.replace("{{type}}", type);
+        }
         return query;
     }
 }
