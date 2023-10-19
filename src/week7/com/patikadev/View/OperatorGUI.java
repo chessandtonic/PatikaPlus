@@ -11,8 +11,11 @@ import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class OperatorGUI extends JFrame {
@@ -110,7 +113,7 @@ public class OperatorGUI extends JFrame {
         //PatikaList
 
         patikaMenu = new JPopupMenu();
-        JMenuItem updateMenu =  new JMenuItem("Update");
+        JMenuItem updateMenu = new JMenuItem("Update");
         JMenuItem deleteMenu = new JMenuItem("Delete");
         patikaMenu.add(updateMenu);
         patikaMenu.add(deleteMenu);
@@ -125,6 +128,15 @@ public class OperatorGUI extends JFrame {
         table_patikaList.setComponentPopupMenu(patikaMenu);
         table_patikaList.getTableHeader().setReorderingAllowed(false);
         table_patikaList.getColumnModel().getColumn(0).setMaxWidth(50);
+
+        table_patikaList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                Point point = e.getPoint();
+                int selectedRow = table_patikaList.rowAtPoint(point);
+                table_patikaList.setRowSelectionInterval(selectedRow, selectedRow);
+            }
+        });
 
         button_userAdd.addActionListener(e -> {
             if (Helper.isFieldEmpty(field_name) || Helper.isFieldEmpty(field_uName) || Helper.isFieldEmpty(field_pass)) {
