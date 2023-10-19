@@ -46,7 +46,7 @@ public class OperatorGUI extends JFrame {
     private Object[] row_userList;
     private DefaultTableModel model_patikaList;
     private Object[] row_patikaList;
-
+    private JPopupMenu patikaMenu;
     private final Operator operator;
 
     public OperatorGUI(Operator operator) {
@@ -80,7 +80,6 @@ public class OperatorGUI extends JFrame {
 
         table_userList.setModel(model_userList);
         table_userList.getTableHeader().setReorderingAllowed(false);
-
         table_userList.getSelectionModel().addListSelectionListener(e -> {
             try {
                 String selectUserID = table_userList.getValueAt(table_userList.getSelectedRow(), 0).toString();
@@ -89,7 +88,6 @@ public class OperatorGUI extends JFrame {
 
             }
         });
-
         table_userList.getModel().addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
@@ -109,6 +107,13 @@ public class OperatorGUI extends JFrame {
                 }
             }
         });
+        //PatikaList
+
+        patikaMenu = new JPopupMenu();
+        JMenuItem updateMenu =  new JMenuItem("Update");
+        JMenuItem deleteMenu = new JMenuItem("Delete");
+        patikaMenu.add(updateMenu);
+        patikaMenu.add(deleteMenu);
 
         model_patikaList = new DefaultTableModel();
         Object[] col_patikaList = {"ID", "Path Name"};
@@ -117,10 +122,9 @@ public class OperatorGUI extends JFrame {
         loadPatikaModel();
 
         table_patikaList.setModel(model_patikaList);
+        table_patikaList.setComponentPopupMenu(patikaMenu);
         table_patikaList.getTableHeader().setReorderingAllowed(false);
         table_patikaList.getColumnModel().getColumn(0).setMaxWidth(50);
-
-        //PatikaList
 
         button_userAdd.addActionListener(e -> {
             if (Helper.isFieldEmpty(field_name) || Helper.isFieldEmpty(field_uName) || Helper.isFieldEmpty(field_pass)) {
@@ -188,7 +192,8 @@ public class OperatorGUI extends JFrame {
             }
         });
     }
-    private void loadPatikaModel () {
+
+    private void loadPatikaModel() {
         DefaultTableModel clearModel = (DefaultTableModel) table_patikaList.getModel();
         clearModel.setRowCount(0);
         int i = 0;
@@ -200,7 +205,7 @@ public class OperatorGUI extends JFrame {
         }
     }
 
-    public void loadUserModel () {
+    public void loadUserModel() {
         DefaultTableModel clearModel = (DefaultTableModel) table_userList.getModel();
         clearModel.setRowCount(0);
         int i;
@@ -215,7 +220,7 @@ public class OperatorGUI extends JFrame {
         }
     }
 
-    public void loadUserModel (ArrayList <User> list) {
+    public void loadUserModel(ArrayList<User> list) {
         DefaultTableModel clearModel = (DefaultTableModel) table_userList.getModel();
         clearModel.setRowCount(0);
 
@@ -230,7 +235,7 @@ public class OperatorGUI extends JFrame {
         }
     }
 
-    public static void main (String[]args){
+    public static void main(String[] args) {
         Helper.setLayout();
         Operator op = new Operator(1, "Can İşcan", "caniscan", "1234", "operator");
         DBConnector.getInstance();
