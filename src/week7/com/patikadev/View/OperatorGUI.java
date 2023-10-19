@@ -131,13 +131,15 @@ public class OperatorGUI extends JFrame {
         });
 
         deleteMenu.addActionListener((ActionListener) e -> {
-            int select_id = Integer.parseInt(table_patikaList.getValueAt(table_patikaList.getSelectedRow(), 0).toString());
-            /*if (Patika.delete(select_id)) {
-                Helper.showMsg("done");
-                loadPatikaModel();
-            } else {
-                Helper.showMsg("error");
-            }*/
+            if (Helper.confirm("sure")) {
+                int select_id = Integer.parseInt(table_patikaList.getValueAt(table_patikaList.getSelectedRow(), 0).toString());
+                if (Patika.delete(select_id)) {
+                    Helper.showMsg("done");
+                    loadPatikaModel();
+                } else {
+                    Helper.showMsg("error");
+                }
+            }
         });
 
         model_patikaList = new DefaultTableModel();
