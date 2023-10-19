@@ -47,8 +47,7 @@ public class OperatorGUI extends JFrame {
     private JScrollPane scroll_courseList;
     private JTable table_courseList;
     private JPanel panel_courseAdd;
-    private JTextField textField1;
-    private JLabel field_courseName;
+    private JTextField field_courseName;
     private JTextField field_courseLang;
     private JComboBox combo_coursePath;
     private JComboBox combo_courseUser;
