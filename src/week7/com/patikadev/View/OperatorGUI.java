@@ -113,6 +113,12 @@ public class OperatorGUI extends JFrame {
         row_patikaList = new Object[col_patikaList.length];
         loadPatikaModel();
 
+        table_patikaList.setModel(model_patikaList);
+        table_patikaList.getTableHeader().setReorderingAllowed(false);
+        table_patikaList.getColumnModel().getColumn(0).setMaxWidth(50);
+
+        //PatikaList
+
         button_userAdd.addActionListener(e -> {
             if (Helper.isFieldEmpty(field_name) || Helper.isFieldEmpty(field_uName) || Helper.isFieldEmpty(field_pass)) {
                 Helper.showMsg("fill");
