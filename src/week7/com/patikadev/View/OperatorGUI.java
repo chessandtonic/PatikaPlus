@@ -9,7 +9,10 @@ import week7.com.patikadev.Model.User;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -72,6 +75,19 @@ public class OperatorGUI extends JFrame {
                 field_userID.setText(selectUserID);
             } catch (Exception exception) {
 
+            }
+        });
+
+        table_userList.getModel().addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                if (e.getType() == TableModelEvent.UPDATE) {
+                    int user_id = Integer.parseInt(table_userList.getValueAt(table_userList.getSelectedRow(), 0).toString());
+                    String user_name = table_userList.getValueAt(table_userList.getSelectedRow(), 1).toString();
+                    String user_uname = table_userList.getValueAt(table_userList.getSelectedRow(), 2).toString();
+                    String user_pass = table_userList.getValueAt(table_userList.getSelectedRow(), 3).toString();
+                    String user_type = table_userList.getValueAt(table_userList.getSelectedRow(), 4).toString();
+                }
             }
         });
 
