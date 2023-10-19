@@ -87,6 +87,13 @@ public class OperatorGUI extends JFrame {
                     String user_uname = table_userList.getValueAt(table_userList.getSelectedRow(), 2).toString();
                     String user_pass = table_userList.getValueAt(table_userList.getSelectedRow(), 3).toString();
                     String user_type = table_userList.getValueAt(table_userList.getSelectedRow(), 4).toString();
+
+                    if (User.update(user_id, user_name, user_uname, user_pass, user_type)) {
+                        Helper.showMsg("done");
+                        loadUserModel();
+                    } else {
+                        Helper.showMsg("error");
+                    }
                 }
             }
         });
