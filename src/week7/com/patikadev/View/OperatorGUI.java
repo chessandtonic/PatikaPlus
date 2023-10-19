@@ -3,6 +3,7 @@ package week7.com.patikadev.View;
 import week7.com.patikadev.Helper.Config;
 import week7.com.patikadev.Helper.DBConnector;
 import week7.com.patikadev.Helper.Helper;
+import week7.com.patikadev.Model.Course;
 import week7.com.patikadev.Model.Operator;
 import week7.com.patikadev.Model.Patika;
 import week7.com.patikadev.Model.User;
@@ -178,6 +179,7 @@ public class OperatorGUI extends JFrame {
         Object[] col_courseList = {"ID", "Course Name", "Language", "Path", "Instructor" };
         model_courseList.setColumnIdentifiers(col_courseList);
         row_courseList = new Object[col_courseList.length];
+        loadCourseList();
 
         table_courseList.setModel(model_courseList);
         table_courseList.getColumnModel().getColumn(0).setMaxWidth(50);
@@ -253,7 +255,22 @@ public class OperatorGUI extends JFrame {
             });
         }
 
-        private void loadPatikaModel () {
+    private void loadCourseList() {
+        DefaultTableModel clearModel = (DefaultTableModel) table_courseList.getModel();
+        clearModel.setRowCount(0);
+        int i = 0;
+        for (Course obj : Course.getList()) {
+            i = 0;
+            row_courseList[i++] = obj.getId();
+            row_courseList[i++] = obj.getName();
+            row_courseList[i++] = obj.getLang();
+            row_courseList[i++] = obj.getPatika().getName();
+            row_courseList[i++] = obj.getEducator().getName();
+            model_courseList.addRow(row_courseList);
+        }
+    }
+
+    private void loadPatikaModel () {
             DefaultTableModel clearModel = (DefaultTableModel) table_patikaList.getModel();
             clearModel.setRowCount(0);
             int i = 0;
