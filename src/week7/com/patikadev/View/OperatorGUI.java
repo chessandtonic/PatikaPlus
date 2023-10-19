@@ -57,6 +57,8 @@ public class OperatorGUI extends JFrame {
     private DefaultTableModel model_patikaList;
     private Object[] row_patikaList;
     private JPopupMenu patikaMenu;
+    private DefaultTableModel model_courseList;
+    private Object[] row_courseList;
     private final Operator operator;
 
     public OperatorGUI(Operator operator) {
@@ -170,6 +172,18 @@ public class OperatorGUI extends JFrame {
                 table_patikaList.setRowSelectionInterval(selectedRow, selectedRow);
             }
         });
+        // CourseList
+
+        model_courseList = new DefaultTableModel();
+        Object[] col_courseList = {"ID", "Course Name", "Language", "Path", "Instructor" };
+        model_courseList.setColumnIdentifiers(col_courseList);
+        row_courseList = new Object[col_courseList.length];
+
+        table_courseList.setModel(model_courseList);
+        table_courseList.getColumnModel().getColumn(0).setMaxWidth(50);
+        table_courseList.getTableHeader().setReorderingAllowed(false);
+
+
 
         button_userAdd.addActionListener(e -> {
             if (Helper.isFieldEmpty(field_name) || Helper.isFieldEmpty(field_uName) || Helper.isFieldEmpty(field_pass)) {
