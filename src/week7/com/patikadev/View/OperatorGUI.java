@@ -121,6 +121,7 @@ public class OperatorGUI extends JFrame {
                     }
                     loadUserModel();
                     loadEducatorCombo();
+                    loadCourseModel();
                 }
             }
         });
@@ -142,6 +143,7 @@ public class OperatorGUI extends JFrame {
                     public void windowClosed(WindowEvent e) {
                         loadPathModel();
                         loadPathCombo();
+                        loadCourseModel();
                     }
                 });
             }
@@ -154,6 +156,7 @@ public class OperatorGUI extends JFrame {
                     Helper.showMassage("done");
                     loadPathModel();
                     loadPathCombo();
+                    loadCourseModel();
                 }else{
                     Helper.showMassage("error");
                 }
@@ -229,6 +232,7 @@ public class OperatorGUI extends JFrame {
                         Helper.showMassage("done");
                         loadUserModel();
                         loadEducatorCombo();
+                        loadCourseModel();
                         fld_userId.setText(null);
                     } else {
                         Helper.showMassage("error");
@@ -366,8 +370,8 @@ public class OperatorGUI extends JFrame {
         Helper.setLayout();
         Operator op = new Operator();
         op.setId(1);
-        op.setName("Cüneyt Can İşcan");
-        op.setuName("caniscan");
+        op.setName("Batuhan Özüdoğru");
+        op.setuName("Batuhan");
         op.setPass("123");
         op.setType("operator");
         DBConnector.getInstance();
