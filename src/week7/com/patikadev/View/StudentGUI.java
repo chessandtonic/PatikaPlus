@@ -10,7 +10,7 @@ public class StudentGUI extends JFrame{
 
     public StudentGUI(){
         add(wrapper);
-        setSize(1000, 400);
+        setSize(1000, 500);
         int x = Helper.screenCenterLocation("x", getSize());
         int y = Helper.screenCenterLocation("y", getSize());
         setLocation(x, y);
