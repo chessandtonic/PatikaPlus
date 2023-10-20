@@ -17,4 +17,9 @@ public class StudentGUI extends JFrame{
         setResizable(false);
         setVisible(true);
     }
+
+    public static void main(String[] args) {
+        Helper.setLayout();
+        LoginGUI login = new LoginGUI();
+    }
 }
