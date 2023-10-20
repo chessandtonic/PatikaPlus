@@ -199,6 +199,7 @@ public class OperatorGUI extends JFrame {
 
         loadPathCombo();
         loadEducatorCombo();
+
         //courseList """""""""
 
         btn_userAdd.addActionListener(new ActionListener() {
@@ -370,13 +371,11 @@ public class OperatorGUI extends JFrame {
         Helper.setLayout();
         Operator op = new Operator();
         op.setId(1);
-        op.setName("Batuhan Özüdoğru");
-        op.setuName("Batuhan");
+        op.setName("Cüneyt Can İşcan");
+        op.setuName("caniscan");
         op.setPass("123");
         op.setType("operator");
         DBConnector.getInstance();
         OperatorGUI operatorGUI = new OperatorGUI(op);
     }
-
-
 }
