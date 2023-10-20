@@ -145,7 +145,13 @@ public class User {
             pr.setString(2, pass);
             ResultSet rs = pr.executeQuery();
             if (rs.next()) {
-                obj = new User();
+                switch (rs.getString("type")) {
+                    case "operator":
+                        obj = new Operator();
+                        break;
+                    default:
+                        obj = new User();
+                }
                 obj.setId(rs.getInt("id"));
                 obj.setName(rs.getString("name"));
                 obj.setuName(rs.getString("uname"));

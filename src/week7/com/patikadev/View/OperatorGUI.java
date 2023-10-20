@@ -256,6 +256,7 @@ public class OperatorGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
+                LoginGUI login = new LoginGUI();
             }
         });
         btn_pathAdd.addActionListener(new ActionListener() {
