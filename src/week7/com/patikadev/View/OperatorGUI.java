@@ -1,14 +1,14 @@
-package week7.com.patikadev.View;
+package Week7.com.PatikaDev.View;
 
-import week7.com.patikadev.Helper.Config;
-import week7.com.patikadev.Helper.DBConnector;
-import week7.com.patikadev.Helper.Helper;
-import week7.com.patikadev.Model.Course;
-import week7.com.patikadev.Model.Operator;
-import week7.com.patikadev.Model.Patika;
-import week7.com.patikadev.Model.User;
+import Week7.com.PatikaDev.Helper.*;
+import Week7.com.PatikaDev.Model.Course;
+import Week7.com.PatikaDev.Model.Operator;
+import Week7.com.PatikaDev.Model.Path;
+import Week7.com.PatikaDev.Model.User;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -19,302 +19,360 @@ import java.util.ArrayList;
 public class OperatorGUI extends JFrame {
     private JPanel wrapper;
     private JTabbedPane tab_operator;
-    private JLabel label_welcome;
-    private JPanel panel_top;
-    private JButton exitButton;
-    private JPanel panel_userList;
-    private JScrollPane scroll_userList;
-    private JTable table_userList;
-    private JPanel panel_userForm;
-    private JTextField field_name;
-    private JTextField field_uName;
-    private JTextField field_pass;
-    private JComboBox combo_userType;
-    private JButton button_userAdd;
-    private JTextField field_userID;
-    private JButton button_userDel;
-    private JTextField field_searchName;
-    private JTextField field_searchuName;
-    private JComboBox combo_searchType;
-    private JButton button_searchUser;
-    private JPanel panel_patikaList;
-    private JScrollPane scroll_patikaList;
-    private JTable table_patikaList;
-    private JPanel panel_patikaAdd;
-    private JTextField field_pathName;
-    private JButton button_patikaAdd;
-    private JPanel panel_courseList;
-    private JScrollPane scroll_courseList;
-    private JTable table_courseList;
-    private JPanel panel_courseAdd;
-    private JTextField field_courseName;
-    private JTextField field_courseLang;
-    private JComboBox combo_coursePath;
-    private JComboBox combo_courseUser;
-    private JButton button_courseAdd;
-    private DefaultTableModel model_userList;
+    private JLabel lbl_welcome;
+    private JPanel pnl_top;
+    private JButton btn_logout;
+    private JPanel pnl_userList;
+    private JScrollPane scrl_userList;
+    private JTable tbl_userList;
+    private JPanel pnl_userForm;
+    private JTextField fld_userName;
+    private JTextField fld_userUName;
+    private JTextField fld_userPass;
+    private JComboBox cmb_userType;
+    private JButton btn_userAdd;
+    private JTextField fld_userId;
+    private JButton btn_userDelete;
+    private JTextField fld_searchUserName;
+    private JTextField fld_searchUserUName;
+    private JComboBox cmb_searchUserType;
+    private JButton btn_userSearch;
+    private JPanel pnl_pathList;
+    private JScrollPane scrl_pathList;
+    private JTable tbl_pathList;
+    private JPanel pnl_pathAdd;
+    private JTextField fld_pathName;
+    private JButton btn_pathAdd;
+    private JPanel pnl_userTab;
+    private JPanel pnl_courseList;
+    private JScrollPane scrl_courseList;
+    private JTable tbl_courseList;
+    private JPanel pnl_courseAdd;
+    private JTextField fld_courseName;
+    private JTextField fld_CourseLang;
+    private JComboBox cmb_coursePath;
+    private JComboBox cmb_courseEducator;
+    private JButton btn_courseAdd;
+    private DefaultTableModel mdl_userList;
     private Object[] row_userList;
-    private DefaultTableModel model_patikaList;
-    private Object[] row_patikaList;
-    private JPopupMenu patikaMenu;
-    private DefaultTableModel model_courseList;
-    private Object[] row_courseList;
     private final Operator operator;
+    private DefaultTableModel mdl_pathList;
+    private Object[] row_pathList;
+    private  JPopupMenu pathMenu;
+    private DefaultTableModel mdl_courseList;
+    private Object[] row_courseList;
 
     public OperatorGUI(Operator operator) {
         this.operator = operator;
-        Helper.setLayout();
         add(wrapper);
         setSize(1000, 500);
-        setLocation(Helper.screenCenterPoint("x", getSize()), Helper.screenCenterPoint("y", getSize()));
+        int x = Helper.screenCenterLocation("x", getSize());
+        int y = Helper.screenCenterLocation("y", getSize());
+        setLocation(x, y);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle(Config.PROJECT_TITLE);
         setVisible(true);
+        lbl_welcome.setText("Welcome " + operator.getName());
 
-        label_welcome.setText("Welcome, " + operator.getName() + "!");
-
-        // ModelUserList
-        model_userList = new DefaultTableModel() {
+        //UserList
+        mdl_userList = new DefaultTableModel(){
             @Override
             public boolean isCellEditable(int row, int column) {
-                if (column == 0) {
+                if(column==0){
                     return false;
                 }
                 return super.isCellEditable(row, column);
             }
         };
 
-        Object[] col_userList = {"ID", "Name", "Username", "Password", "Type"};
-        model_userList.setColumnIdentifiers(col_userList);
+
+        Object[] col_userList = {"ID", "Name Surname", "Username", "Password", "Type"};
+        mdl_userList.setColumnIdentifiers(col_userList);
         row_userList = new Object[col_userList.length];
 
         loadUserModel();
 
-        table_userList.setModel(model_userList);
-        table_userList.getTableHeader().setReorderingAllowed(false);
-        table_userList.getSelectionModel().addListSelectionListener(e -> {
-            try {
-                String selectUserID = table_userList.getValueAt(table_userList.getSelectedRow(), 0).toString();
-                field_userID.setText(selectUserID);
-            } catch (Exception exception) {
+        tbl_userList.setModel(mdl_userList);
+        tbl_userList.getTableHeader().setReorderingAllowed(false);
 
-            }
-        });
-        table_userList.getModel().addTableModelListener(new TableModelListener() {
+        tbl_userList.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
-            public void tableChanged(TableModelEvent e) {
-                if (e.getType() == TableModelEvent.UPDATE) {
-                    int user_id = Integer.parseInt(table_userList.getValueAt(table_userList.getSelectedRow(), 0).toString());
-                    String user_name = table_userList.getValueAt(table_userList.getSelectedRow(), 1).toString();
-                    String user_uname = table_userList.getValueAt(table_userList.getSelectedRow(), 2).toString();
-                    String user_pass = table_userList.getValueAt(table_userList.getSelectedRow(), 3).toString();
-                    String user_type = table_userList.getValueAt(table_userList.getSelectedRow(), 4).toString();
+            public void valueChanged(ListSelectionEvent e) {
+                try{
+                    String select_userId=tbl_userList.getValueAt(tbl_userList.getSelectedRow(),0).toString();
+                    fld_userId.setText(select_userId);
+                }catch (Exception exception){
 
-                    if (User.update(user_id, user_name, user_uname, user_pass, user_type)) {
-                        Helper.showMsg("done");
-                    } else {
-                        Helper.showMsg("error");
-                    }
-                    loadUserModel();
                 }
             }
         });
-        //PatikaList
+        tbl_userList.getModel().addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                if(e.getType()==TableModelEvent.UPDATE){
+                    int user_id = Integer.parseInt(tbl_userList.getValueAt(tbl_userList.getSelectedRow(),0).toString());
+                    String user_name = tbl_userList.getValueAt(tbl_userList.getSelectedRow(),1).toString();
+                    String user_uname = tbl_userList.getValueAt(tbl_userList.getSelectedRow(),2).toString();
+                    String user_pass = tbl_userList.getValueAt(tbl_userList.getSelectedRow(),3).toString();
+                    String user_type = tbl_userList.getValueAt(tbl_userList.getSelectedRow(),4).toString();
 
-        patikaMenu = new JPopupMenu();
-        JMenuItem updateMenu = new JMenuItem("Update");
-        JMenuItem deleteMenu = new JMenuItem("Delete");
-        patikaMenu.add(updateMenu);
-        patikaMenu.add(deleteMenu);
+                    if(User.update(user_id,user_name,user_uname,user_pass,user_type)){
+                        Helper.showMassage("done");
+                    }
+                    loadUserModel();
+                    loadEducatorCombo();
+                }
+            }
+        });
+
+        //PathList
+        pathMenu=new JPopupMenu();
+        JMenuItem updateMenu= new JMenuItem("Update");
+        JMenuItem deleteMenu= new JMenuItem("Delete");
+        pathMenu.add(updateMenu);
+        pathMenu.add(deleteMenu);
 
         updateMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int select_id = Integer.parseInt(table_patikaList.getValueAt(table_patikaList.getSelectedRow(), 0).toString());
-                UpdatePatikaGUI updateGUI = new UpdatePatikaGUI(Patika.getFetch(select_id));
+                int select_id=Integer.parseInt(tbl_pathList.getValueAt(tbl_pathList.getSelectedRow(),0).toString());
+                UpdatePathGUI updateGUI =new UpdatePathGUI(Path.getFetch(select_id));
                 updateGUI.addWindowListener(new WindowAdapter() {
                     @Override
                     public void windowClosed(WindowEvent e) {
-                        loadPatikaModel();
+                        loadPathModel();
+                        loadPathCombo();
                     }
                 });
             }
         });
 
-        deleteMenu.addActionListener((ActionListener) e -> {
-            if (Helper.confirm("sure")) {
-                int select_id = Integer.parseInt(table_patikaList.getValueAt(table_patikaList.getSelectedRow(), 0).toString());
-                if (Patika.delete(select_id)) {
-                    Helper.showMsg("done");
-                    loadPatikaModel();
-                } else {
-                    Helper.showMsg("error");
+        deleteMenu.addActionListener(e -> {
+            if(Helper.confirm("sure")){
+                int select_id=Integer.parseInt(tbl_pathList.getValueAt(tbl_pathList.getSelectedRow(),0).toString());
+                if(Path.delete(select_id)){
+                    Helper.showMassage("done");
+                    loadPathModel();
+                    loadPathCombo();
+                }else{
+                    Helper.showMassage("error");
                 }
             }
+
         });
 
-        model_patikaList = new DefaultTableModel();
-        Object[] col_patikaList = {"ID", "Path Name"};
-        model_patikaList.setColumnIdentifiers(col_patikaList);
-        row_patikaList = new Object[col_patikaList.length];
-        loadPatikaModel();
+        mdl_pathList= new DefaultTableModel();
+        Object[] col_pathList = {"ID", "Path Name"};
+        mdl_pathList.setColumnIdentifiers(col_pathList);
+        row_pathList=new Object[col_pathList.length];
+        loadPathModel();
 
-        table_patikaList.setModel(model_patikaList);
-        table_patikaList.setComponentPopupMenu(patikaMenu);
-        table_patikaList.getTableHeader().setReorderingAllowed(false);
-        table_patikaList.getColumnModel().getColumn(0).setMaxWidth(50);
+        tbl_pathList.setModel(mdl_pathList);
+        tbl_pathList.setComponentPopupMenu(pathMenu);
+        tbl_pathList.getTableHeader().setReorderingAllowed(false);
+        tbl_pathList.getColumnModel().getColumn(0).setMaxWidth(100);
 
-        table_patikaList.addMouseListener(new MouseAdapter() {
+        tbl_pathList.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 Point point = e.getPoint();
-                int selectedRow = table_patikaList.rowAtPoint(point);
-                table_patikaList.setRowSelectionInterval(selectedRow, selectedRow);
+                int selectedRow=tbl_pathList.rowAtPoint(point);
+                tbl_pathList.setRowSelectionInterval(selectedRow,selectedRow);
+
+
             }
         });
-        // CourseList
+        //pathlist """""""
 
-        model_courseList = new DefaultTableModel();
-        Object[] col_courseList = {"ID", "Course Name", "Language", "Path", "Instructor" };
-        model_courseList.setColumnIdentifiers(col_courseList);
+        //courseList
+        mdl_courseList=new DefaultTableModel();
+        Object[] col_courseList = {"ID","Course Name", "Language","Path","Educator"};
+        mdl_courseList.setColumnIdentifiers(col_courseList);
         row_courseList = new Object[col_courseList.length];
-        loadCourseList();
+        loadCourseModel();
+        tbl_courseList.setModel(mdl_courseList);
+        tbl_courseList.getColumnModel().getColumn(0).setMaxWidth(75);
+        tbl_courseList.getTableHeader().setReorderingAllowed(false);
 
-        table_courseList.setModel(model_courseList);
-        table_courseList.getColumnModel().getColumn(0).setMaxWidth(50);
-        table_courseList.getTableHeader().setReorderingAllowed(false);
+        loadPathCombo();
+        loadEducatorCombo();
+        //courseList """""""""
 
-
-
-        button_userAdd.addActionListener(e -> {
-            if (Helper.isFieldEmpty(field_name) || Helper.isFieldEmpty(field_uName) || Helper.isFieldEmpty(field_pass)) {
-                Helper.showMsg("fill");
-            } else {
-                String name = field_name.getText();
-                String uname = field_uName.getText();
-                String pass = field_pass.getText();
-                String type = combo_userType.getSelectedItem().toString();
-                if (User.add(name, uname, pass, type)) {
-                    Helper.showMsg("done");
-                    loadUserModel();
-                    field_name.setText(null);
-                    field_uName.setText(null);
-                    field_pass.setText(null);
+        btn_userAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (Helper.isFieldEmpty(fld_userName) || Helper.isFieldEmpty(fld_userUName) || Helper.isFieldEmpty(fld_userPass)) {
+                    Helper.showMassage("fill");
+                } else {
+                    String name = fld_userName.getText();
+                    String uname = fld_userUName.getText();
+                    String pass = fld_userPass.getText();
+                    String type = cmb_userType.getSelectedItem().toString();
+                    if (User.add(name, uname, pass, type)) {
+                        Helper.showMassage("done");
+                        loadUserModel();
+                        loadEducatorCombo();
+                        fld_userName.setText(null);
+                        fld_userUName.setText(null);
+                        fld_userPass.setText(null);
+                    }
                 }
             }
         });
-        button_userDel.addActionListener(e -> {
-            if (Helper.isFieldEmpty(field_userID)) {
-                Helper.showMsg("fill");
+        btn_userDelete.addActionListener(e -> {
+            if (Helper.isFieldEmpty(fld_userId)) {
+                Helper.showMassage("fill");
             } else {
-                if (Helper.confirm("sure")) {
-                    int user_id = Integer.parseInt(field_userID.getText());
-                    if (User.delete(user_id)) {
-                        Helper.showMsg("done");
+                if(Helper.confirm("sure")){
+                    int userId = Integer.parseInt(fld_userId.getText());
+                    if (User.delete(userId)) {
+                        Helper.showMassage("done");
                         loadUserModel();
+                        loadEducatorCombo();
+                        fld_userId.setText(null);
                     } else {
-                        Helper.showMsg("error");
+                        Helper.showMassage("error");
                     }
                 }
-            };
+            }
         });
-
-            button_searchUser.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    String name = field_searchName.getText();
-                    String uname = field_searchuName.getText();
-                    String type = combo_searchType.getSelectedItem().toString();
-                    String query = User.searchQuery(name, uname, type);
-                    ArrayList<User> searchList = User.searchUserList(query);
-                    loadUserModel(searchList);
-                }
-            });
-            exitButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    dispose();
-                }
-            });
-            button_patikaAdd.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if (Helper.isFieldEmpty(field_pathName)) {
-                        Helper.showMsg("fill");
-                    } else {
-                        if (Patika.add(field_pathName.getText())) {
-                            Helper.showMsg("done");
-                            loadPatikaModel();
-                            field_pathName.setText(null);
-                        } else {
-                            Helper.showMsg("error");
-                        }
+        btn_userSearch.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String name = fld_searchUserName.getText();
+                String uName= fld_searchUserUName.getText();
+                String type= cmb_searchUserType.getSelectedItem().toString();
+                String query=User.searchQuery(name,uName,type);
+                ArrayList<User> searchUser = User.searchUserList(query);
+                loadUserModel(searchUser);
+            }
+        });
+        btn_logout.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+        btn_pathAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(Helper.isFieldEmpty(fld_pathName)){
+                    Helper.showMassage("fill");
+                }else{
+                    if(Path.add(fld_pathName.getText())){
+                        Helper.showMassage("done");
+                        loadPathModel();
+                        loadPathCombo();
+                        fld_pathName.setText(null);
+                    }else{
+                        Helper.showMassage("error");
                     }
                 }
-            });
-        }
+            }
+        });
+        btn_courseAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Item pathItem= (Item)cmb_coursePath.getSelectedItem();
+                Item userItem=(Item) cmb_courseEducator.getSelectedItem();
+                if(Helper.isFieldEmpty(fld_courseName)||Helper.isFieldEmpty(fld_CourseLang)){
+                    Helper.showMassage("fill");
 
-    private void loadCourseList() {
-        DefaultTableModel clearModel = (DefaultTableModel) table_courseList.getModel();
+                }else{
+                    if(Course.add(userItem.getKey(),pathItem.getKey(),fld_courseName.getText(),fld_CourseLang.getText())){
+                        Helper.showMassage("done");
+                        loadCourseModel();
+                        fld_CourseLang.setText(null);
+                        fld_courseName.setText(null);
+                    }else{
+                        Helper.showMassage("error");
+                    }
+                }
+            }
+        });
+    }
+
+    private void loadCourseModel() {
+        DefaultTableModel clearModel = (DefaultTableModel) tbl_courseList.getModel();
         clearModel.setRowCount(0);
         int i = 0;
-        for (Course obj : Course.getList()) {
-            i = 0;
-            row_courseList[i++] = obj.getId();
-            row_courseList[i++] = obj.getName();
-            row_courseList[i++] = obj.getLang();
-            row_courseList[i++] = obj.getPatika().getName();
-            row_courseList[i++] = obj.getEducator().getName();
-            model_courseList.addRow(row_courseList);
+        for(Course obj : Course.getList()){
+            i=0;
+            row_courseList[i++]=obj.getId();
+            row_courseList[i++]=obj.getName();
+            row_courseList[i++]=obj.getLang();
+            row_courseList[i++]=obj.getPath().getName();
+            row_courseList[i++]=obj.getEducator().getName();
+            mdl_courseList.addRow(row_courseList);
         }
     }
 
-    private void loadPatikaModel () {
-            DefaultTableModel clearModel = (DefaultTableModel) table_patikaList.getModel();
-            clearModel.setRowCount(0);
+    private void loadPathModel() {
+        DefaultTableModel clearModel = (DefaultTableModel) tbl_pathList.getModel();
+        clearModel.setRowCount(0);
+        int i ;
+        for(Path obj : Path.getList()){
+            i=0;
+            row_pathList[i++]=obj.getId();
+            row_pathList[i++]=obj.getName();
+            mdl_pathList.addRow(row_pathList);
+        }
+    }
+
+    public void loadUserModel() {
+        DefaultTableModel clearModel = (DefaultTableModel) tbl_userList.getModel();
+        clearModel.setRowCount(0);
+        int i;
+        for (User obj : User.getList()) {
+            i=0;
+            row_userList[i++] = obj.getId();
+            row_userList[i++] = obj.getName();
+            row_userList[i++] = obj.getuName();
+            row_userList[i++] = obj.getPass();
+            row_userList[i++] = obj.getType();
+            mdl_userList.addRow(row_userList);
+        }
+    }
+    public void loadUserModel(ArrayList<User> list) {
+        DefaultTableModel clearModel = (DefaultTableModel) tbl_userList.getModel();
+        clearModel.setRowCount(0);
+        for (User obj : list) {
             int i = 0;
-            for (Patika obj : Patika.getList()) {
-                i = 0;
-                row_patikaList[i++] = obj.getId();
-                row_patikaList[i++] = obj.getName();
-                model_patikaList.addRow(row_patikaList);
-            }
-        }
-
-        public void loadUserModel () {
-            DefaultTableModel clearModel = (DefaultTableModel) table_userList.getModel();
-            clearModel.setRowCount(0);
-            int i;
-            for (User obj : User.getList()) {
-                i = 0;
-                row_userList[i++] = obj.getId();
-                row_userList[i++] = obj.getName();
-                row_userList[i++] = obj.getuName();
-                row_userList[i++] = obj.getPass();
-                row_userList[i++] = obj.getType();
-                model_userList.addRow(row_userList);
-            }
-        }
-
-        public void loadUserModel (ArrayList < User > list) {
-            DefaultTableModel clearModel = (DefaultTableModel) table_userList.getModel();
-            clearModel.setRowCount(0);
-
-            for (User obj : list) {
-                int i = 0;
-                row_userList[i++] = obj.getId();
-                row_userList[i++] = obj.getName();
-                row_userList[i++] = obj.getuName();
-                row_userList[i++] = obj.getPass();
-                row_userList[i++] = obj.getType();
-                model_userList.addRow(row_userList);
-            }
-        }
-
-        public static void main (String[]args){
-            Helper.setLayout();
-            Operator op = new Operator(1, "Can İşcan", "caniscan", "1234", "operator");
-            DBConnector.getInstance();
-            OperatorGUI operatorGUI = new OperatorGUI(op);
+            row_userList[i++] = obj.getId();
+            row_userList[i++] = obj.getName();
+            row_userList[i++] = obj.getuName();
+            row_userList[i++] = obj.getPass();
+            row_userList[i++] = obj.getType();
+            mdl_userList.addRow(row_userList);
         }
     }
+    public void loadPathCombo(){
+        cmb_coursePath.removeAllItems();
+        for(Path obj : Path.getList()){
+            cmb_coursePath.addItem(new Item(obj.getId(), obj.getName()));
+        }
+    }
+
+    public void loadEducatorCombo(){
+        cmb_courseEducator.removeAllItems();
+        for(User obj : User.getList()){
+            if(obj.getType().equals("educator")){
+                cmb_courseEducator.addItem(new Item(obj.getId(),obj.getName()));
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Helper.setLayout();
+        Operator op = new Operator();
+        op.setId(1);
+        op.setName("Cüneyt Can İşcan");
+        op.setuName("caniscan");
+        op.setPass("123");
+        op.setType("operator");
+        DBConnector.getInstance();
+        OperatorGUI operatorGUI = new OperatorGUI(op);
+    }
+
+
+}

@@ -1,7 +1,6 @@
-package week7.com.patikadev.Model;
+package Week7.com.PatikaDev.Model;
 
-public class Operator extends User {
-    public Operator(int id, String name, String uname, String pass, String type) {
-        super(id, name, uname, pass, type);
-    }
+public class Operator extends User{
+
+
 }
