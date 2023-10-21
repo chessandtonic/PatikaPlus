@@ -301,14 +301,14 @@ public class OperatorGUI extends JFrame {
     private void loadCourseModel() {
         DefaultTableModel clearModel = (DefaultTableModel) tbl_courseList.getModel();
         clearModel.setRowCount(0);
-        int i = 0;
+        int i;
         for(Course obj : Course.getList()){
             i=0;
             row_courseList[i++]=obj.getId();
             row_courseList[i++]=obj.getName();
             row_courseList[i++]=obj.getLang();
             row_courseList[i++]=obj.getPath().getName();
-            row_courseList[i++]=obj.getEducator().getName();
+            row_courseList[i]=obj.getEducator().getName();
             mdl_courseList.addRow(row_courseList);
         }
     }

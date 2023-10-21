@@ -114,7 +114,7 @@ public class Course {
             ps.setInt(2,path_id);
             ps.setString(3,name);
             ps.setString(4,lang);
-            return  ps.executeUpdate() !=-1;
+            return  ps.executeUpdate() != -1;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -141,7 +141,6 @@ public class Course {
             e.printStackTrace();
         }
         return courseList;
-
     }
     public static boolean delete(int id) {
         String query = "DELETE FROM course WHERE id = ?";

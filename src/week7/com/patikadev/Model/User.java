@@ -135,7 +135,7 @@ public class User {
             e.printStackTrace();
         }
         return obj;
-    }
+    } // This method is used in LoginGUI.java
     public static User getFetch(String uName, String pass) {
         User obj = null;
         String query = "SELECT * FROM user WHERE uname = ? AND pass = ?";
