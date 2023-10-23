@@ -39,7 +39,7 @@ public class LoginGUI extends JFrame {
                             OperatorGUI opGUI = new OperatorGUI((Operator) u);
                             break;
                         case "educator":
-                            EducatorGUI edGUI = new EducatorGUI();
+                            EducatorGUI edGUI = new EducatorGUI(u);
                             break;
                         case "student":
                             StudentGUI stGUI = new StudentGUI();
