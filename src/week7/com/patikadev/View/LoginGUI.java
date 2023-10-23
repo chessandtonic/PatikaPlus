@@ -16,7 +16,7 @@ public class LoginGUI extends JFrame {
     private JTextField field_user_uname;
     private JPasswordField field_user_pass;
     private JButton button_login;
-    private JButton signUpButton;
+    private JButton button_signup;
 
     public LoginGUI() {
         add(wrapper);
@@ -49,7 +49,7 @@ public class LoginGUI extends JFrame {
                 }
             }
         });
-        signUpButton.addActionListener(new ActionListener() {
+        button_signup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 SignUpGUI signUpGUI = new SignUpGUI();
