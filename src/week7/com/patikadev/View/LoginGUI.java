@@ -6,6 +6,8 @@ import Week7.com.PatikaDev.Model.Operator;
 import Week7.com.PatikaDev.Model.User;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class LoginGUI extends JFrame {
     private JPanel wrapper;
@@ -14,6 +16,7 @@ public class LoginGUI extends JFrame {
     private JTextField field_user_uname;
     private JPasswordField field_user_pass;
     private JButton button_login;
+    private JButton signUpButton;
 
     public LoginGUI() {
         add(wrapper);
@@ -46,11 +49,16 @@ public class LoginGUI extends JFrame {
                 }
             }
         });
+        signUpButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SignUpGUI signUpGUI = new SignUpGUI();
+            }
+        });
     }
 
     public static void main(String[] args) {
         Helper.setLayout();
         LoginGUI login = new LoginGUI();
-
     }
 }
