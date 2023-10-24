@@ -185,7 +185,7 @@ public class OperatorGUI extends JFrame {
 
             }
         });
-        //pathlist """""""
+        //pathlist
 
         //courseList
         mdl_courseList=new DefaultTableModel();

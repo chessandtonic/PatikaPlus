@@ -1,7 +1,9 @@
 package Week7.com.PatikaDev.Model;
-import Week7.com.PatikaDev.Helper.DBConnector;
-import Week7.com.PatikaDev.Model.Course;
 
+
+import Week7.com.PatikaDev.Helper.DBConnector;
+
+import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,17 +20,17 @@ public class Content {
     private Course course;
 
 
-    public Content(int id, String name, int courseId, String description, String youtubeLink, int quizId) {
-        this.course = Course.getFetch(courseId);
+
+    public Content(int id, String name, int courseId, String description, String youtubeLink) {
+        this.course=Course.getFetch(courseId);
         this.id = id;
         this.name = name;
         this.courseId = courseId;
         this.description = description;
         this.youtubeLink = youtubeLink;
-        this.quizId = quizId;
+        this.quizId = id;
     }
-
-    public Content() {
+    public Content(){
 
     }
 
@@ -87,6 +89,7 @@ public class Content {
     public void setCourse(Course course) {
         this.course = course;
     }
+
     public static Content getFetch(int id) {
         Content obj = null;
         String query = "SELECT * FROM content WHERE id = ?";
@@ -124,7 +127,7 @@ public class Content {
                 String youtubeLink=rs.getString("youtubelink");
                 int quizId=rs.getInt("quiz_id");
                 //(int id, String name, int courseId, String description, String youtubeLink, int quizId
-                obj = new Content(id,name,courseId,description,youtubeLink,quizId);
+                obj = new Content(id,name,courseId,description,youtubeLink);
                 contentList.add(obj);
             }
         } catch (SQLException e) {
@@ -132,5 +135,19 @@ public class Content {
         }
         return contentList;
 
+    }
+    public static boolean add(int user_id,int path_id,String name,String lang){
+        String query = "INSERT INTO course (user_id,path_id, name,lang) VALUES (?,?,?,?)";
+        try {
+            PreparedStatement ps = DBConnector.getInstance().prepareStatement(query);
+            ps.setInt(1,user_id);
+            ps.setInt(2,path_id);
+            ps.setString(3,name);
+            ps.setString(4,lang);
+            return  ps.executeUpdate() !=-1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 }
