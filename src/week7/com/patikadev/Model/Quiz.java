@@ -10,7 +10,7 @@ public class Quiz {
     private int content_id;
     private Content content;
 
-    public Quiz(int id, String q1, String q2, String q3, String q4, String q5, int content_id) {
+    public Quiz(int id, String q1, String q2, String q3, String q4, String q5,int content_id) {
         this.id = id;
         this.q1 = q1;
         this.q2 = q2;
@@ -18,6 +18,6 @@ public class Quiz {
         this.q4 = q4;
         this.q5 = q5;
         this.content=Content.getFetch(content_id);
-        this.content_id = content_id;
+        this.content_id=content_id;
     }
 }

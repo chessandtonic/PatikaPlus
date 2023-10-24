@@ -3,20 +3,24 @@ package Week7.com.PatikaDev.View;
 import Week7.com.PatikaDev.Helper.Config;
 import Week7.com.PatikaDev.Helper.Helper;
 import Week7.com.PatikaDev.Model.Course;
+import Week7.com.PatikaDev.Model.Content;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.text.AbstractDocument;
 
 public class ContentGUI extends JFrame {
     private JPanel wrapper;
-    private JTextField fld_content_name;
-    private JButton btn_content_add;
-    private JButton btn_content_delete;
-    private JButton btn_content_select;
-    private JComboBox cmb_content_header;
+    private JLabel lbl_courseName;
+    private JTextField fld_contentName;
+    private JButton addButton;
+    private JButton deleteButton;
+    private JButton selectButton;
+    private JComboBox cmb_contentHeader;
+    private DefaultTableModel mdl_myContentList;
+    private Object[] row_myContentList;
+    private JTable tbl_contentList;
     private Course course;
-    private JLabel lbl_course_name;
-
-
 
     public ContentGUI(Course course){
         this.course=course;
@@ -28,6 +32,27 @@ public class ContentGUI extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle(Config.PROJECT_TITLE);
         setVisible(true);
-        lbl_course_name.setText("Course Name: " + course.getName());
+        lbl_courseName.setText(course.getName());
+
+        mdl_myContentList = new DefaultTableModel();
+        Object[] col_myContentList ={"Content Id","Content Name"};
+        mdl_myContentList.setColumnIdentifiers(col_myContentList);
+        row_myContentList = new Object[col_myContentList.length];
+        loadContentModel(6);
+        tbl_contentList.setModel(mdl_myContentList);
+        tbl_contentList.getTableHeader().setReorderingAllowed(false);
+        tbl_contentList.getColumnModel().getColumn(0).setMaxWidth(75);
+    }
+
+    private void loadContentModel(int id) {
+        DefaultTableModel clearModel = (DefaultTableModel) tbl_contentList.getModel();
+        clearModel.setRowCount(0);
+        int i = 0;
+        for(Content obj : Content.getListByCourse(id)){
+            i=0;
+            row_myContentList[i++]=obj.getId();
+            row_myContentList[i++]=obj.getName();
+            mdl_myContentList.addRow(row_myContentList);
+        }
     }
 }
