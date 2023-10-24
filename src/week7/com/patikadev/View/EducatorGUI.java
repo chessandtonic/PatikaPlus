@@ -7,13 +7,15 @@ import Week7.com.PatikaDev.Model.Course;
 import Week7.com.PatikaDev.Model.User;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
-import static Week7.com.PatikaDev.Model.Course.getList;
 
 public class EducatorGUI extends JFrame {
     private JPanel wrapper;
@@ -23,6 +25,8 @@ public class EducatorGUI extends JFrame {
     private JScrollPane scrl_myCourses;
     private JButton selectButton;
     private JTextField fld_courseName;
+    private JButton btn_logout;
+    private JTextField fld_course_id;
     private Object[] row_myCourseList;
     private DefaultTableModel mdl_myCourseList;
     private final User user;
@@ -38,15 +42,57 @@ public class EducatorGUI extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle(Config.PROJECT_TITLE);
         setVisible(true);
-        lbl_educatorWelcome.setText("Welcome "+ user.getName());
+        fld_course_id.setVisible(false);
+        lbl_educatorWelcome.setText("Welcome " + user.getName());
 
-        mdl_myCourseList = new DefaultTableModel();
-        Object[] col_myCourseList ={"Course Name"};
+        mdl_myCourseList = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                if (column == 0 || column == 1) {
+                    return false;
+                }
+                return super.isCellEditable(row, column);
+            }
+        };
+
+        Object[] col_myCourseList = {"Course ID", "Course Name"};
         mdl_myCourseList.setColumnIdentifiers(col_myCourseList);
         row_myCourseList = new Object[col_myCourseList.length];
         loadCourseModel();
         tbl_myCourses.setModel(mdl_myCourseList);
         tbl_myCourses.getTableHeader().setReorderingAllowed(false);
+        tbl_myCourses.getColumnModel().getColumn(0).setMaxWidth(75);
+        tbl_myCourses.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                try {
+                    String select_course_id = tbl_myCourses.getValueAt(tbl_myCourses.getSelectedRow(), 0).toString();
+                    String select_course_name = tbl_myCourses.getValueAt(tbl_myCourses.getSelectedRow(), 1).toString();
+                    fld_course_id.setText(select_course_id);
+                    fld_courseName.setText(select_course_name);
+                } catch (Exception exception) {
+
+                }
+            }
+        });
+        btn_logout.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                LoginGUI loginGUI = new LoginGUI();
+            }
+        });
+        selectButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (Helper.isFieldEmpty(fld_courseName)) {
+                    Helper.showMassage("fill");
+                } else {
+                    Course c = Course.getFetch(Integer.parseInt(fld_course_id.getText()));
+                    ContentGUI contentGUI = new ContentGUI(c);
+                }
+            }
+        });
     }
 
     public static ArrayList<Course> getListByUser(int user_id) {
@@ -78,8 +124,10 @@ public class EducatorGUI extends JFrame {
         clearModel.setRowCount(0);
 
         for (Course obj : getListByUser(user.getId())) {
-            row_myCourseList[0] = obj.getName();
+            row_myCourseList[0] = obj.getId();
+            row_myCourseList[1] = obj.getName();
             mdl_myCourseList.addRow(row_myCourseList);
         }
     }
 }
+
