@@ -1,4 +1,7 @@
 package Week7.com.PatikaDev.View;
 
-public class QuizGUI {
+import javax.swing.*;
+
+public class QuizGUI extends JFrame {
+
 }
