@@ -62,7 +62,7 @@ public class ContentGUI extends JFrame {
         Object[] col_myContentList ={"Content Id","Content Name","Description","Youtube Link","Quiz"};
         mdl_myContentList.setColumnIdentifiers(col_myContentList);
         row_myContentList = new Object[col_myContentList.length];
-        loadContentModel(6);
+        loadContentModel(course.getId());
         tbl_contentList.setModel(mdl_myContentList);
         tbl_contentList.setComponentPopupMenu(quizMenu);
         tbl_contentList.getTableHeader().setReorderingAllowed(false);
