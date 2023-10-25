@@ -2,6 +2,7 @@ package Week7.com.PatikaDev.Model;
 
 
 import Week7.com.PatikaDev.Helper.DBConnector;
+import Week7.com.PatikaDev.Helper.Helper;
 
 import javax.swing.*;
 import java.sql.PreparedStatement;
@@ -125,7 +126,7 @@ public class Content {
                 int courseId=rs.getInt("course_id");
                 String description = rs.getString("description");
                 String youtubeLink=rs.getString("youtubelink");
-                int quizId=rs.getInt("quiz_id");
+                // int quizId=rs.getInt("quiz_id");
                 //(int id, String name, int courseId, String description, String youtubeLink, int quizId
                 obj = new Content(id,name,courseId,description,youtubeLink);
                 contentList.add(obj);
@@ -136,23 +137,14 @@ public class Content {
         return contentList;
 
     }
-    public static boolean add(int user_id,int path_id,String name,String lang){
-        String query = "INSERT INTO course (user_id,path_id, name,lang) VALUES (?,?,?,?)";
-        try {
-            PreparedStatement ps = DBConnector.getInstance().prepareStatement(query);
-            ps.setInt(1,user_id);
-            ps.setInt(2,path_id);
-            ps.setString(3,name);
-            ps.setString(4,lang);
-            return  ps.executeUpdate() !=-1;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return true;
-    }
+
     public static boolean add(String name) {
         String query = "INSERT INTO content (name , course_id, description, youtubelink, quiz_id) VALUES (?,?,?,?,?)";
-
+        Content findUser = Content.getFetch(name);
+        if (findUser != null) {
+            Helper.showMassage("This content name has been added before. Please enter a different content name");
+            return false;
+        }
         try {
             PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
             pr.setString(1, name);
@@ -161,6 +153,36 @@ public class Content {
             pr.setString(4, "Add Youtube link here");
             pr.setInt(5, quizId);
 
+            return pr.executeUpdate() != -1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return true;
+    }
+    public static Content getFetch(String name) {
+        Content obj = null;
+        String query = "SELECT * FROM content WHERE name = ?";
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setString(1, name);
+            ResultSet rs = pr.executeQuery();
+            if (rs.next()) {
+                obj = new Content();
+                obj.setName(rs.getString("name"));
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return obj;
+    }
+    public static boolean delete (int id) {
+        String query = "DELETE FROM content WHERE id = ?";
+
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setInt(1, id);
             return pr.executeUpdate() != -1;
         } catch (SQLException e) {
             e.printStackTrace();

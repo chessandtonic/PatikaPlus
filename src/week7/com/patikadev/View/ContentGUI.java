@@ -1,22 +1,21 @@
 package Week7.com.PatikaDev.View;
 
 import Week7.com.PatikaDev.Helper.Config;
-import Week7.com.PatikaDev.Helper.DBConnector;
 import Week7.com.PatikaDev.Helper.Helper;
 import Week7.com.PatikaDev.Model.Content;
 import Week7.com.PatikaDev.Model.Course;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
-import Week7.com.PatikaDev.Model.Content;
+import Week7.com.PatikaDev.Model.User;
 
 public class ContentGUI extends JFrame {
     private JPanel wrapper;
@@ -28,6 +27,7 @@ public class ContentGUI extends JFrame {
     private DefaultTableModel mdl_myContentList;
     private Object[] row_myContentList;
     private JTable tbl_contentList;
+    private JTextField fld_hidden_delete;
     private JScrollPane scrl_contentList;
     private static Course course;
     private JPopupMenu quizMenu;
@@ -42,6 +42,7 @@ public class ContentGUI extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle(Config.PROJECT_TITLE);
         setVisible(true);
+        fld_hidden_delete.setVisible(false);
         lbl_courseName.setText(course.getName());
 
         mdl_myContentList = new DefaultTableModel() {
@@ -119,6 +120,38 @@ public class ContentGUI extends JFrame {
                 }
             }
         });
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (Helper.isFieldEmpty(fld_hidden_delete)) {
+                    Helper.showMassage("fill");
+                } else {
+                    if(Helper.confirm("sure")){
+                        int content_id = Integer.parseInt(fld_hidden_delete.getText());
+                        if (Content.delete(content_id)) {
+                            Helper.showMassage("done");
+                            loadContentModel(course.getId());
+                            fld_hidden_delete.setText(null);
+                        } else {
+                            Helper.showMassage("error");
+                        }
+                    }
+                }
+            }
+        });
+        tbl_contentList.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                try{
+                    String select_content_id=tbl_contentList.getValueAt(tbl_contentList.getSelectedRow(),0).toString();
+                    fld_hidden_delete.setText(select_content_id);
+                    String select_content_name=tbl_contentList.getValueAt(tbl_contentList.getSelectedRow(),1).toString();
+                    fld_contentName.setText(select_content_name);
+                }catch (Exception exception){
+
+                }
+            }
+        });
     }
 
     private void loadContentModel(int id) {
@@ -133,7 +166,6 @@ public class ContentGUI extends JFrame {
             row_myContentList[i++] = obj.getYoutubeLink();
             row_myContentList[i] = obj.getQuizId();
             mdl_myContentList.addRow(row_myContentList);
-
         }
     }
 }
