@@ -26,7 +26,9 @@ public class Course {
         this.path=Path.getFetch(path_id);
         this.educator=User.getFetch(user_id);
     }
-    public Course(){}
+    public Course(){
+
+    }
 
     public int getId() {
         return id;
@@ -115,7 +117,7 @@ public class Course {
             ps.setInt(2,path_id);
             ps.setString(3,name);
             ps.setString(4,lang);
-            return  ps.executeUpdate() != -1;
+            return  ps.executeUpdate() !=-1;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -142,6 +144,7 @@ public class Course {
             e.printStackTrace();
         }
         return courseList;
+
     }
     public static boolean delete(int id) {
         String query = "DELETE FROM course WHERE id = ?";
@@ -167,6 +170,7 @@ public class Course {
                 obj.setId(rs.getInt("id"));
                 obj.setName(rs.getString("name"));
             }
+
             pr.close();
             rs.close();
         } catch (SQLException e) {

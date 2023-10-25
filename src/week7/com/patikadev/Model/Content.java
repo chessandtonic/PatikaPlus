@@ -29,10 +29,8 @@ public class Content {
         this.courseId = courseId;
         this.description = description;
         this.youtubeLink = youtubeLink;
-        this.quizId = id;
     }
     public Content(){
-
     }
 
     public int getId() {
@@ -103,7 +101,6 @@ public class Content {
                 obj.setId(rs.getInt("id"));
                 obj.setName(rs.getString("name"));
             }
-
             pr.close();
             rs.close();
         } catch (SQLException e) {
@@ -169,7 +166,12 @@ public class Content {
             ResultSet rs = pr.executeQuery();
             if (rs.next()) {
                 obj = new Content();
+                obj.setId(rs.getInt("id"));
                 obj.setName(rs.getString("name"));
+                obj.setCourseId(rs.getInt("course_id"));
+                obj.setDescription(rs.getString("description"));
+                obj.setYoutubeLink(rs.getString("youtubelink"));
+                obj.setId(Integer.parseInt(rs.getString("quiz_id")));
 
             }
         } catch (SQLException e) {
@@ -177,13 +179,36 @@ public class Content {
         }
         return obj;
     }
-    public static boolean delete (int id) {
+    public static boolean delete(int id) {
         String query = "DELETE FROM content WHERE id = ?";
 
         try {
-            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
-            pr.setInt(1, id);
-            return pr.executeUpdate() != -1;
+            PreparedStatement ps = DBConnector.getInstance().prepareStatement(query);
+            ps.setInt(1, id);
+
+            return ps.executeUpdate() != -1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+    public static boolean update(int id, String name, String description, String youtubeLink,int courseId) {
+        String query = "UPDATE content SET name=?,description=?,youtubelink=?,course_id=? WHERE id=?";
+        Content findContent = getFetch(name);
+
+        if (findContent != null && findContent.getId() != id && !(findContent.getDescription().equals(description))&&!(findContent.getYoutubeLink().equals(youtubeLink))) {
+            Helper.showMassage("This content has been added before. Please enter a different content");
+            return false;
+        }
+
+        try {
+            PreparedStatement ps = DBConnector.getInstance().prepareStatement(query);
+            ps.setString(1, name);
+            ps.setString(2, description);
+            ps.setString(3, youtubeLink);
+            ps.setInt(4, courseId);
+            ps.setInt(5, id);
+            return ps.executeUpdate() != -1;
         } catch (SQLException e) {
             e.printStackTrace();
         }

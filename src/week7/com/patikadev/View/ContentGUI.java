@@ -4,20 +4,18 @@ import Week7.com.PatikaDev.Helper.Config;
 import Week7.com.PatikaDev.Helper.Helper;
 import Week7.com.PatikaDev.Model.Content;
 import Week7.com.PatikaDev.Model.Course;
+import Week7.com.PatikaDev.Model.User;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
-import Week7.com.PatikaDev.Model.User;
-
-public class ContentGUI extends JFrame {
+public class ContentGUI extends JFrame  {
     private JPanel wrapper;
     private JLabel lbl_courseName;
     private JTextField fld_contentName;
@@ -27,13 +25,14 @@ public class ContentGUI extends JFrame {
     private DefaultTableModel mdl_myContentList;
     private Object[] row_myContentList;
     private JTable tbl_contentList;
-    private JTextField fld_hidden_delete;
     private JScrollPane scrl_contentList;
-    private static Course course;
+    private JTextField fld_hiddenDelete;
+    private Course course;
+
     private JPopupMenu quizMenu;
 
-    public ContentGUI(Course course) {
-        this.course = course;
+    public ContentGUI(Course course){
+        this.course=course;
         add(wrapper);
         setSize(1000, 500);
         int x = Helper.screenCenterLocation("x", getSize());
@@ -42,30 +41,32 @@ public class ContentGUI extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle(Config.PROJECT_TITLE);
         setVisible(true);
-        fld_hidden_delete.setVisible(false);
+        fld_hiddenDelete.setVisible(false);
         lbl_courseName.setText(course.getName());
 
-        mdl_myContentList = new DefaultTableModel() {
+
+        mdl_myContentList = new DefaultTableModel(){
             @Override
             public boolean isCellEditable(int row, int column) {
-                if (column == 0 || column == 4) {
+                if(column==0||column==4){
                     return false;
                 }
                 return super.isCellEditable(row, column);
             }
         };
 
-        quizMenu = new JPopupMenu();
-        JMenuItem addQuiz = new JMenuItem("Add/Update Quiz");
+        quizMenu=new JPopupMenu();
+        JMenuItem addQuiz= new JMenuItem("Add/Update Quiz");
         quizMenu.add(addQuiz);
 
         addQuiz.addActionListener((ActionListener) e -> {
             //int select_id=Integer.parseInt(tbl_contentList.getValueAt(tbl_contentList.getSelectedRow(),0).toString());
-            QuizGUI qGUI = new QuizGUI();
+            QuizGUI qGUI =new QuizGUI();
 
         });
 
-        Object[] col_myContentList = {"Content Id", "Content Name", "Description", "Youtube Link", "Quiz"};
+
+        Object[] col_myContentList ={"Content Id","Content Name","Description","Youtube Link","Quiz"};
         mdl_myContentList.setColumnIdentifiers(col_myContentList);
         row_myContentList = new Object[col_myContentList.length];
         loadContentModel(course.getId());
@@ -78,8 +79,8 @@ public class ContentGUI extends JFrame {
             @Override
             public void mousePressed(MouseEvent e) {
                 Point point = e.getPoint();
-                int selectedRow = tbl_contentList.rowAtPoint(point);
-                tbl_contentList.setRowSelectionInterval(selectedRow, selectedRow);
+                int selectedRow=tbl_contentList.rowAtPoint(point);
+                tbl_contentList.setRowSelectionInterval(selectedRow,selectedRow);
             }
         });
         searchButton.addActionListener(new ActionListener() {
@@ -104,34 +105,31 @@ public class ContentGUI extends JFrame {
                 }
             }
         });
-        addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (Helper.isFieldEmpty(fld_contentName)) {
-                    Helper.showMassage("fill");
-                } else {
-                    String name = fld_contentName.getText();
+        addButton.addActionListener(e -> {
+            if (Helper.isFieldEmpty(fld_contentName)) {
+                Helper.showMassage("fill");
+            } else {
+                String name = fld_contentName.getText();
 
-                    if (Content.add(name)) {
-                        Helper.showMassage("success");
-                        loadContentModel(course.getId());
-                        fld_contentName.setText(null);
-                    }
+                if (Content.add(name)) {
+                    Helper.showMassage("done");
+                    loadContentModel(course.getId());
+                    fld_contentName.setText(null);
                 }
             }
         });
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Helper.isFieldEmpty(fld_hidden_delete)) {
+                if (Helper.isFieldEmpty(fld_hiddenDelete)) {
                     Helper.showMassage("fill");
                 } else {
                     if(Helper.confirm("sure")){
-                        int content_id = Integer.parseInt(fld_hidden_delete.getText());
-                        if (Content.delete(content_id)) {
+                        int contentId = Integer.parseInt(fld_hiddenDelete.getText());
+                        if (Content.delete(contentId)) {
                             Helper.showMassage("done");
                             loadContentModel(course.getId());
-                            fld_hidden_delete.setText(null);
+                            fld_hiddenDelete.setText(null);
                         } else {
                             Helper.showMassage("error");
                         }
@@ -143,12 +141,29 @@ public class ContentGUI extends JFrame {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 try{
-                    String select_content_id=tbl_contentList.getValueAt(tbl_contentList.getSelectedRow(),0).toString();
-                    fld_hidden_delete.setText(select_content_id);
-                    String select_content_name=tbl_contentList.getValueAt(tbl_contentList.getSelectedRow(),1).toString();
-                    fld_contentName.setText(select_content_name);
+                    String select_contentId=tbl_contentList.getValueAt(tbl_contentList.getSelectedRow(),0).toString();
+                    fld_hiddenDelete.setText(select_contentId);
+                    String select_contentName=tbl_contentList.getValueAt(tbl_contentList.getSelectedRow(),1).toString();
+                    fld_contentName.setText(select_contentName);
                 }catch (Exception exception){
 
+                }
+            }
+        });
+        tbl_contentList.getModel().addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                if(e.getType()==TableModelEvent.UPDATE){
+                    int contentId = Integer.parseInt(tbl_contentList.getValueAt(tbl_contentList.getSelectedRow(),0).toString());
+                    String contentName = tbl_contentList.getValueAt(tbl_contentList.getSelectedRow(),1).toString();
+                    String description = tbl_contentList.getValueAt(tbl_contentList.getSelectedRow(),2).toString();
+                    String youtubeLink = tbl_contentList.getValueAt(tbl_contentList.getSelectedRow(),3).toString();
+                    int quizId = Integer.parseInt(tbl_contentList.getValueAt(tbl_contentList.getSelectedRow(),4).toString());
+
+                    if(Content.update(contentId,contentName,description,youtubeLink,course.getId())){
+                        Helper.showMassage("done");
+                    }
+                    loadContentModel(course.getId());
                 }
             }
         });
@@ -158,14 +173,15 @@ public class ContentGUI extends JFrame {
         DefaultTableModel clearModel = (DefaultTableModel) tbl_contentList.getModel();
         clearModel.setRowCount(0);
         int i = 0;
-        for (Content obj : Content.getListByCourse(id)) {
-            i = 0;
+        for(Content obj : Content.getListByCourse(id)){
+            i=0;
             row_myContentList[i++] = obj.getId();
             row_myContentList[i++] = obj.getName();
             row_myContentList[i++] = obj.getDescription();
             row_myContentList[i++] = obj.getYoutubeLink();
-            row_myContentList[i] = obj.getQuizId();
+            row_myContentList[i++] = obj.getQuizId();
             mdl_myContentList.addRow(row_myContentList);
+
         }
     }
 }
