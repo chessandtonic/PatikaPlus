@@ -16,8 +16,8 @@ public class Content {
     private int courseId;
     private String description;
     private String youtubeLink;
-    private int quizId;
-    private Course course;
+    private static int quizId;
+    private static Course course;
 
 
 
@@ -145,6 +145,23 @@ public class Content {
             ps.setString(3,name);
             ps.setString(4,lang);
             return  ps.executeUpdate() !=-1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+    public static boolean add(String name) {
+        String query = "INSERT INTO content (name , course_id, description, youtubelink, quiz_id) VALUES (?,?,?,?,?)";
+
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setString(1, name);
+            pr.setInt(2, course.getId());
+            pr.setString(3, "Add your description here");
+            pr.setString(4, "Add Youtube link here");
+            pr.setInt(5, quizId);
+
+            return pr.executeUpdate() != -1;
         } catch (SQLException e) {
             e.printStackTrace();
         }

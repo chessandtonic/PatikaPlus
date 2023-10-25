@@ -1,6 +1,7 @@
 package Week7.com.PatikaDev.View;
 
 import Week7.com.PatikaDev.Helper.Config;
+import Week7.com.PatikaDev.Helper.DBConnector;
 import Week7.com.PatikaDev.Helper.Helper;
 import Week7.com.PatikaDev.Model.Content;
 import Week7.com.PatikaDev.Model.Course;
@@ -8,8 +9,14 @@ import Week7.com.PatikaDev.Model.Course;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.*;
-import java.util.Locale;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import Week7.com.PatikaDev.Model.Content;
 
 public class ContentGUI extends JFrame {
     private JPanel wrapper;
@@ -22,7 +29,7 @@ public class ContentGUI extends JFrame {
     private Object[] row_myContentList;
     private JTable tbl_contentList;
     private JScrollPane scrl_contentList;
-    private Course course;
+    private static Course course;
     private JPopupMenu quizMenu;
 
     public ContentGUI(Course course) {
@@ -92,6 +99,22 @@ public class ContentGUI extends JFrame {
                         row_myContentList[i++] = obj.getYoutubeLink();
                         row_myContentList[i] = obj.getQuizId();
                         mdl_myContentList.addRow(row_myContentList);
+                    }
+                }
+            }
+        });
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (Helper.isFieldEmpty(fld_contentName)) {
+                    Helper.showMassage("fill");
+                } else {
+                    String name = fld_contentName.getText();
+
+                    if (Content.add(name)) {
+                        Helper.showMassage("success");
+                        loadContentModel(course.getId());
+                        fld_contentName.setText(null);
                     }
                 }
             }
