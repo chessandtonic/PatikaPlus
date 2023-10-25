@@ -4,13 +4,12 @@ import Week7.com.PatikaDev.Helper.Config;
 import Week7.com.PatikaDev.Helper.Helper;
 import Week7.com.PatikaDev.Model.Content;
 import Week7.com.PatikaDev.Model.Course;
-import Week7.com.PatikaDev.Model.Path;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
-import java.beans.PropertyChangeListener;
+import java.util.Locale;
 
 public class ContentGUI extends JFrame {
     private JPanel wrapper;
@@ -18,8 +17,7 @@ public class ContentGUI extends JFrame {
     private JTextField fld_contentName;
     private JButton addButton;
     private JButton deleteButton;
-    private JButton selectButton;
-    private JComboBox cmb_contentHeader;
+    private JButton searchButton;
     private DefaultTableModel mdl_myContentList;
     private Object[] row_myContentList;
     private JTable tbl_contentList;
@@ -27,8 +25,8 @@ public class ContentGUI extends JFrame {
     private Course course;
     private JPopupMenu quizMenu;
 
-    public ContentGUI(Course course){
-        this.course=course;
+    public ContentGUI(Course course) {
+        this.course = course;
         add(wrapper);
         setSize(1000, 500);
         int x = Helper.screenCenterLocation("x", getSize());
@@ -39,27 +37,27 @@ public class ContentGUI extends JFrame {
         setVisible(true);
         lbl_courseName.setText(course.getName());
 
-        mdl_myContentList = new DefaultTableModel(){
+        mdl_myContentList = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
-                if(column==0||column==4){
+                if (column == 0 || column == 4) {
                     return false;
                 }
                 return super.isCellEditable(row, column);
             }
         };
 
-        quizMenu=new JPopupMenu();
-        JMenuItem addQuiz= new JMenuItem("Add/Update Quiz");
+        quizMenu = new JPopupMenu();
+        JMenuItem addQuiz = new JMenuItem("Add/Update Quiz");
         quizMenu.add(addQuiz);
 
         addQuiz.addActionListener((ActionListener) e -> {
             //int select_id=Integer.parseInt(tbl_contentList.getValueAt(tbl_contentList.getSelectedRow(),0).toString());
-            QuizGUI qGUI =new QuizGUI();
+            QuizGUI qGUI = new QuizGUI();
 
         });
 
-        Object[] col_myContentList ={"Content Id","Content Name","Description","Youtube Link","Quiz"};
+        Object[] col_myContentList = {"Content Id", "Content Name", "Description", "Youtube Link", "Quiz"};
         mdl_myContentList.setColumnIdentifiers(col_myContentList);
         row_myContentList = new Object[col_myContentList.length];
         loadContentModel(course.getId());
@@ -72,8 +70,30 @@ public class ContentGUI extends JFrame {
             @Override
             public void mousePressed(MouseEvent e) {
                 Point point = e.getPoint();
-                int selectedRow=tbl_contentList.rowAtPoint(point);
-                tbl_contentList.setRowSelectionInterval(selectedRow,selectedRow);
+                int selectedRow = tbl_contentList.rowAtPoint(point);
+                tbl_contentList.setRowSelectionInterval(selectedRow, selectedRow);
+            }
+        });
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String searchKeyLow = fld_contentName.getText().toLowerCase();
+                String searchKeyUp = fld_contentName.getText().toUpperCase();
+
+                DefaultTableModel clearModel = (DefaultTableModel) tbl_contentList.getModel();
+                clearModel.setRowCount(0);
+                int i = 0;
+                for (Content obj : Content.getListByCourse(course.getId())) {
+                    if (obj.getName().toLowerCase().contains(searchKeyLow) || obj.getName().toUpperCase().contains(searchKeyUp)) {
+                        i = 0;
+                        row_myContentList[i++] = obj.getId();
+                        row_myContentList[i++] = obj.getName();
+                        row_myContentList[i++] = obj.getDescription();
+                        row_myContentList[i++] = obj.getYoutubeLink();
+                        row_myContentList[i] = obj.getQuizId();
+                        mdl_myContentList.addRow(row_myContentList);
+                    }
+                }
             }
         });
     }
@@ -82,10 +102,13 @@ public class ContentGUI extends JFrame {
         DefaultTableModel clearModel = (DefaultTableModel) tbl_contentList.getModel();
         clearModel.setRowCount(0);
         int i = 0;
-        for(Content obj : Content.getListByCourse(id)){
-            i=0;
-            row_myContentList[i++]=obj.getId();
-            row_myContentList[i++]=obj.getName();
+        for (Content obj : Content.getListByCourse(id)) {
+            i = 0;
+            row_myContentList[i++] = obj.getId();
+            row_myContentList[i++] = obj.getName();
+            row_myContentList[i++] = obj.getDescription();
+            row_myContentList[i++] = obj.getYoutubeLink();
+            row_myContentList[i] = obj.getQuizId();
             mdl_myContentList.addRow(row_myContentList);
 
         }
