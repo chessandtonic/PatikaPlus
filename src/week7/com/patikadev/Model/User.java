@@ -194,7 +194,6 @@ public class User {
         try {
             PreparedStatement ps = DBConnector.getInstance().prepareStatement(query);
             ps.setInt(1, id);
-
             return ps.executeUpdate() != -1;
         } catch (SQLException e) {
             e.printStackTrace();
