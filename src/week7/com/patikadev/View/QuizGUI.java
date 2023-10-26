@@ -43,6 +43,7 @@ public class QuizGUI extends JFrame {
         txt_questions.setSize(50, 50);
         txt_questions.setLineWrap(true);
         lbl_content_name.setText(content.getName());
+        fld_hiddenId.setVisible(false);
 
         txt_questions.setSize(25, 25);
         txt_questions.setLineWrap(true);
@@ -66,6 +67,22 @@ public class QuizGUI extends JFrame {
                     fld_hiddenId.setText(select_quizId);
                 }catch (Exception exception){
 
+                }
+            }
+        });
+        btn_quiz_update.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int id = Integer.parseInt(fld_hiddenId.getText());
+                String quizName = fld_quiz_name.getText();
+                String quizText = txt_questions.getText();
+                if(Quiz.update(id,quizName,quizText)){
+                    Helper.showMassage("done");
+                    loadQuizModel();
+                    fld_quiz_name.setText(null);
+                    txt_questions.setText(null);
+                } else {
+                    Helper.showMassage("error");
                 }
             }
         });
@@ -112,6 +129,16 @@ public class QuizGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 fld_quiz_name.setText(null);
                 txt_questions.setText(null);
+            }
+        });
+        btn_select.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int id = Integer.parseInt(fld_hiddenId.getText());
+                String name=Quiz.getFetchName(id).getQuiz_name();
+                fld_quiz_name.setText(name);
+                String text=Quiz.getFetchText(id).getQuiz_text();
+                txt_questions.setText(text);
             }
         });
     }
