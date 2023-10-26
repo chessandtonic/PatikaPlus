@@ -29,10 +29,10 @@ public class SignUpGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (Helper.isFieldEmpty(field_SignUpName) || Helper.isFieldEmpty(field_SignUpUsername) || Helper.isFieldEmpty(field_SignUpPass)) {
-                    Helper.showMassage("fill");
+                    Helper.showMessage("fill");
                 } else {
                     if (User.add(field_SignUpName.getText(), field_SignUpUsername.getText(), field_SignUpPass.getText(), "student")) {
-                        Helper.showMassage("done");
+                        Helper.showMessage("done");
                         dispose();
                     }
                 }

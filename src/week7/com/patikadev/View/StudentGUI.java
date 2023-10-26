@@ -140,9 +140,9 @@ public class StudentGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (fld_hiddenCourseId.getText().isEmpty()){
-                    Helper.showMassage("error");
+                    Helper.showMessage("error");
                 } else {
-                    Helper.showMassage("done");
+                    Helper.showMessage("done");
                     loadMyCourseModel();
                 }
             }
@@ -246,7 +246,7 @@ public class StudentGUI extends JFrame {
             row_myCourseList[0] = obj.getId();
             row_myCourseList[1] = obj.getName();
             row_myCourseList[2] = obj.getLang();
-            row_myCourseList[3] = obj.getPath_id();
+            row_myCourseList[3] = obj.getPath().getName().toString();
             mdl_myCourseList.addRow(row_myCourseList);
         }
     }

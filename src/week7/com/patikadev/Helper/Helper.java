@@ -1,9 +1,6 @@
 package Week7.com.PatikaDev.Helper;
 
-import Week7.com.PatikaDev.Model.User;
-
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class Helper {
@@ -43,7 +40,7 @@ public class Helper {
         return area.getText().trim().isEmpty();
     }
 
-    public static void showMassage(String str) {
+    public static void showMessage(String str) {
         optionPage();
         String msg;
         String title;

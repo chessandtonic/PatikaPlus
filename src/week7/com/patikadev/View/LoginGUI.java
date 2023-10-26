@@ -28,11 +28,11 @@ public class LoginGUI extends JFrame {
         setVisible(true);
         button_login.addActionListener(e -> {
             if (Helper.isFieldEmpty(field_user_uname) || Helper.isFieldEmpty(field_user_pass)) {
-                Helper.showMassage("fill");
+                Helper.showMessage("fill");
             } else {
                 User u = User.getFetch(field_user_uname.getText(), field_user_pass.getText());
                 if (u == null) {
-                    Helper.showMassage("User not found");
+                    Helper.showMessage("User not found");
                 } else {
                     switch (u.getType()) {
                         case "operator":

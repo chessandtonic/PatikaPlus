@@ -86,7 +86,7 @@ public class EducatorGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (Helper.isFieldEmpty(fld_courseName)) {
-                    Helper.showMassage("fill");
+                    Helper.showMessage("fill");
                 } else {
                     Course c = Course.getFetch(Integer.parseInt(fld_course_id.getText()));
                     ContentGUI contentGUI = new ContentGUI(c);

@@ -4,7 +4,6 @@ import Week7.com.PatikaDev.Helper.Config;
 import Week7.com.PatikaDev.Helper.Helper;
 import Week7.com.PatikaDev.Model.Content;
 import Week7.com.PatikaDev.Model.Course;
-import Week7.com.PatikaDev.Model.User;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -106,12 +105,12 @@ public class ContentGUI extends JFrame  {
         });
         addButton.addActionListener(e -> {
             if (Helper.isFieldEmpty(fld_contentName)) {
-                Helper.showMassage("fill");
+                Helper.showMessage("fill");
             } else {
                 String name = fld_contentName.getText();
 
                 if (Content.add(name)) {
-                    Helper.showMassage("done");
+                    Helper.showMessage("done");
                     loadContentModel(course.getId());
                     fld_contentName.setText(null);
                 }
@@ -121,16 +120,16 @@ public class ContentGUI extends JFrame  {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (Helper.isFieldEmpty(fld_hiddenDelete)) {
-                    Helper.showMassage("fill");
+                    Helper.showMessage("fill");
                 } else {
                     if(Helper.confirm("sure")){
                         int contentId = Integer.parseInt(fld_hiddenDelete.getText());
                         if (Content.delete(contentId)) {
-                            Helper.showMassage("done");
+                            Helper.showMessage("done");
                             loadContentModel(course.getId());
                             fld_hiddenDelete.setText(null);
                         } else {
-                            Helper.showMassage("error");
+                            Helper.showMessage("error");
                         }
                     }
                 }
@@ -160,7 +159,7 @@ public class ContentGUI extends JFrame  {
                     int quizId = Integer.parseInt(tbl_contentList.getValueAt(tbl_contentList.getSelectedRow(),4).toString());
 
                     if(Content.update(contentId,contentName,description,youtubeLink,course.getId())){
-                        Helper.showMassage("done");
+                        Helper.showMessage("done");
                     }
                     loadContentModel(course.getId());
                 }

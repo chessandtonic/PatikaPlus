@@ -77,12 +77,12 @@ public class QuizGUI extends JFrame {
                 String quizName = fld_quiz_name.getText();
                 String quizText = txt_questions.getText();
                 if(Quiz.update(id,quizName,quizText)){
-                    Helper.showMassage("done");
+                    Helper.showMessage("done");
                     loadQuizModel();
                     fld_quiz_name.setText(null);
                     txt_questions.setText(null);
                 } else {
-                    Helper.showMassage("error");
+                    Helper.showMessage("error");
                 }
             }
         });
@@ -90,13 +90,13 @@ public class QuizGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (Helper.isFieldEmpty(fld_quiz_name) || Helper.isFieldEmpty(txt_questions)) {
-                    Helper.showMassage("fill");
+                    Helper.showMessage("fill");
                 } else {
                     String quizName = fld_quiz_name.getText();
                     String quizText = txt_questions.getText();
 
                     if (Quiz.add(quizName, quizText, content.getId())) {
-                        Helper.showMassage("done");
+                        Helper.showMessage("done");
                         loadQuizModel();
 
                         fld_quiz_name.setText(null);
@@ -109,16 +109,16 @@ public class QuizGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (Helper.isFieldEmpty(fld_hiddenId)) {
-                    Helper.showMassage("Pick a quiz to delete");
+                    Helper.showMessage("Pick a quiz to delete");
                 } else {
                     if(Helper.confirm("sure")){
                         int quizId = Integer.parseInt(fld_hiddenId.getText());
                         if (Quiz.delete(quizId)) {
-                            Helper.showMassage("done");
+                            Helper.showMessage("done");
                             loadQuizModel();
                             fld_hiddenId.setText(null);
                         } else {
-                            Helper.showMassage("error");
+                            Helper.showMessage("error");
                         }
                     }
                 }

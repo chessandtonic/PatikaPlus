@@ -4,7 +4,6 @@ package Week7.com.PatikaDev.Model;
 import Week7.com.PatikaDev.Helper.DBConnector;
 import Week7.com.PatikaDev.Helper.Helper;
 
-import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -139,7 +138,7 @@ public class Content {
         String query = "INSERT INTO content (name , course_id, description, youtubelink, quiz_id) VALUES (?,?,?,?,?)";
         Content findUser = Content.getFetch(name);
         if (findUser != null) {
-            Helper.showMassage("This content name has been added before. Please enter a different content name");
+            Helper.showMessage("This content name has been added before. Please enter a different content name");
             return false;
         }
         try {
@@ -197,7 +196,7 @@ public class Content {
         Content findContent = getFetch(name);
 
         if (findContent != null && findContent.getId() != id && !(findContent.getDescription().equals(description))&&!(findContent.getYoutubeLink().equals(youtubeLink))) {
-            Helper.showMassage("This content has been added before. Please enter a different content");
+            Helper.showMessage("This content has been added before. Please enter a different content");
             return false;
         }
 
