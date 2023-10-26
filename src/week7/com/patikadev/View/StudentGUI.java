@@ -19,8 +19,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import static Week7.com.PatikaDev.View.EducatorGUI.getListByUser;
-
 public class StudentGUI extends JFrame {
     private JPanel wrapper;
     private JLabel lbl_studentWelcome;
@@ -34,11 +32,16 @@ public class StudentGUI extends JFrame {
     private JTable tbl_courseList;
     private JPanel pnl_pathList;
     private JScrollPane pnl_courseList;
+    private JTabbedPane tabbedPane2;
+    private JButton selectButtonCourse;
+    private JTable tbl_myCourseList;
     private User user;
     private Object[] row_pathList;
     private DefaultTableModel mdl_pathList;
     private Object[] row_courseList;
     private DefaultTableModel mdl_courseList;
+    private Object[] row_myCourseList;
+    private DefaultTableModel mdl_myCourseList;
 
     public StudentGUI(User user) {
         this.user = user;
@@ -97,10 +100,34 @@ public class StudentGUI extends JFrame {
         tbl_courseList.setModel(mdl_courseList);
         tbl_courseList.getTableHeader().setReorderingAllowed(false);
         tbl_courseList.getColumnModel().getColumn(0).setMaxWidth(30);
+
+        mdl_myCourseList = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                if(column==0||column==1){
+                    return false;
+                }
+                return super.isCellEditable(row, column);
+            }
+        };
+        Object[] col_myCourseList={"Id","Course Name","Course Language","Course Path"};
+        mdl_myCourseList.setColumnIdentifiers(col_myCourseList);
+        row_myCourseList=new Object[col_myCourseList.length];
+
+        tbl_myCourseList.setModel(mdl_myCourseList);
+        tbl_myCourseList.getTableHeader().setReorderingAllowed(false);
+        tbl_myCourseList.getColumnModel().getColumn(0).setMaxWidth(30);
+
         selectButtonPath.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 loadCourseModel();
+            }
+        });
+        enrollButtonCourse.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
     }
