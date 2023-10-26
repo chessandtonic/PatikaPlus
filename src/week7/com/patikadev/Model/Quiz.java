@@ -95,4 +95,25 @@ public class Quiz {
         }
         return quizList;
     }
+    public static ArrayList<Quiz> getListByContent(int content_id){
+        ArrayList<Quiz> quizList = new ArrayList<>();
+
+        Quiz obj;
+
+        try {
+            Statement st = DBConnector.getInstance().createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM quiz WHERE content_id = " + content_id);
+            while(rs.next()){
+                int id = rs.getInt("id");
+                int contentId=rs.getInt("content_id");
+                String quizName= rs.getString("quiz_name");
+                String quizText = rs.getString("quiz_text");
+                obj = new Quiz(id,contentId,quizName,quizText);
+                quizList.add(obj);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return quizList;
+    }
 }

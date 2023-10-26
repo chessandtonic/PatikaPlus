@@ -2,11 +2,11 @@ package Week7.com.PatikaDev.View;
 
 import Week7.com.PatikaDev.Helper.Config;
 import Week7.com.PatikaDev.Helper.Helper;
-import Week7.com.PatikaDev.Helper.Item;
 import Week7.com.PatikaDev.Model.Content;
 import Week7.com.PatikaDev.Model.Quiz;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -21,7 +21,13 @@ public class QuizGUI extends JFrame {
     private JButton btn_quiz_add;
     private JButton btn_quiz_delete;
     private JButton btn_quiz_update;
+    private JButton newQuizButton;
+    private JTable tbl_quizList;
+    private JTextField textField1;
     private static Content content;
+    private DefaultTableModel mdl_myQuizList;
+    private Object[] row_myQuizList;
+
 
     public QuizGUI(Content content) {
         this.content = content;
@@ -35,12 +41,20 @@ public class QuizGUI extends JFrame {
         txt_questions.setSize(50, 50);
         txt_questions.setLineWrap(true);
         lbl_content_name.setText(content.getName());
-        loadQuizCombo();
 
-
-        txt_questions.setSize(25,25);
+        txt_questions.setSize(25, 25);
         txt_questions.setLineWrap(true);
 
+        mdl_myQuizList=new DefaultTableModel();
+
+        Object[] col_myQuizList ={"Id","Quiz Name"};
+        mdl_myQuizList.setColumnIdentifiers(col_myQuizList);
+        row_myQuizList = new Object[col_myQuizList.length];
+        //loadContentModel(course.getId());
+        tbl_quizList.setModel(mdl_myQuizList);
+        tbl_quizList.getTableHeader().setReorderingAllowed(false);
+        tbl_quizList.getColumnModel().getColumn(0).setMaxWidth(30);
+        loadQuizModel();
         btn_quiz_add.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -52,7 +66,6 @@ public class QuizGUI extends JFrame {
 
                     if (Quiz.add(quizName, quizText, content.getId())) {
                         Helper.showMassage("done");
-                        loadQuizCombo();
                         fld_quiz_name.setText(null);
                         txt_questions.setText(null);
                     }
@@ -60,11 +73,16 @@ public class QuizGUI extends JFrame {
             }
         });
     }
-    public void loadQuizCombo() {
-        cmb_quiz_list.removeAllItems();
-        cmb_quiz_list.addItem(new Item(0,"New Quiz"));
-        for (Quiz obj : Quiz.getList()) {
-            cmb_quiz_list.addItem(new Item(obj.getId(), obj.getQuiz_name()));
+    private void loadQuizModel() {
+        DefaultTableModel clearModel = (DefaultTableModel) tbl_quizList.getModel();
+        clearModel.setRowCount(0);
+        int i = 0;
+        for(Quiz obj : Quiz.getListByContent(content.getId())){
+            i=0;
+            row_myQuizList[i++] = obj.getId();
+            row_myQuizList[i++] = obj.getQuiz_name();
+
+            mdl_myQuizList.addRow(row_myQuizList);
         }
     }
 }
