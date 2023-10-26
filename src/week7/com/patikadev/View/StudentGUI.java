@@ -139,7 +139,12 @@ public class StudentGUI extends JFrame {
         enrollButtonCourse.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                if (fld_hiddenCourseId.getText().isEmpty()){
+                    Helper.showMassage("error");
+                } else {
+                    Helper.showMassage("done");
+                    loadMyCourseModel();
+                }
             }
         });
     }
@@ -233,14 +238,16 @@ public class StudentGUI extends JFrame {
     }
 
     private void loadMyCourseModel() {
-        DefaultTableModel clearModel = (DefaultTableModel) tbl_courseList.getModel();
+        //DefaultTableModel clearModel = (DefaultTableModel) tbl_courseList.getModel();
+        //clearModel.setRowCount(0);
 
         int courseId = Integer.parseInt(fld_hiddenCourseId.getText());
         for (Course obj : getCourseById(courseId)) {
-            row_courseList[0] = obj.getId();
-            row_courseList[1] = obj.getName();
-            row_courseList[2] = obj.getLang();
-            mdl_courseList.addRow(row_courseList);
+            row_myCourseList[0] = obj.getId();
+            row_myCourseList[1] = obj.getName();
+            row_myCourseList[2] = obj.getLang();
+            row_myCourseList[3] = obj.getPath_id();
+            mdl_myCourseList.addRow(row_myCourseList);
         }
     }
 }
