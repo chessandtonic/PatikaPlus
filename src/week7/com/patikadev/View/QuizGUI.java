@@ -6,6 +6,8 @@ import Week7.com.PatikaDev.Model.Content;
 import Week7.com.PatikaDev.Model.Quiz;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,7 +25,7 @@ public class QuizGUI extends JFrame {
     private JButton btn_quiz_update;
     private JButton newQuizButton;
     private JTable tbl_quizList;
-    private JTextField textField1;
+    private JTextField fld_hiddenId;
     private static Content content;
     private DefaultTableModel mdl_myQuizList;
     private Object[] row_myQuizList;
@@ -55,6 +57,18 @@ public class QuizGUI extends JFrame {
         tbl_quizList.getTableHeader().setReorderingAllowed(false);
         tbl_quizList.getColumnModel().getColumn(0).setMaxWidth(30);
         loadQuizModel();
+
+        tbl_quizList.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                try{
+                    String select_quizId=tbl_quizList.getValueAt(tbl_quizList.getSelectedRow(),0).toString();
+                    fld_hiddenId.setText(select_quizId);
+                }catch (Exception exception){
+
+                }
+            }
+        });
         btn_quiz_add.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -66,8 +80,29 @@ public class QuizGUI extends JFrame {
 
                     if (Quiz.add(quizName, quizText, content.getId())) {
                         Helper.showMassage("done");
+                        loadQuizModel();
+
                         fld_quiz_name.setText(null);
                         txt_questions.setText(null);
+                    }
+                }
+            }
+        });
+        btn_quiz_delete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (Helper.isFieldEmpty(fld_hiddenId)) {
+                    Helper.showMassage("Pick a quiz to delete");
+                } else {
+                    if(Helper.confirm("sure")){
+                        int quizId = Integer.parseInt(fld_hiddenId.getText());
+                        if (Quiz.delete(quizId)) {
+                            Helper.showMassage("done");
+                            loadQuizModel();
+                            fld_hiddenId.setText(null);
+                        } else {
+                            Helper.showMassage("error");
+                        }
                     }
                 }
             }

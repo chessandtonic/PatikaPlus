@@ -116,4 +116,17 @@ public class Quiz {
         }
         return quizList;
     }
+    public static boolean delete(int id) {
+        String query = "DELETE FROM quiz WHERE id = ?";
+
+        try {
+            PreparedStatement ps = DBConnector.getInstance().prepareStatement(query);
+            ps.setInt(1, id);
+
+            return ps.executeUpdate() != -1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
 }
