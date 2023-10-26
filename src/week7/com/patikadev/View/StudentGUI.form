@@ -177,7 +177,7 @@
                         <properties/>
                         <border type="none"/>
                         <children>
-                          <component id="9d6cf" class="javax.swing.JTable" binding="table1" default-binding="true">
+                          <component id="9d6cf" class="javax.swing.JTable" binding="tbl_myContent">
                             <constraints/>
                             <properties/>
                           </component>
@@ -204,7 +204,7 @@
                                   <text value="Content Name:"/>
                                 </properties>
                               </component>
-                              <component id="bda05" class="javax.swing.JTextField" binding="textField2" default-binding="true">
+                              <component id="bda05" class="javax.swing.JTextField" binding="fld_myContentName">
                                 <constraints>
                                   <grid row="1" column="0" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                     <preferred-size width="150" height="-1"/>
@@ -225,7 +225,7 @@
                                   <text value="Description:"/>
                                 </properties>
                               </component>
-                              <component id="7bbbb" class="javax.swing.JTextField" binding="textField3" default-binding="true">
+                              <component id="7bbbb" class="javax.swing.JTextField" binding="fld_myContentDescription">
                                 <constraints>
                                   <grid row="3" column="0" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                     <preferred-size width="150" height="-1"/>
@@ -243,7 +243,7 @@
                                   <text value="Link:"/>
                                 </properties>
                               </component>
-                              <component id="f3f32" class="javax.swing.JTextField" binding="textField4" default-binding="true">
+                              <component id="f3f32" class="javax.swing.JTextField" binding="fld_myContentLink">
                                 <constraints>
                                   <grid row="5" column="0" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                     <preferred-size width="150" height="-1"/>
@@ -261,7 +261,7 @@
                                   <text value="Quiz:"/>
                                 </properties>
                               </component>
-                              <component id="cb6e6" class="javax.swing.JTextArea" binding="textArea1" default-binding="true">
+                              <component id="cb6e6" class="javax.swing.JTextArea" binding="txt_myQuiz">
                                 <constraints>
                                   <grid row="7" column="0" row-span="1" col-span="5" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
                                     <preferred-size width="150" height="50"/>
@@ -279,7 +279,7 @@
                                   <text value="Answer:"/>
                                 </properties>
                               </component>
-                              <component id="f266b" class="javax.swing.JTextArea" binding="textArea2" default-binding="true">
+                              <component id="f266b" class="javax.swing.JTextArea" binding="txt_myAnswer">
                                 <constraints>
                                   <grid row="9" column="0" row-span="1" col-span="5" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
                                     <preferred-size width="150" height="50"/>
@@ -303,7 +303,7 @@
                                   <text value="Comment:"/>
                                 </properties>
                               </component>
-                              <component id="ef7d3" class="javax.swing.JTextField" binding="textField6" default-binding="true">
+                              <component id="ef7d3" class="javax.swing.JTextField" binding="fld_myComment">
                                 <constraints>
                                   <grid row="13" column="0" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                     <preferred-size width="150" height="-1"/>
