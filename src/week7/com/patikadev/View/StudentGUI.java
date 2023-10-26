@@ -12,6 +12,8 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -89,14 +91,18 @@ public class StudentGUI extends JFrame {
                 return super.isCellEditable(row, column);
             }
         };
-        Object[] col_courseList = {"ID", "Course Name"};
+        Object[] col_courseList = {"ID", "Course Name", "Course Language"};
         mdl_courseList.setColumnIdentifiers(col_courseList);
         row_courseList = new Object[col_courseList.length];
-
-        //loadCourseModel();
         tbl_courseList.setModel(mdl_courseList);
         tbl_courseList.getTableHeader().setReorderingAllowed(false);
         tbl_courseList.getColumnModel().getColumn(0).setMaxWidth(30);
+        selectButtonPath.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loadCourseModel();
+            }
+        });
     }
 
     public static ArrayList<Path> getPaths() {
@@ -118,6 +124,7 @@ public class StudentGUI extends JFrame {
         }
         return pathList;
     }
+
     private void loadPathModel() {
         DefaultTableModel clearModel = (DefaultTableModel) tbl_pathList.getModel();
         clearModel.setRowCount(0);
@@ -126,6 +133,41 @@ public class StudentGUI extends JFrame {
             row_pathList[0] = obj.getId();
             row_pathList[1] = obj.getName();
             mdl_pathList.addRow(row_pathList);
+        }
+    }
+
+    public static ArrayList<Course> getCourseByPath(int path_id) {
+        ArrayList<Course> courseList = new ArrayList<>();
+
+        Course obj;
+
+        try {
+            Statement st = DBConnector.getInstance().createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM course WHERE path_id = " + path_id);
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int userId = rs.getInt("user_id");
+                int pathId = rs.getInt("path_id");
+                String name = rs.getString("name");
+                String lang = rs.getString("lang");
+                obj = new Course(id, userId, pathId, name, lang);
+                courseList.add(obj);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return courseList;
+    }
+
+    private void loadCourseModel() {
+        DefaultTableModel clearModel = (DefaultTableModel) tbl_courseList.getModel();
+        clearModel.setRowCount(0);
+        int pathId = Integer.parseInt(fld_hiddenPathId.getText());
+        for (Course obj : getCourseByPath(pathId)) {
+            row_courseList[0] = obj.getId();
+            row_courseList[1] = obj.getName();
+            row_courseList[2] = obj.getLang();
+            mdl_courseList.addRow(row_courseList);
         }
     }
 }
