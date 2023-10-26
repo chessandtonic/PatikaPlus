@@ -107,6 +107,13 @@ public class QuizGUI extends JFrame {
                 }
             }
         });
+        newQuizButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                fld_quiz_name.setText(null);
+                txt_questions.setText(null);
+            }
+        });
     }
     private void loadQuizModel() {
         DefaultTableModel clearModel = (DefaultTableModel) tbl_quizList.getModel();
