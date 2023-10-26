@@ -35,6 +35,18 @@ public class StudentGUI extends JFrame {
     private JTabbedPane tabbedPane2;
     private JButton selectButtonCourse;
     private JTable tbl_myCourseList;
+    private JTable table1;
+    private JTextField textField2;
+    private JTextField textField3;
+    private JTextField textField4;
+    private JTextArea textArea1;
+    private JTextArea textArea2;
+    private JTextField textField6;
+    private JRadioButton a1RadioButton;
+    private JRadioButton a2RadioButton;
+    private JRadioButton a3RadioButton;
+    private JRadioButton a4RadioButton;
+    private JRadioButton a5RadioButton;
     private User user;
     private Object[] row_pathList;
     private DefaultTableModel mdl_pathList;
