@@ -24,7 +24,7 @@ public class StudentGUI extends JFrame {
     private JLabel lbl_studentWelcome;
     private JTabbedPane tabbedPane1;
     private JTextField textField1;
-    private JTextField textField2;
+    private JTextField fld_hiddenCourseId;
     private JTextField fld_hiddenPathId;
     private JButton selectButtonPath;
     private JButton enrollButtonCourse;
@@ -79,6 +79,18 @@ public class StudentGUI extends JFrame {
                 try {
                     String select_course_id = tbl_pathList.getValueAt(tbl_pathList.getSelectedRow(), 0).toString();
                     fld_hiddenPathId.setText(select_course_id);
+                } catch (Exception exception) {
+
+                }
+            }
+        });
+        tbl_courseList.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                try {
+
+                    String select_courseId = tbl_courseList.getValueAt(tbl_courseList.getSelectedRow(), 0).toString();
+                    fld_hiddenCourseId.setText(select_courseId);
                 } catch (Exception exception) {
 
                 }
@@ -191,6 +203,40 @@ public class StudentGUI extends JFrame {
         clearModel.setRowCount(0);
         int pathId = Integer.parseInt(fld_hiddenPathId.getText());
         for (Course obj : getCourseByPath(pathId)) {
+            row_courseList[0] = obj.getId();
+            row_courseList[1] = obj.getName();
+            row_courseList[2] = obj.getLang();
+            mdl_courseList.addRow(row_courseList);
+        }
+    }
+    public static ArrayList<Course> getCourseById(int courseId) {
+        ArrayList<Course> courseList = new ArrayList<>();
+
+        Course obj;
+
+        try {
+            Statement st = DBConnector.getInstance().createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM course WHERE id = " + courseId);
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int userId = rs.getInt("user_id");
+                int pathId = rs.getInt("path_id");
+                String name = rs.getString("name");
+                String lang = rs.getString("lang");
+                obj = new Course(id, userId, pathId, name, lang);
+                courseList.add(obj);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return courseList;
+    }
+
+    private void loadMyCourseModel() {
+        DefaultTableModel clearModel = (DefaultTableModel) tbl_courseList.getModel();
+
+        int courseId = Integer.parseInt(fld_hiddenCourseId.getText());
+        for (Course obj : getCourseById(courseId)) {
             row_courseList[0] = obj.getId();
             row_courseList[1] = obj.getName();
             row_courseList[2] = obj.getLang();
