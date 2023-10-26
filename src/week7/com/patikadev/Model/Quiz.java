@@ -2,22 +2,58 @@ package Week7.com.PatikaDev.Model;
 
 public class Quiz {
     private int id;
-    private String q1;
-    private String q2;
-    private String q3;
-    private String q4;
-    private String q5;
     private int content_id;
-    private Content content;
+    private String quiz_name;
+    private String quiz_text;
+    private static Content content;
 
-    public Quiz(int id, String q1, String q2, String q3, String q4, String q5,int content_id) {
-        this.id = id;
-        this.q1 = q1;
-        this.q2 = q2;
-        this.q3 = q3;
-        this.q4 = q4;
-        this.q5 = q5;
+    public Quiz(int id, int content_id, String quiz_name, String quiz_text) {
         this.content=Content.getFetch(content_id);
-        this.content_id=content_id;
+        this.id = id;
+        this.content_id = content_id;
+        this.quiz_name = quiz_name;
+        this.quiz_text = quiz_text;
+    }
+
+    public Quiz(){}
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getContent_id() {
+        return content_id;
+    }
+
+    public void setContent_id(int content_id) {
+        this.content_id = content_id;
+    }
+
+    public String getQuiz_name() {
+        return quiz_name;
+    }
+
+    public void setQuiz_name(String quiz_name) {
+        this.quiz_name = quiz_name;
+    }
+
+    public String getQuiz_text() {
+        return quiz_text;
+    }
+
+    public void setQuiz_text(String quiz_text) {
+        this.quiz_text = quiz_text;
+    }
+
+    public static Content getContent() {
+        return content;
+    }
+
+    public static void setContent(Content content) {
+        Quiz.content = content;
     }
 }

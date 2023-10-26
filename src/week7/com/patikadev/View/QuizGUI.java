@@ -2,9 +2,9 @@ package Week7.com.PatikaDev.View;
 
 import Week7.com.PatikaDev.Helper.Config;
 import Week7.com.PatikaDev.Helper.Helper;
+import Week7.com.PatikaDev.Model.Content;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class QuizGUI extends JFrame {
 
@@ -17,8 +17,10 @@ public class QuizGUI extends JFrame {
     private JButton btn_quiz_add;
     private JButton btn_quiz_delete;
     private JButton btn_quiz_update;
+    private static Content content;
 
-    public QuizGUI(){
+    public QuizGUI(Content content) {
+        this.content = content;
         add(wrapper);
         setSize(700, 700);
         setLocation(Helper.screenCenterLocation("x", getSize()), Helper.screenCenterLocation("y", getSize()));
@@ -28,9 +30,6 @@ public class QuizGUI extends JFrame {
         setVisible(true);
         txt_questions.setSize(50, 50);
         txt_questions.setLineWrap(true);
-    }
-
-    public static void main(String[] args) {
-        QuizGUI quizGUI = new QuizGUI();
+        lbl_content_name.setText(content.getName());
     }
 }
