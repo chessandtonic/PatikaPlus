@@ -1,5 +1,9 @@
 package Week7.com.PatikaDev.Model;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import Week7.com.PatikaDev.Helper.DBConnector;
+
 public class Quiz {
     private int id;
     private int content_id;
@@ -55,5 +59,19 @@ public class Quiz {
 
     public static void setContent(Content content) {
         Quiz.content = content;
+    }
+
+    public static boolean add(String quiz_name, String quiz_text, int id) {
+        String query = "INSERT INTO quiz (content_id, quiz_name, quiz_text) VALUES (?,?,?)";
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setInt(1, id);
+            pr.setString(2, quiz_name);
+            pr.setString(3, quiz_text);
+            return pr.executeUpdate() != -1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

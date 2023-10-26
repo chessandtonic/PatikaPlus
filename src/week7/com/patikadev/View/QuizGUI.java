@@ -3,8 +3,11 @@ package Week7.com.PatikaDev.View;
 import Week7.com.PatikaDev.Helper.Config;
 import Week7.com.PatikaDev.Helper.Helper;
 import Week7.com.PatikaDev.Model.Content;
+import Week7.com.PatikaDev.Model.Quiz;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class QuizGUI extends JFrame {
 
@@ -31,5 +34,27 @@ public class QuizGUI extends JFrame {
         txt_questions.setSize(50, 50);
         txt_questions.setLineWrap(true);
         lbl_content_name.setText(content.getName());
+
+
+        txt_questions.setSize(25,25);
+        txt_questions.setLineWrap(true);
+
+        btn_quiz_add.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (Helper.isFieldEmpty(fld_quiz_name) || Helper.isFieldEmpty(txt_questions)) {
+                    Helper.showMassage("fill");
+                } else {
+                    String quizName = fld_quiz_name.getText();
+                    String quizText = txt_questions.getText();
+
+                    if (Quiz.add(quizName, quizText, content.getId())) {
+                        Helper.showMassage("done");
+                        fld_quiz_name.setText(null);
+                        txt_questions.setText(null);
+                    }
+                }
+            }
+        });
     }
 }
