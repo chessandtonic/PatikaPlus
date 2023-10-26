@@ -1,8 +1,12 @@
 package Week7.com.PatikaDev.Model;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import Week7.com.PatikaDev.Helper.DBConnector;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 public class Quiz {
     private int id;
@@ -73,5 +77,22 @@ public class Quiz {
             e.printStackTrace();
         }
         return false;
+    }
+    public static ArrayList<Quiz> getList(){
+        ArrayList<Quiz> quizList= new ArrayList<>();
+        Quiz obj;
+
+        try {
+            Statement st = DBConnector.getInstance().createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM quiz");
+            while(rs.next()){
+                obj=new Quiz(rs.getInt("id"),rs.getInt("content_id"),rs.getString("quiz_name"),rs.getString("quiz_text"));
+                quizList.add(obj);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return quizList;
     }
 }

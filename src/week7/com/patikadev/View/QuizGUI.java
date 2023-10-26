@@ -2,6 +2,7 @@ package Week7.com.PatikaDev.View;
 
 import Week7.com.PatikaDev.Helper.Config;
 import Week7.com.PatikaDev.Helper.Helper;
+import Week7.com.PatikaDev.Helper.Item;
 import Week7.com.PatikaDev.Model.Content;
 import Week7.com.PatikaDev.Model.Quiz;
 
@@ -34,6 +35,7 @@ public class QuizGUI extends JFrame {
         txt_questions.setSize(50, 50);
         txt_questions.setLineWrap(true);
         lbl_content_name.setText(content.getName());
+        loadQuizCombo();
 
 
         txt_questions.setSize(25,25);
@@ -50,11 +52,19 @@ public class QuizGUI extends JFrame {
 
                     if (Quiz.add(quizName, quizText, content.getId())) {
                         Helper.showMassage("done");
+                        loadQuizCombo();
                         fld_quiz_name.setText(null);
                         txt_questions.setText(null);
                     }
                 }
             }
         });
+    }
+    public void loadQuizCombo() {
+        cmb_quiz_list.removeAllItems();
+        cmb_quiz_list.addItem(new Item(0,"New Quiz"));
+        for (Quiz obj : Quiz.getList()) {
+            cmb_quiz_list.addItem(new Item(obj.getId(), obj.getQuiz_name()));
+        }
     }
 }
