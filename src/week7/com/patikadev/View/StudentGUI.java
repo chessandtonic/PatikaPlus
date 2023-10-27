@@ -70,6 +70,11 @@ public class StudentGUI extends JFrame {
         setTitle(Config.PROJECT_TITLE);
         setVisible(true);
         lbl_studentWelcome.setText("Welcome " + user.getName());
+        fld_hiddenPathId.setVisible(false);
+        fld_hiddenCourseId.setVisible(false);
+        fld_hiddenContentId.setVisible(false);
+        fld_hiddenMyCourseId.setVisible(false);
+
         mdl_pathList = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -112,7 +117,6 @@ public class StudentGUI extends JFrame {
                 }
             }
         });
-
         tbl_myContents.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -162,6 +166,7 @@ public class StudentGUI extends JFrame {
                 return super.isCellEditable(row, column);
             }
         };
+
         Object[] col_myCourseList = {"Id", "Course Name", "Course Language", "Course Path"};
         mdl_myCourseList.setColumnIdentifiers(col_myCourseList);
         row_myCourseList = new Object[col_myCourseList.length];
@@ -364,9 +369,9 @@ public class StudentGUI extends JFrame {
         for (Content obj : getContentByCourseId(courseId)) {
             row_myCourseList[0] = obj.getId();
             row_myCourseList[1] = obj.getName();
-//            row_myCourseList[2] = obj.getCourseId();
-//            row_myCourseList[3] = obj.getDescription();
-//            row_myCourseList[4] = obj.getYoutubeLink();
+            //row_myCourseList[2] = obj.getCourseId();
+            //row_myCourseList[3] = obj.getDescription();
+            //row_myCourseList[4] = obj.getYoutubeLink();
             mdl_myContentList.addRow(row_myCourseList);
         }
     }
@@ -439,7 +444,6 @@ public class StudentGUI extends JFrame {
 
     private boolean addSelectedCourses() {
         String query = "INSERT INTO selected_courses (course_id, user_id) VALUES (?,?)";
-
 
         try {
             PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
