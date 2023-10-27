@@ -3,10 +3,10 @@ package Week7.com.PatikaDev.View;
 import Week7.com.PatikaDev.Helper.Config;
 import Week7.com.PatikaDev.Helper.DBConnector;
 import Week7.com.PatikaDev.Helper.Helper;
+import Week7.com.PatikaDev.Model.Content;
 import Week7.com.PatikaDev.Model.Course;
-import Week7.com.PatikaDev.Model.User;
 import Week7.com.PatikaDev.Model.Path;
-
+import Week7.com.PatikaDev.Model.User;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -23,7 +23,7 @@ public class StudentGUI extends JFrame {
     private JPanel wrapper;
     private JLabel lbl_studentWelcome;
     private JTabbedPane tabbedPane1;
-    private JTextField textField1;
+    private JTextField fld_hiddenContentId;
     private JTextField fld_hiddenCourseId;
     private JTextField fld_hiddenPathId;
     private JButton selectButtonPath;
@@ -35,7 +35,7 @@ public class StudentGUI extends JFrame {
     private JTabbedPane tabbedPane2;
     private JButton selectButtonCourse;
     private JTable tbl_myCourseList;
-    private JTable tbl_myContent;
+    private JTable tbl_myContents;
     private JTextField fld_myContentName;
     private JTextField fld_myContentDescription;
     private JTextField fld_myContentLink;
@@ -47,6 +47,8 @@ public class StudentGUI extends JFrame {
     private JRadioButton a3RadioButton;
     private JRadioButton a4RadioButton;
     private JRadioButton a5RadioButton;
+    private JButton selectButtonContent;
+    private JTextField fld_hiddenMyCourseId;
     private User user;
     private Object[] row_pathList;
     private DefaultTableModel mdl_pathList;
@@ -54,6 +56,9 @@ public class StudentGUI extends JFrame {
     private DefaultTableModel mdl_courseList;
     private Object[] row_myCourseList;
     private DefaultTableModel mdl_myCourseList;
+    private Object[] row_myContentList;
+    private DefaultTableModel mdl_myContentList;
+
 
     public StudentGUI(User user) {
         this.user = user;
@@ -109,6 +114,30 @@ public class StudentGUI extends JFrame {
             }
         });
 
+        tbl_myContents.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                try {
+                    String select_contentId = tbl_myContents.getValueAt(tbl_myContents.getSelectedRow(), 0).toString();
+                    fld_hiddenContentId.setText(select_contentId);
+                } catch (Exception exception) {
+
+                }
+            }
+        });
+        tbl_myCourseList.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                try {
+
+                    String select_courseId = tbl_myCourseList.getValueAt(tbl_myCourseList.getSelectedRow(), 0).toString();
+                    fld_hiddenMyCourseId.setText(select_courseId);
+                } catch (Exception exception) {
+
+                }
+            }
+        });
+
         mdl_courseList = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -142,6 +171,23 @@ public class StudentGUI extends JFrame {
         tbl_myCourseList.getTableHeader().setReorderingAllowed(false);
         tbl_myCourseList.getColumnModel().getColumn(0).setMaxWidth(30);
 
+
+        mdl_myContentList = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                if (column == 0 || column == 1) {
+                    return false;
+                }
+                return super.isCellEditable(row, column);
+            }
+        };
+        Object[] col_myContentList = {"Id", "Content Name"};
+        mdl_myContentList.setColumnIdentifiers(col_myContentList);
+        row_myContentList = new Object[col_myContentList.length];
+        tbl_myContents.setModel(mdl_myContentList);
+        tbl_myContents.getTableHeader().setReorderingAllowed(false);
+        tbl_myContents.getColumnModel().getColumn(0).setMaxWidth(30);
+
         selectButtonPath.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -157,6 +203,12 @@ public class StudentGUI extends JFrame {
                     Helper.showMessage("done");
                     loadMyCourseModel();
                 }
+            }
+        });
+        selectButtonCourse.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loadMyContentModel();
             }
         });
     }
@@ -260,6 +312,41 @@ public class StudentGUI extends JFrame {
             row_myCourseList[2] = obj.getLang();
             row_myCourseList[3] = obj.getPath().getName().toString();
             mdl_myCourseList.addRow(row_myCourseList);
+        }
+    }
+    public static ArrayList<Content> getContentByCourseId(int courseId) {
+        ArrayList<Content> getContentByCourseId = new ArrayList<>();
+
+        Content obj;
+
+        try {
+            Statement st = DBConnector.getInstance().createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM content WHERE course_id = " + courseId);
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int courseID = rs.getInt("course_id");
+                String contentName = rs.getString("name");
+                String description = rs.getString("description");
+                String youtubeLink = rs.getString("youtubeLink");
+                obj = new Content(id,contentName,courseID,description,youtubeLink);
+                getContentByCourseId.add(obj);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return getContentByCourseId;
+    }
+    private void loadMyContentModel() {
+        int courseId = Integer.parseInt(fld_hiddenMyCourseId.getText());
+        DefaultTableModel clearModel = (DefaultTableModel) tbl_myContents.getModel();
+        clearModel.setRowCount(0);
+        for (Content obj : getContentByCourseId(courseId)) {
+            row_myCourseList[0] = obj.getId();
+            row_myCourseList[1] = obj.getName();
+//            row_myCourseList[2] = obj.getCourseId();
+//            row_myCourseList[3] = obj.getDescription();
+//            row_myCourseList[4] = obj.getYoutubeLink();
+            mdl_myContentList.addRow(row_myCourseList);
         }
     }
 }
