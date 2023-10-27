@@ -11,6 +11,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -164,7 +165,7 @@ public class StudentGUI extends JFrame {
         Object[] col_myCourseList = {"Id", "Course Name", "Course Language", "Course Path"};
         mdl_myCourseList.setColumnIdentifiers(col_myCourseList);
         row_myCourseList = new Object[col_myCourseList.length];
-
+        loadMyCourseModel();
         tbl_myCourseList.setModel(mdl_myCourseList);
         tbl_myCourseList.getTableHeader().setReorderingAllowed(false);
         tbl_myCourseList.getColumnModel().getColumn(0).setMaxWidth(30);
@@ -182,6 +183,7 @@ public class StudentGUI extends JFrame {
         Object[] col_myContentList = {"Id", "Content Name"};
         mdl_myContentList.setColumnIdentifiers(col_myContentList);
         row_myContentList = new Object[col_myContentList.length];
+
         tbl_myContents.setModel(mdl_myContentList);
         tbl_myContents.getTableHeader().setReorderingAllowed(false);
         tbl_myContents.getColumnModel().getColumn(0).setMaxWidth(30);
@@ -198,6 +200,7 @@ public class StudentGUI extends JFrame {
                 if (fld_hiddenCourseId.getText().isEmpty()) {
                     Helper.showMessage("error");
                 } else {
+                    addSelectedCourses();
                     Helper.showMessage("done");
                     loadMyCourseModel();
                 }
@@ -293,6 +296,7 @@ public class StudentGUI extends JFrame {
             mdl_courseList.addRow(row_courseList);
         }
     }
+
     public static ArrayList<Course> getCourseById(int courseId) {
         ArrayList<Course> courseList = new ArrayList<>();
 
@@ -317,18 +321,17 @@ public class StudentGUI extends JFrame {
     }
 
     private void loadMyCourseModel() {
-        //DefaultTableModel clearModel = (DefaultTableModel) tbl_courseList.getModel();
-        //clearModel.setRowCount(0);
 
-        int courseId = Integer.parseInt(fld_hiddenCourseId.getText());
-        for (Course obj : getCourseById(courseId)) {
+        for (Course obj : getMyCourseList(getSelectedCourseId())) {
             row_myCourseList[0] = obj.getId();
             row_myCourseList[1] = obj.getName();
             row_myCourseList[2] = obj.getLang();
             row_myCourseList[3] = obj.getPath().getName().toString();
+
             mdl_myCourseList.addRow(row_myCourseList);
         }
     }
+
     public static ArrayList<Content> getContentByCourseId(int courseId) {
         ArrayList<Content> getContentByCourseId = new ArrayList<>();
 
@@ -343,7 +346,7 @@ public class StudentGUI extends JFrame {
                 String contentName = rs.getString("name");
                 String description = rs.getString("description");
                 String youtubeLink = rs.getString("youtubeLink");
-                obj = new Content(id,contentName,courseID,description,youtubeLink);
+                obj = new Content(id, contentName, courseID, description, youtubeLink);
                 getContentByCourseId.add(obj);
             }
         } catch (SQLException e) {
@@ -351,6 +354,7 @@ public class StudentGUI extends JFrame {
         }
         return getContentByCourseId;
     }
+
     private void loadMyContentModel() {
         int courseId = Integer.parseInt(fld_hiddenMyCourseId.getText());
         DefaultTableModel clearModel = (DefaultTableModel) tbl_myContents.getModel();
@@ -364,6 +368,7 @@ public class StudentGUI extends JFrame {
             mdl_myContentList.addRow(row_myCourseList);
         }
     }
+
     public static ArrayList<Content> getDetailsByContentId(int contentId) {
         ArrayList<Content> contentDetailsList = new ArrayList<>();
 
@@ -378,7 +383,7 @@ public class StudentGUI extends JFrame {
                 String contentName = rs.getString("name");
                 String description = rs.getString("description");
                 String youtubeLink = rs.getString("youtubeLink");
-                obj = new Content(id,contentName,courseID,description,youtubeLink);
+                obj = new Content(id, contentName, courseID, description, youtubeLink);
                 contentDetailsList.add(obj);
             }
         } catch (SQLException e) {
@@ -401,7 +406,7 @@ public class StudentGUI extends JFrame {
                 String quizName = rs.getString("quiz_name");
                 String quizText = rs.getString("quiz_text");
 
-                obj = new Quiz(id,content_id,quizName,quizText);
+                obj = new Quiz(id, content_id, quizName, quizText);
                 quizList.add(obj);
             }
         } catch (SQLException e) {
@@ -428,5 +433,70 @@ public class StudentGUI extends JFrame {
             myQuiz += quizName + quizText + "\n";
             txt_myQuiz.setText(myQuiz);
         }
+    }
+
+    private boolean addSelectedCourses() {
+        String query = "INSERT INTO selected_courses (course_id, user_id) VALUES (?,?)";
+
+
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setInt(1, Integer.parseInt(fld_hiddenCourseId.getText()));
+            pr.setInt(2, user.getId());
+
+            int response = pr.executeUpdate();
+
+            if (response == -1) {
+                Helper.showMessage("error");
+            }
+            return response != -1;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return true;
+    }
+
+    private ArrayList<Integer> getSelectedCourseId() {
+        ArrayList<Integer> courseIdList = new ArrayList<>();
+
+        try {
+            Statement st = DBConnector.getInstance().createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM selected_courses WHERE user_id = " + user.getId());
+            while (rs.next()) {
+                int course_id = rs.getInt("course_id");
+
+                courseIdList.add(course_id);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return courseIdList;
+    }
+
+
+    private ArrayList<Course> getMyCourseList(ArrayList<Integer> courseIdList) {
+        ArrayList<Course> myCourseList = new ArrayList<>();
+
+        Course obj;
+
+        for (Integer ID : courseIdList) {
+
+            try {
+                Statement st = DBConnector.getInstance().createStatement();
+                ResultSet rs = st.executeQuery("SELECT * FROM course WHERE id = " + ID);
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    int patika_id = rs.getInt("path_id");
+                    String name = rs.getString("name");
+                    String lang = rs.getString("lang");
+
+                    obj = new Course(id, user.getId(), patika_id, name, lang);
+                    myCourseList.add(obj);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return myCourseList;
     }
 }
