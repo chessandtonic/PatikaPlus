@@ -216,6 +216,16 @@ public class StudentGUI extends JFrame {
                 loadContentDetailsModel();
             }
         });
+        submitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (txt_myAnswer.getText().isEmpty() || fld_myComment.getText().isEmpty()) {
+                    Helper.showMessage("fill");
+                } else {
+                    Helper.showMessage("Well done!");
+                }
+            }
+        });
     }
 
     public static ArrayList<Path> getPaths() {
