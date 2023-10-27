@@ -53,6 +53,12 @@ public class OperatorGUI extends JFrame {
     private JComboBox cmb_coursePath;
     private JComboBox cmb_courseEducator;
     private JButton btn_courseAdd;
+    private JTable tbl_allContent;
+    private JButton deleteButtonContent;
+    private JTextField fld_contentId;
+    private JButton deleteButtonQuiz;
+    private JTextField fld_quizId;
+    private JTable tbl_allQuiz;
     private DefaultTableModel mdl_userList;
     private Object[] row_userList;
     private final Operator operator;
