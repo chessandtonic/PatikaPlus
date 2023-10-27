@@ -3,10 +3,7 @@ package Week7.com.PatikaDev.View;
 import Week7.com.PatikaDev.Helper.Config;
 import Week7.com.PatikaDev.Helper.DBConnector;
 import Week7.com.PatikaDev.Helper.Helper;
-import Week7.com.PatikaDev.Model.Content;
-import Week7.com.PatikaDev.Model.Course;
-import Week7.com.PatikaDev.Model.Path;
-import Week7.com.PatikaDev.Model.User;
+import Week7.com.PatikaDev.Model.*;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -49,6 +46,7 @@ public class StudentGUI extends JFrame {
     private JRadioButton a5RadioButton;
     private JButton selectButtonContent;
     private JTextField fld_hiddenMyCourseId;
+    private JButton submitButton;
     private User user;
     private Object[] row_pathList;
     private DefaultTableModel mdl_pathList;
@@ -154,18 +152,18 @@ public class StudentGUI extends JFrame {
         tbl_courseList.getTableHeader().setReorderingAllowed(false);
         tbl_courseList.getColumnModel().getColumn(0).setMaxWidth(30);
 
-        mdl_myCourseList = new DefaultTableModel(){
+        mdl_myCourseList = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
-                if(column==0||column==1){
+                if (column == 0 || column == 1) {
                     return false;
                 }
                 return super.isCellEditable(row, column);
             }
         };
-        Object[] col_myCourseList={"Id","Course Name","Course Language","Course Path"};
+        Object[] col_myCourseList = {"Id", "Course Name", "Course Language", "Course Path"};
         mdl_myCourseList.setColumnIdentifiers(col_myCourseList);
-        row_myCourseList=new Object[col_myCourseList.length];
+        row_myCourseList = new Object[col_myCourseList.length];
 
         tbl_myCourseList.setModel(mdl_myCourseList);
         tbl_myCourseList.getTableHeader().setReorderingAllowed(false);
@@ -197,7 +195,7 @@ public class StudentGUI extends JFrame {
         enrollButtonCourse.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (fld_hiddenCourseId.getText().isEmpty()){
+                if (fld_hiddenCourseId.getText().isEmpty()) {
                     Helper.showMessage("error");
                 } else {
                     Helper.showMessage("done");
@@ -209,6 +207,13 @@ public class StudentGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 loadMyContentModel();
+            }
+        });
+
+        selectButtonContent.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loadContentDetailsModel();
             }
         });
     }
@@ -347,6 +352,71 @@ public class StudentGUI extends JFrame {
 //            row_myCourseList[3] = obj.getDescription();
 //            row_myCourseList[4] = obj.getYoutubeLink();
             mdl_myContentList.addRow(row_myCourseList);
+        }
+    }
+    public static ArrayList<Content> getDetailsByContentId(int contentId) {
+        ArrayList<Content> contentDetailsList = new ArrayList<>();
+
+        Content obj;
+
+        try {
+            Statement st = DBConnector.getInstance().createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM content WHERE id = " + contentId);
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int courseID = rs.getInt("course_id");
+                String contentName = rs.getString("name");
+                String description = rs.getString("description");
+                String youtubeLink = rs.getString("youtubeLink");
+                obj = new Content(id,contentName,courseID,description,youtubeLink);
+                contentDetailsList.add(obj);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return contentDetailsList;
+    }
+
+    public static ArrayList<Quiz> getQuizByContentId(int contentId) {
+        ArrayList<Quiz> quizList = new ArrayList<>();
+
+        Quiz obj;
+
+        try {
+            Statement st = DBConnector.getInstance().createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM quiz WHERE content_id = " + contentId);
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int content_id = rs.getInt("content_id");
+                String quizName = rs.getString("quiz_name");
+                String quizText = rs.getString("quiz_text");
+
+                obj = new Quiz(id,content_id,quizName,quizText);
+                quizList.add(obj);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return quizList;
+    }
+
+    private void loadContentDetailsModel() {
+        int contentId = Integer.parseInt(fld_hiddenContentId.getText());
+
+        for (Content obj : getDetailsByContentId(contentId)) {
+            fld_myContentName.setText(obj.getName());
+            fld_myContentDescription.setText(obj.getDescription());
+            fld_myContentLink.setText(obj.getYoutubeLink());
+        }
+
+        String quizName;
+        String quizText;
+        String myQuiz = "";
+        for (Quiz obj : getQuizByContentId(contentId)) {
+            quizName = obj.getQuiz_name() + "\n";
+            quizText = obj.getQuiz_text() + "\n";
+            myQuiz += quizName + quizText + "\n";
+            txt_myQuiz.setText(myQuiz);
         }
     }
 }
