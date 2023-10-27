@@ -1,10 +1,7 @@
 package Week7.com.PatikaDev.View;
 
 import Week7.com.PatikaDev.Helper.*;
-import Week7.com.PatikaDev.Model.Course;
-import Week7.com.PatikaDev.Model.Operator;
-import Week7.com.PatikaDev.Model.Path;
-import Week7.com.PatikaDev.Model.User;
+import Week7.com.PatikaDev.Model.*;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -14,6 +11,9 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class OperatorGUI extends JFrame {
@@ -67,6 +67,10 @@ public class OperatorGUI extends JFrame {
     private  JPopupMenu pathMenu;
     private DefaultTableModel mdl_courseList;
     private Object[] row_courseList;
+    private DefaultTableModel mdl_contentList;
+    private Object[] row_contentList;
+    private DefaultTableModel mdl_quizList;
+    private Object[] row_quizList;
 
     public OperatorGUI(Operator operator) {
         this.operator = operator;
@@ -208,6 +212,70 @@ public class OperatorGUI extends JFrame {
 
         //courseList """""""""
 
+        mdl_contentList = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                if(column==0){
+                    return false;
+                }
+                return super.isCellEditable(row, column);
+            }
+        };
+
+        Object[] col_contentList = {"ID", "Name"};
+        mdl_contentList.setColumnIdentifiers(col_contentList);
+        row_contentList = new Object[col_contentList.length];
+
+        loadContentModel();
+
+        tbl_allContent.setModel(mdl_contentList);
+        tbl_allContent.getColumnModel().getColumn(0).setMaxWidth(30);
+        tbl_allContent.getTableHeader().setReorderingAllowed(false);
+
+        tbl_allContent.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                try{
+                    String select_contentId=tbl_allContent.getValueAt(tbl_allContent.getSelectedRow(),0).toString();
+                    fld_contentId.setText(select_contentId);
+                }catch (Exception exception){
+
+                }
+            }
+        });
+
+        mdl_quizList = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                if(column==0){
+                    return false;
+                }
+                return super.isCellEditable(row, column);
+            }
+        };
+
+        Object[] col_quizList = {"ID", "Name"};
+        mdl_quizList.setColumnIdentifiers(col_quizList);
+        row_quizList = new Object[col_quizList.length];
+
+        loadQuizModel();
+
+        tbl_allQuiz.setModel(mdl_quizList);
+        tbl_allQuiz.getColumnModel().getColumn(0).setMaxWidth(30);
+        tbl_allQuiz.getTableHeader().setReorderingAllowed(false);
+
+        tbl_allQuiz.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                try{
+                    String select_quizId=tbl_allQuiz.getValueAt(tbl_allQuiz.getSelectedRow(),0).toString();
+                    fld_quizId.setText(select_quizId);
+                }catch (Exception exception){
+
+                }
+            }
+        });
+
         btn_userAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -302,6 +370,48 @@ public class OperatorGUI extends JFrame {
                 }
             }
         });
+        deleteButtonContent.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (Helper.isFieldEmpty(fld_contentId)) {
+                    Helper.showMessage("Pick a content to delete");
+                } else {
+                    if(Helper.confirm("sure")){
+                        int contentId = Integer.parseInt(fld_contentId.getText());
+                        if (Content.delete(contentId)) {
+                            Quiz.deleteQuizByContent(contentId);
+                            Helper.showMessage("done");
+                            loadContentModel();
+                            loadQuizModel();
+                            fld_contentId.setText(null);
+
+                        } else {
+                            Helper.showMessage("error");
+                        }
+                    }
+                }
+            }
+        });
+        deleteButtonQuiz.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (Helper.isFieldEmpty(fld_quizId)) {
+                    Helper.showMessage("Pick a quiz to delete");
+                } else {
+                    if(Helper.confirm("sure")){
+                        int quizId = Integer.parseInt(fld_quizId.getText());
+                        if (Quiz.delete(quizId)) {
+                            Helper.showMessage("done");
+                            loadQuizModel();
+                            fld_quizId.setText(null);
+
+                        } else {
+                            Helper.showMessage("error");
+                        }
+                    }
+                }
+            }
+        });
     }
 
     private void loadCourseModel() {
@@ -373,16 +483,60 @@ public class OperatorGUI extends JFrame {
             }
         }
     }
+    public static ArrayList<Quiz> getQuizList(){
+        ArrayList<Quiz> quizList= new ArrayList<>();
+        Quiz obj;
 
-    public static void main(String[] args) {
-        Helper.setLayout();
-        Operator op = new Operator();
-        op.setId(1);
-        op.setName("Cüneyt Can İşcan");
-        op.setuName("caniscan");
-        op.setPass("123");
-        op.setType("operator");
-        DBConnector.getInstance();
-        OperatorGUI operatorGUI = new OperatorGUI(op);
+        try {
+            Statement st = DBConnector.getInstance().createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM quiz");
+            while(rs.next()){
+                obj=new Quiz(rs.getInt("id"),rs.getInt("content_id"),rs.getString("quiz_name"),rs.getString("quiz_text"));
+                quizList.add(obj);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return quizList;
+    }
+    public void loadQuizModel() {
+        DefaultTableModel clearModel = (DefaultTableModel) tbl_allQuiz.getModel();
+        clearModel.setRowCount(0);
+        for (Quiz obj : getQuizList()) {
+            int i = 0;
+            row_quizList[i++] = obj.getId();
+            row_quizList[i++] = obj.getQuiz_name();
+
+            mdl_quizList.addRow(row_quizList);
+        }
+    }
+    public static ArrayList<Content> getContentList(){
+        ArrayList<Content> contentList= new ArrayList<>();
+        Content obj;
+
+        try {
+            Statement st = DBConnector.getInstance().createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM content");
+            while(rs.next()){
+                obj=new Content(rs.getInt("id"),rs.getString("name"),rs.getInt("course_id"),rs.getString("description"),rs.getString("youtubeLink"));
+                contentList.add(obj);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return contentList;
+    }
+    public void loadContentModel() {
+        DefaultTableModel clearModel = (DefaultTableModel) tbl_allContent.getModel();
+        clearModel.setRowCount(0);
+        for (Content obj : getContentList()) {
+            int i = 0;
+            row_contentList[i++] = obj.getId();
+            row_contentList[i++] = obj.getName();
+
+            mdl_contentList.addRow(row_contentList);
+        }
     }
 }

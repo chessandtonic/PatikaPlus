@@ -78,23 +78,7 @@ public class Quiz {
         }
         return false;
     }
-    public static ArrayList<Quiz> getList(){
-        ArrayList<Quiz> quizList= new ArrayList<>();
-        Quiz obj;
 
-        try {
-            Statement st = DBConnector.getInstance().createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM quiz");
-            while(rs.next()){
-                obj=new Quiz(rs.getInt("id"),rs.getInt("content_id"),rs.getString("quiz_name"),rs.getString("quiz_text"));
-                quizList.add(obj);
-
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return quizList;
-    }
     public static ArrayList<Quiz> getListByContent(int content_id){
         ArrayList<Quiz> quizList = new ArrayList<>();
 
@@ -122,6 +106,19 @@ public class Quiz {
         try {
             PreparedStatement ps = DBConnector.getInstance().prepareStatement(query);
             ps.setInt(1, id);
+
+            return ps.executeUpdate() != -1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+    public static boolean deleteQuizByContent(int content_id) {
+        String query = "DELETE FROM quiz WHERE content_id = ?";
+
+        try {
+            PreparedStatement ps = DBConnector.getInstance().prepareStatement(query);
+            ps.setInt(1, content_id);
 
             return ps.executeUpdate() != -1;
         } catch (SQLException e) {
