@@ -321,6 +321,8 @@ public class StudentGUI extends JFrame {
     }
 
     private void loadMyCourseModel() {
+        DefaultTableModel clearModel = (DefaultTableModel) tbl_myCourseList.getModel();
+        clearModel.setRowCount(0);
 
         for (Course obj : getMyCourseList(getSelectedCourseId())) {
             row_myCourseList[0] = obj.getId();
