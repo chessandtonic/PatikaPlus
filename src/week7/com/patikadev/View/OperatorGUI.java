@@ -59,6 +59,8 @@ public class OperatorGUI extends JFrame {
     private JButton deleteButtonQuiz;
     private JTextField fld_quizId;
     private JTable tbl_allQuiz;
+    private JButton deleteButtonCourse;
+    private JTextField fld_hiddenCourseId;
     private DefaultTableModel mdl_userList;
     private Object[] row_userList;
     private final Operator operator;
@@ -83,6 +85,7 @@ public class OperatorGUI extends JFrame {
         setTitle(Config.PROJECT_TITLE);
         setVisible(true);
         lbl_welcome.setText("Welcome " + operator.getName());
+        fld_hiddenCourseId.setVisible(false);
 
         //UserList
         mdl_userList = new DefaultTableModel(){
@@ -209,6 +212,17 @@ public class OperatorGUI extends JFrame {
 
         loadPathCombo();
         loadEducatorCombo();
+        tbl_courseList.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                try{
+                    String select_courseId=tbl_courseList.getValueAt(tbl_courseList.getSelectedRow(),0).toString();
+                    fld_hiddenCourseId.setText(select_courseId);
+                }catch (Exception exception){
+
+                }
+            }
+        });
 
         //courseList """""""""
 
@@ -404,6 +418,26 @@ public class OperatorGUI extends JFrame {
                             Helper.showMessage("done");
                             loadQuizModel();
                             fld_quizId.setText(null);
+
+                        } else {
+                            Helper.showMessage("error");
+                        }
+                    }
+                }
+            }
+        });
+        deleteButtonCourse.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (Helper.isFieldEmpty(fld_hiddenCourseId)) {
+                    Helper.showMessage("Pick a course to delete");
+                } else {
+                    if(Helper.confirm("sure")){
+                        int courseId = Integer.parseInt(fld_hiddenCourseId.getText());
+                        if (Course.delete(courseId)) {
+                            Helper.showMessage("done");
+                            loadCourseModel();
+                            fld_hiddenCourseId.setText(null);
 
                         } else {
                             Helper.showMessage("error");
