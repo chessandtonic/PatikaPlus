@@ -179,4 +179,16 @@ public class Quiz {
         }
         return true;
     }
+    public static boolean updateName(int id, String quizName) {
+        String query = "UPDATE quiz SET quiz_name=? WHERE id=?";
+        try {
+            PreparedStatement ps = DBConnector.getInstance().prepareStatement(query);
+            ps.setString(1, quizName);
+            ps.setInt(2, id);
+            return ps.executeUpdate() != -1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
 }

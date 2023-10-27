@@ -245,6 +245,22 @@ public class OperatorGUI extends JFrame {
         tbl_allContent.setModel(mdl_contentList);
         tbl_allContent.getColumnModel().getColumn(0).setMaxWidth(30);
         tbl_allContent.getTableHeader().setReorderingAllowed(false);
+        tbl_allContent.getModel().addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                if(e.getType()==TableModelEvent.UPDATE){
+                    int content_id = Integer.parseInt(tbl_allContent.getValueAt(tbl_allContent.getSelectedRow(),0).toString());
+                    String content_name = tbl_allContent.getValueAt(tbl_allContent.getSelectedRow(),1).toString();
+
+
+                    if(Content.updateName(content_id,content_name)){
+                        Helper.showMessage("done");
+                    }
+
+                    loadContentModel();
+                }
+            }
+        });
 
         tbl_allContent.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -277,6 +293,21 @@ public class OperatorGUI extends JFrame {
         tbl_allQuiz.setModel(mdl_quizList);
         tbl_allQuiz.getColumnModel().getColumn(0).setMaxWidth(30);
         tbl_allQuiz.getTableHeader().setReorderingAllowed(false);
+
+        tbl_allQuiz.getModel().addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                if(e.getType()==TableModelEvent.UPDATE){
+                    int quiz_id = Integer.parseInt(tbl_allQuiz.getValueAt(tbl_allQuiz.getSelectedRow(),0).toString());
+                    String quiz_name = tbl_allQuiz.getValueAt(tbl_allQuiz.getSelectedRow(),1).toString();
+
+                    if(Quiz.updateName(quiz_id,quiz_name)){
+                        Helper.showMessage("done");
+                    }
+                    loadContentModel();
+                }
+            }
+        });
 
         tbl_allQuiz.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
