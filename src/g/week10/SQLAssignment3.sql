@@ -1,4 +1,5 @@
 Ödev 3:
+
 1. SELECT country FROM country
    WHERE country LIKE 'A%a';
 2. SELECT country FROM country

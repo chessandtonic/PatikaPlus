@@ -1,4 +1,5 @@
-Ödev 5;
+Ödev 5:
+
 1. SELECT * FROM film
    WHERE title LIKE '%n'
    ORDER BY length DESC
