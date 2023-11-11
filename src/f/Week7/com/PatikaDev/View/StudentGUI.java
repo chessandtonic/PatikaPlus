@@ -3,7 +3,7 @@ package f.Week7.com.PatikaDev.View;
 import f.Week7.com.PatikaDev.Helper.Config;
 import f.Week7.com.PatikaDev.Helper.DBConnector;
 import f.Week7.com.PatikaDev.Helper.Helper;
-import Week7.com.PatikaDev.Model.*;
+import f.Week7.com.PatikaDev.Model.*;
 import f.Week7.com.PatikaDev.Model.*;
 
 import javax.swing.*;

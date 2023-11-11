@@ -1,7 +1,7 @@
 package f.Week7.com.PatikaDev.View;
 
-import Week7.com.PatikaDev.Helper.*;
-import Week7.com.PatikaDev.Model.*;
+import f.Week7.com.PatikaDev.Helper.*;
+import f.Week7.com.PatikaDev.Model.*;
 import f.Week7.com.PatikaDev.Helper.Config;
 import f.Week7.com.PatikaDev.Helper.DBConnector;
 import f.Week7.com.PatikaDev.Helper.Helper;
