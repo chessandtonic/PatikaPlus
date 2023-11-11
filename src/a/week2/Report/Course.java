@@ -1,4 +1,4 @@
-package week2.Report;
+package a.week2.Report;
 
 public class Course {
     Teacher courseTeacher;

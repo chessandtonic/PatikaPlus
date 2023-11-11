@@ -1,4 +1,4 @@
-package week2;
+package a.week2;
 
 public class Palindrome {
     // This method checks if a string is a palindrome using two pointers.

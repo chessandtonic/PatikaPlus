@@ -1,4 +1,4 @@
-package week2;
+package a.week2;
 
 public class FrequencyCounter {
     public static void main(String[] args) {

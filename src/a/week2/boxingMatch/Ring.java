@@ -1,4 +1,4 @@
-package week2.boxingMatch;
+package a.week2.boxingMatch;
 
 public class Ring {
     Fighter f1;

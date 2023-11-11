@@ -1,4 +1,4 @@
-package week2.boxingMatch;
+package a.week2.boxingMatch;
 
 public class Main {
     public static void main(String[] args) {
