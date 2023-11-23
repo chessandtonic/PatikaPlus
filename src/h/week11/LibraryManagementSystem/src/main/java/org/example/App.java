@@ -22,6 +22,7 @@ public class App {
             author1.setName("Sait Faik ABASIYANIK");
             author1.setCountry("Türkiye");
             author1.setBirthDate(LocalDate.parse("1906-11-22"));
+            // LocalDate date1 = LocalDate.of(2023, 11, 23);
             entityManager.persist(author1);
 
             Author author2 = new Author();
@@ -97,7 +98,7 @@ public class App {
             entityManager.persist(book3);
 
             ////////////////////////////////////////////
-
+            // LocalDate date1 = LocalDate.of(2023, 11, 23);
             BookBorrowing bookBorrowing1 = new BookBorrowing();
             bookBorrowing1.setName("Sinan");
             bookBorrowing1.setBook(book2);
