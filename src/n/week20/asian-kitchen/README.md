@@ -1,1 +1,1 @@
-![Alt text](ss.JPG)
+![Alt text](ss.png)
