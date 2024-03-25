@@ -1,0 +1,21 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+}
+
+a {
+  text-decoration: none;
+}
+
+body {
+  background: rgb(73, 52, 57);
+  background: linear-gradient(
+    90deg,
+    rgba(73, 52, 57, 1) 0%,
+    rgba(73, 52, 57, 1) 35%,
+    rgba(22, 24, 37, 1) 100%
+  );
+}
